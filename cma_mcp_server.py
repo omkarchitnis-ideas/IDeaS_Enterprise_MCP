@@ -24,6 +24,7 @@ import re
 import sys
 import json
 import time
+import math
 import sqlite3
 import logging
 import argparse
@@ -295,6 +296,19 @@ mcp_server = MCPServer("cma-mcp-server")
 # DOMAIN 1: CORE SQL & BATCH EXECUTION
 # ==========================================
 
+def _sanitize_for_json(val: Any) -> Any:
+    """Recursively replaces float('nan'), float('inf'), and -float('inf') with None so JSON serialization never fails."""
+    if isinstance(val, dict):
+        return {k: _sanitize_for_json(v) for k, v in val.items()}
+    elif isinstance(val, list):
+        return [_sanitize_for_json(item) for item in val]
+    elif isinstance(val, float):
+        if math.isnan(val) or math.isinf(val):
+            return None
+        return val
+    return val
+
+
 @mcp_server.tool()
 def cma_execute_query(
     chain: str,
@@ -343,12 +357,14 @@ def cma_execute_query(
         if not rows and isinstance(chain_data, list):
             rows = chain_data
 
+    sanitized_rows = _sanitize_for_json(rows)
+
     return {
         "status": "success",
         "chain": target_chain,
-        "row_count": len(rows),
+        "row_count": len(sanitized_rows),
         "execution_time_seconds": elapsed,
-        "data": rows
+        "data": sanitized_rows
     }
 
 
@@ -1096,10 +1112,10 @@ def cma_get_ratchet_srp_mappings(
             rp.Ratchet_Property_Code AS Property_Code,
             csg.Srp_Group_Name,
             cs.Srp_Name,
-            rsa.mktcode AS Market_Code,
-            rsa.qualified AS Is_Qualified,
-            rsa.yieldable AS Is_Yieldable,
-            rsa.block AS Is_Block,
+            ISNULL(rsa.mktcode, '') AS Market_Code,
+            ISNULL(rsa.qualified, '') AS Is_Qualified,
+            ISNULL(rsa.yieldable, '') AS Is_Yieldable,
+            ISNULL(rsa.block, '') AS Is_Block,
             cs.Last_Updated_DTTM
         FROM Channel_Srps cs WITH (NOLOCK)
         INNER JOIN Ratchet_Property rp WITH (NOLOCK) ON rp.Ratchet_Property_ID = cs.Ratchet_Property_ID
