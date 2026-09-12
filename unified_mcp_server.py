@@ -483,6 +483,136 @@ def create_fastapi_app():
 
         return Response(status_code=202)
 
+    # ==========================================================================
+    # REST API & OPENAPI ENDPOINTS (FOR M365 COPILOT STUDIO & POWER PLATFORM)
+    # ==========================================================================
+    from fastapi import Body, Query
+    from pydantic import BaseModel
+
+    class UniversalToolCallRequest(BaseModel):
+        name: str
+        arguments: Dict[str, Any] = {}
+
+    @app.get("/api/v1/tools", tags=["Enterprise MCP Discovery"])
+    async def list_tools_rest():
+        """Lists all 168 canonical enterprise tools and their schemas."""
+        return {"tools": MASTER_TOOLS, "total": len(MASTER_TOOLS)}
+
+    @app.get("/api/v1/resources", tags=["Enterprise MCP Discovery"])
+    async def list_resources_rest():
+        """Lists all 15 canonical enterprise resources."""
+        return {"resources": MASTER_RESOURCES, "total": len(MASTER_RESOURCES)}
+
+    @app.get("/api/v1/resources/read", tags=["Enterprise MCP Discovery"])
+    async def read_resource_rest(uri: str = Query(..., description="Canonical resource URI")):
+        """Reads content from a canonical enterprise resource URI."""
+        try:
+            content = read_unified_resource(uri)
+            return {"uri": uri, "content": content}
+        except Exception as exc:
+            return JSONResponse(status_code=400, content={"error": str(exc)})
+
+    @app.post("/api/v1/tools/call", tags=["Enterprise MCP Dispatcher"])
+    async def call_tool_universal(request: UniversalToolCallRequest):
+        """Universal endpoint to invoke any of the 168 canonical tools dynamically."""
+        try:
+            result = await dispatch_unified_tool(request.name, request.arguments)
+            return {"tool": request.name, "status": "success", "result": result}
+        except Exception as exc:
+            logger.error("REST tool call error for '%s': %s", request.name, exc)
+            return JSONResponse(status_code=500, content={"tool": request.name, "status": "error", "error": str(exc)})
+
+    # Dynamically register individual REST routes for all 168 canonical tools
+    domain_tag_map = {
+        "sfdc_": "Salesforce Core",
+        "cma_": "CMA Edge Gateway",
+        "optix_": "Optix SQL Cluster",
+        "confluence_": "Confluence Knowledge Base",
+        "datadog_": "Datadog Observability",
+        "fds_": "UPS & FDS Platform",
+        "ups_": "UPS & FDS Platform",
+        "cedf_": "UPS & FDS Platform",
+    }
+
+    for tool in MASTER_TOOLS:
+        t_name = tool["name"]
+        t_desc = tool.get("description", f"Executes {t_name}")
+        t_tag = "Enterprise Tools"
+        for prefix, d_tag in domain_tag_map.items():
+            if t_name.startswith(prefix):
+                t_tag = d_tag
+                break
+
+        summary = t_name.replace("_", " ").title()
+
+        def _create_handler(tool_id: str):
+            async def _handler(payload: Dict[str, Any] = Body(default={}, description=f"Arguments for {tool_id}")):
+                try:
+                    res = await dispatch_unified_tool(tool_id, payload or {})
+                    return {"tool": tool_id, "status": "success", "result": res}
+                except Exception as exc:
+                    logger.error("REST endpoint error for '%s': %s", tool_id, exc)
+                    return JSONResponse(status_code=500, content={"tool": tool_id, "status": "error", "error": str(exc)})
+            return _handler
+
+        app.add_api_route(
+            f"/api/v1/tools/{t_name}",
+            _create_handler(t_name),
+            methods=["POST"],
+            operation_id=t_name,
+            summary=summary,
+            description=t_desc,
+            tags=[t_tag],
+        )
+
+    # Domain-specific OpenAPI endpoints for Microsoft Copilot Studio (M365 Actions)
+    @app.get("/api/v1/openapi/{domain}.json", tags=["Microsoft Copilot Studio Connectors"])
+    async def get_domain_openapi(domain: str):
+        """
+        Tailored OpenAPI 3.0 specification for Microsoft Copilot Studio.
+        Allows importing focused domain actions into M365 Copilot (Teams, Word, Outlook).
+        Valid options: sfdc, cma, optix, confluence, datadog, ups, all
+        """
+        domain_clean = domain.lower().replace("_", "").replace("-", "")
+        domain_lookup = {
+            "sfdc": ("sfdc_", "Salesforce Core"),
+            "salesforce": ("sfdc_", "Salesforce Core"),
+            "cma": ("cma_", "CMA Edge Gateway"),
+            "optix": ("optix_", "Optix SQL Cluster"),
+            "confluence": ("confluence_", "Confluence Knowledge Base"),
+            "datadog": ("datadog_", "Datadog Observability"),
+            "ups": (("ups_", "fds_", "cedf_"), "UPS & FDS Platform"),
+            "fds": (("ups_", "fds_", "cedf_"), "UPS & FDS Platform"),
+        }
+
+        full_spec = app.openapi()
+        if domain_clean == "all":
+            return full_spec
+
+        if domain_clean not in domain_lookup:
+            return JSONResponse(status_code=404, content={"error": f"Unknown domain '{domain}'. Valid options: sfdc, cma, optix, confluence, datadog, ups, all"})
+
+        prefix, tag_name = domain_lookup[domain_clean]
+        filtered_paths = {}
+        for path, path_item in full_spec.get("paths", {}).items():
+            is_match = False
+            if isinstance(prefix, tuple):
+                is_match = any(p in path for p in prefix)
+            else:
+                is_match = prefix in path
+
+            if is_match or path in ("/health", "/api/v1/tools/call"):
+                filtered_paths[path] = path_item
+
+        custom_spec = dict(full_spec)
+        custom_spec["info"] = dict(full_spec["info"])
+        custom_spec["info"]["title"] = f"SAS IDeaS - {tag_name} (M365 Copilot Action)"
+        custom_spec["info"]["description"] = f"Dedicated Microsoft 365 Copilot Action Connector for {tag_name}."
+        custom_spec["paths"] = filtered_paths
+        custom_spec["tags"] = [t for t in full_spec.get("tags", []) if t.get("name") == tag_name]
+
+        return custom_spec
+
     return app
 
 

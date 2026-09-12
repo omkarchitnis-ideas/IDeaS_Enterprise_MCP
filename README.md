@@ -166,6 +166,44 @@ async with sse_client("http://localhost:8550/sse") as (read, write):
 
 ---
 
+## 🏢 Microsoft 365 Copilot & Copilot Studio Integration
+
+This platform natively exposes **OpenAPI 3.0 REST endpoints** and pre-filtered domain specifications designed for **1-click import into Microsoft Copilot Studio** to power **Microsoft 365 Copilot** across Teams, Outlook, Word, and Excel.
+
+### 1. OpenAPI Specification Endpoints
+
+You can import either the full unified catalog or domain-tailored OpenAPI specs directly into Microsoft Copilot Studio:
+
+| Endpoint URL | Target Copilot Action | Included Actions |
+| :--- | :--- | :--- |
+| `http://<host>:8550/openapi.json` | **Full Unified Enterprise Platform** | All 168 Actions |
+| `http://<host>:8550/api/v1/openapi/sfdc.json` | **Salesforce Enterprise Actions** | 24 Salesforce Actions |
+| `http://<host>:8550/api/v1/openapi/optix.json` | **Optix SQL DW Cluster Actions** | 35 Optix Actions |
+| `http://<host>:8550/api/v1/openapi/cma.json` | **CMA Edge Gateway Actions** | 34 CMA Actions |
+| `http://<host>:8550/api/v1/openapi/confluence.json` | **Confluence & G3 KB Actions** | 25 Knowledge Actions |
+| `http://<host>:8550/api/v1/openapi/datadog.json` | **Datadog Observability Actions** | 20 Telemetry Actions |
+| `http://<host>:8550/api/v1/openapi/ups.json` | **UPS & FDS Platform Actions** | 30 Platform Actions |
+
+### 2. How to Connect to M365 Copilot
+
+1. Open **[Microsoft Copilot Studio](https://copilotstudio.microsoft.com/)** with your organization account.
+2. Select your custom Copilot or click **Actions** -> **Add an action**.
+3. Choose **REST API / OpenAPI**.
+4. Provide the OpenAPI URL (e.g. `https://<corporate-gateway>/api/v1/openapi/sfdc.json`).
+5. Review the imported actions and select parameter mappings.
+6. Click **Publish to Microsoft 365 Copilot**.
+7. Users in **Microsoft Teams** can now mention `@Copilot` to query live Salesforce cases, Optix database booking curves, CMA chains, or Datadog alerts directly!
+
+### 3. REST API Endpoints
+
+- **Interactive Swagger Documentation**: `http://localhost:8550/docs`
+- **List All Tools**: `GET /api/v1/tools`
+- **Universal Tool Invocation**: `POST /api/v1/tools/call` with body `{"name": "...", "arguments": {...}}`
+- **Direct Tool REST Routes**: `POST /api/v1/tools/{tool_name}` (e.g. `POST /api/v1/tools/sfdc_search_cases`)
+
+---
+
+
 ## 🧪 Verification Suite
 
 Run the full automated 11-suite verification against all 6 connected subsystems:
