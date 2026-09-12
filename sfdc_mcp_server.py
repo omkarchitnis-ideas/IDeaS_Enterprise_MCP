@@ -453,7 +453,31 @@ def dispatch_sfdc_tool(tool_name: str, arguments: Dict[str, Any]) -> Dict[str, A
             rows = query_pg("SELECT * FROM cases WHERE case_id = %s LIMIT 1", [case_id])
 
         if not rows:
-            return {"found": False, "message": f"Case not found in clone database for: {case_num or case_id}"}
+            # Fallback to live Salesforce via middleware SOQL query
+            lookup_field = "CaseNumber" if case_num else "Id"
+            lookup_val = case_num or case_id
+            soql = f"SELECT Id, CaseNumber, Subject, Status, Priority, Description, Account.Name, CreatedDate, Owner.Name FROM Case WHERE {lookup_field} = '{lookup_val}' LIMIT 1"
+            soql_res = query_soql_middleware(soql)
+            if soql_res.get("success") and soql_res.get("records"):
+                rec = soql_res["records"][0]
+                acc = rec.get("Account") or {}
+                owner = rec.get("Owner") or {}
+                return {
+                    "found": True,
+                    "case_id": rec.get("Id"),
+                    "case_number": rec.get("CaseNumber"),
+                    "subject": rec.get("Subject"),
+                    "status": rec.get("Status"),
+                    "priority": rec.get("Priority"),
+                    "account_name": acc.get("Name") if isinstance(acc, dict) else str(acc),
+                    "owner_name": owner.get("Name") if isinstance(owner, dict) else str(owner),
+                    "description": rec.get("Description"),
+                    "created_date": str(rec.get("CreatedDate")),
+                    "comments": [],
+                    "source": "live_salesforce_soql",
+                    "elapsed_ms": round((time.monotonic() - t0) * 1000, 2),
+                }
+            return {"found": False, "message": f"Case not found in clone database or live Salesforce for: {case_num or case_id}"}
 
         case_data = rows[0]
         comments = []
@@ -488,12 +512,22 @@ def dispatch_sfdc_tool(tool_name: str, arguments: Dict[str, Any]) -> Dict[str, A
     elif tool_name == "sfdc_search_cases":
         conds = []
         params = []
+        query_val = arguments.get("query") or arguments.get("keyword") or arguments.get("search")
         chain = arguments.get("account_chain_code")
         prop = arguments.get("property_name")
         env = arguments.get("product_environment")
         status = arguments.get("status")
         priority = arguments.get("priority")
         limit = min(int(arguments.get("limit", 20)), 100)
+
+        if query_val:
+            q_clean = query_val.strip()
+            if q_clean.isdigit():
+                conds.append("(case_number = %s OR subject ILIKE %s)")
+                params.extend([q_clean.zfill(8), f"%{q_clean}%"])
+            else:
+                conds.append("(subject ILIKE %s OR property_name ILIKE %s OR account_name ILIKE %s)")
+                params.extend([f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%"])
 
         if chain:
             conds.append("account_chain_code ILIKE %s")
@@ -521,6 +555,28 @@ def dispatch_sfdc_tool(tool_name: str, arguments: Dict[str, Any]) -> Dict[str, A
             LIMIT {limit}
         """
         rows = query_pg(sql, params)
+
+        # Fallback to live SOQL if not found in PG and query was provided
+        if not rows and query_val:
+            q_clean = query_val.strip()
+            if q_clean.isdigit():
+                soql = f"SELECT Id, CaseNumber, Subject, Status, Priority, Description, Account.Name, CreatedDate FROM Case WHERE CaseNumber = '{q_clean}' LIMIT {limit}"
+            else:
+                soql = f"SELECT Id, CaseNumber, Subject, Status, Priority, Description, Account.Name, CreatedDate FROM Case WHERE Subject LIKE '%{q_clean}%' LIMIT {limit}"
+            soql_res = query_soql_middleware(soql)
+            if soql_res.get("success") and soql_res.get("records"):
+                for rec in soql_res["records"]:
+                    acc = rec.get("Account") or {}
+                    rows.append({
+                        "case_id": rec.get("Id"),
+                        "case_number": rec.get("CaseNumber"),
+                        "account_name": acc.get("Name") if isinstance(acc, dict) else str(acc),
+                        "status": rec.get("Status"),
+                        "priority": rec.get("Priority"),
+                        "subject": rec.get("Subject"),
+                        "created_date": str(rec.get("CreatedDate")),
+                    })
+
         return {
             "count": len(rows),
             "cases": rows,
