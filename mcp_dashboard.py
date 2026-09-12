@@ -145,7 +145,7 @@ def render_dashboard(data: Dict[str, Any], new_key: str = None) -> str:
         last_used = k.get("last_used_at")
         last_used_display = (last_used[:19].replace("T", " ")) if last_used else "Never"
         rpm = k.get("rate_limit_rpm", 0)
-        rpm_badge = '<span class="px-2 py-0.5 text-xs font-semibold rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Unlimited (∞)</span>' if (rpm is None or rpm <= 0) else f'<span class="font-mono text-xs text-slate-300">{rpm} / min</span>'
+        rpm_badge = '<span class="px-2 py-0.5 text-xs font-semibold rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Unlimited (&infin;)</span>' if (rpm is None or rpm <= 0) else f'<span class="font-mono text-xs text-slate-300">{rpm} / min</span>'
         rpm_val = 0 if (rpm is None or rpm <= 0) else rpm
 
         key_rows += f"""
