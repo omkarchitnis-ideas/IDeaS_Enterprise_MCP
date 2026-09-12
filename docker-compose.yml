@@ -32,7 +32,13 @@ services:
       - DATADOG_SITE=${DATADOG_SITE:-datadoghq.com}
       - FDS_BASE_URL=${FDS_BASE_URL:-https://fds.ideasrms.com}
       - CEDF_BASE_URL=${CEDF_BASE_URL:-https://cedf.ideasrms.com}
+      - SFDC_PG_HOST=${SFDC_PG_HOST:-host.docker.internal}
+      - SFDC_PG_PORT=${SFDC_PG_PORT:-5433}
+      - SFDC_PG_DATABASE=${SFDC_PG_DATABASE:-salesforce_clone}
+      - SFDC_PG_USER=${SFDC_PG_USER:-team_reader}
+      - SFDC_PG_PASSWORD=${SFDC_PG_PASSWORD:-team_reader_sfdc_2026}
     extra_hosts:
+      - "host.docker.internal:host-gateway"
       - "optix-db-01.optix-db.ideasrms.com:10.246.15.226"
       - "optix-db-02.optix-db.ideasrms.com:10.246.13.38"
       - "optix-db-03.optix-db.ideasrms.com:10.246.8.150"
