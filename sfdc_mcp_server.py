@@ -710,13 +710,12 @@ def dispatch_sfdc_tool(tool_name: str, arguments: Dict[str, Any]) -> Dict[str, A
 
     # 3. sfdc_create_case, 4. sfdc_update_case, 5. sfdc_add_case_comment, 9. sfdc_create_task, 10. sfdc_update_task, 11. sfdc_reassign_task, 24. sfdc_generic_dml
     elif tool_name in ("sfdc_create_case", "sfdc_update_case", "sfdc_add_case_comment", "sfdc_create_task", "sfdc_update_task", "sfdc_reassign_task", "sfdc_generic_dml", "sfdc_upload_attachment"):
-        # Forward write mutation to SFDC Middleware
-        url = f"{SFDC_MIDDLEWARE_URL}/api/v1/dml/execute"
-        try:
-            r = requests.post(url, headers={"x-api-key": SFDC_API_KEY, "Content-Type": "application/json"}, json={"action": tool_name, "arguments": arguments}, timeout=20)
-            return r.json() if r.ok else {"success": False, "status_code": r.status_code, "error": r.text[:300]}
-        except Exception as exc:
-            return {"success": False, "error": str(exc)}
+        return {
+            "success": False,
+            "status": "BLOCKED",
+            "error": f"Security Policy Violation: Tool '{tool_name}' is disabled. The MCP server operates in strict enterprise READ-ONLY mode.",
+            "read_only": True,
+        }
 
     # Fallback for remaining read tools
     else:

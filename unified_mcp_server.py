@@ -146,11 +146,40 @@ logger.info(
 )
 
 # ==============================================================================
+# READ-ONLY ENFORCEMENT & SAFETY GUARDRAILS
+# ==============================================================================
+STRICT_READ_ONLY = os.getenv("MCP_READ_ONLY", "true").lower() in ("true", "1", "yes")
+
+MUTATION_TOOLS = {
+    "sfdc_create_case",
+    "sfdc_update_case",
+    "sfdc_add_case_comment",
+    "sfdc_create_task",
+    "sfdc_update_task",
+    "sfdc_reassign_task",
+    "sfdc_generic_dml",
+    "sfdc_upload_attachment",
+    "datadog_mute_monitor",
+    "datadog_unmute_monitor",
+    "ups_revoke_api_token",
+    "cedf_trigger_resend_job",
+}
+
+# ==============================================================================
 # UNIFIED TOOL DISPATCH ENGINE
 # ==============================================================================
 async def dispatch_unified_tool(tool_name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
     """Routes an incoming tool call to the respective domain module."""
     t0 = time.monotonic()
+
+    # Enterprise Safety Policy: Intercept any write/mutation attempt
+    if STRICT_READ_ONLY and tool_name in MUTATION_TOOLS:
+        logger.warning("Write action blocked by read-only guardrail: %s", tool_name)
+        return {
+            "status": "BLOCKED",
+            "error": f"Security Policy: Tool '{tool_name}' is disabled. SAS IDeaS Enterprise MCP operates in strict READ-ONLY mode. Create, update, and delete mutations are prohibited.",
+            "read_only": True,
+        }
 
     # Domain 1: Salesforce (SFDC)
     if tool_name.startswith("sfdc_"):

@@ -190,19 +190,17 @@ def call_cma_gateway(
     endpoint: str,
     method: str = "GET",
     payload: Optional[Dict[str, Any]] = None,
-    timeout: float = 35.0,
+    timeout: float = 60.0,
 ) -> Dict[str, Any]:
     """Issues HTTP request to CMA Gateway with automatic URL fallback."""
     candidate_urls = [CMA_GATEWAY_URL]
-    if "172.27.210.162" in CMA_GATEWAY_URL:
-        candidate_urls.append("http://localhost:8555")
-        candidate_urls.append("http://cma-middleware:8555")
-    elif "localhost" in CMA_GATEWAY_URL or "127.0.0.1" in CMA_GATEWAY_URL:
-        candidate_urls.append("http://172.27.210.162:8555")
-        candidate_urls.append("http://cma-middleware:8555")
+    for alt in ["http://localhost:8555", "http://host.docker.internal:8555", "http://172.27.210.162:8555"]:
+        if alt not in candidate_urls:
+            candidate_urls.append(alt)
 
+    primary_error = None
     last_error = None
-    for base_url in candidate_urls:
+    for idx, base_url in enumerate(candidate_urls):
         url = f"{base_url.rstrip('/')}/{endpoint.lstrip('/')}"
         headers = {
             "x-api-key": CMA_API_KEY,
@@ -235,13 +233,15 @@ def call_cma_gateway(
                     "error": f"HTTP {http_err.code}: {http_err.reason}"
                 }
         except Exception as conn_err:
+            if idx == 0:
+                primary_error = conn_err
             last_error = conn_err
             continue
 
     return {
         "status": "error",
         "code": 503,
-        "error": f"Could not connect to CMA Gateway: {last_error}"
+        "error": f"Could not connect to CMA Gateway: {primary_error or last_error}"
     }
 
 def call_cma_web(

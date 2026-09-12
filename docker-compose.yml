@@ -54,3 +54,11 @@ services:
       retries: 3
       start_period: 15s
     restart: always
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.200.5.0/24
