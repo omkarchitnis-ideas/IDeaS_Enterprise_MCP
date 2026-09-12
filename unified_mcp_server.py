@@ -429,7 +429,29 @@ def create_fastapi_app():
         allow_headers=["*"],
     )
 
+    @app.middleware("http")
+    async def head_request_middleware(request: Request, call_next):
+        if request.method == "HEAD":
+            request.scope["method"] = "GET"
+            response = await call_next(request)
+            return Response(status_code=response.status_code, headers=dict(response.headers))
+        return await call_next(request)
+
     _active_sessions: Dict[str, asyncio.Queue] = {}
+
+    @app.get("/")
+    async def root_info():
+        return {
+            "status": "UP",
+            "server": "ideas-enterprise-unified-mcp",
+            "version": "2.0.0",
+            "total_canonical_tools": len(MASTER_TOOLS),
+            "sse_endpoint": "/sse",
+        }
+
+    @app.head("/sse")
+    async def sse_head():
+        return Response(status_code=200, headers={"Content-Type": "text/event-stream"})
 
     @app.get("/health")
     async def health_check():
