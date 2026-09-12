@@ -37,6 +37,9 @@ services:
       - SFDC_PG_DATABASE=${SFDC_PG_DATABASE:-salesforce_clone}
       - SFDC_PG_USER=${SFDC_PG_USER:-team_reader}
       - SFDC_PG_PASSWORD=${SFDC_PG_PASSWORD:-team_reader_sfdc_2026}
+      - MCP_MASTER_API_KEY=${MCP_MASTER_API_KEY:-mcp_copilot_prod_key_2026}
+      - MCP_ADMIN_USER=${MCP_ADMIN_USER:-admin}
+      - MCP_ADMIN_PASSWORD=${MCP_ADMIN_PASSWORD:-ideas_mcp_admin_2026}
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "optix-db-01.optix-db.ideasrms.com:10.246.15.226"
@@ -45,6 +48,8 @@ services:
     volumes:
       - ./.env:/app/.env:ro
       - ./unified_mcp_server.py:/app/unified_mcp_server.py:ro
+      - ./mcp_auth_manager.py:/app/mcp_auth_manager.py:ro
+      - ./mcp_dashboard.py:/app/mcp_dashboard.py:ro
       - ./sfdc_mcp_server.py:/app/sfdc_mcp_server.py:ro
       - ./cma_mcp_server.py:/app/cma_mcp_server.py:ro
       - ./optix_mcp_server.py:/app/optix_mcp_server.py:ro
@@ -52,7 +57,7 @@ services:
       - ./datadog_mcp_server.py:/app/datadog_mcp_server.py:ro
       - ./ups_mcp_server.py:/app/ups_mcp_server.py:ro
       - ./chains_cache.json:/app/chains_cache.json:ro
-      - ./data/g3_help_docs:/app/data/g3_help_docs:ro
+      - ./data:/app/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8550/health"]
       interval: 15s

@@ -45,3 +45,8 @@ logs/
 # OS Metadata
 .DS_Store
 Thumbs.db
+
+# Database & SQLite files
+data/*.db
+data/*.sqlite
+*.db
