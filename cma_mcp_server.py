@@ -1671,6 +1671,277 @@ def cma_get_system_stats() -> Dict[str, Any]:
     }
 
 # ==========================================
+# DOMAIN 12: DECISION DELIVERY, DATAFEEDS & AUDIT
+# ==========================================
+
+@mcp_server.tool()
+def cma_get_decision_delivery_details(
+    tenant_chain: str,
+    decision_name: str = "",
+    limit: int = 25,
+) -> Dict[str, Any]:
+    """Inspect granular outbound decision delivery upload records, upload types, and status from the tenant database.
+    
+    Args:
+        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK', 'Hilton-ATLFY').
+        decision_name: Optional filter: 'fplos', 'DailyBAR', 'roomtypeoverbooking', 'hoteloverbooking', 'inventoryLimit'.
+        limit: Max records to return (default 25, max 100).
+    """
+    max_lim = min(max(1, int(limit)), 100)
+    where_clause = ""
+    if decision_name.strip():
+        clean_name = decision_name.strip().replace("'", "''")
+        where_clause = f"WHERE Decision_Name LIKE '%{clean_name}%'"
+
+    sql = f"""
+        SELECT TOP {max_lim}
+            Decision_Upload_Date_To_External_System_ID,
+            Decision_Name,
+            External_System_Name,
+            Upload_Type,
+            Status,
+            Last_Upload_DTTM,
+            Modify_DTTM
+        FROM Decision_Upload_Date_To_External_System WITH (NOLOCK)
+        {where_clause}
+        ORDER BY Last_Upload_DTTM DESC
+    """
+    return cma_execute_query(chain=tenant_chain, query=sql)
+
+
+@mcp_server.tool()
+def cma_verify_differential_activity(
+    tenant_chain: str,
+    days_back: int = 7,
+) -> Dict[str, Any]:
+    """Verify whether decision changes actually occurred versus zero differential activity across recent runs.
+    
+    Args:
+        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').
+        days_back: Lookback window in days (default 7).
+    """
+    d_back = min(max(1, int(days_back)), 30)
+    sql = f"""
+        SELECT 
+            Decision_Name,
+            Upload_Type,
+            Status,
+            COUNT(*) AS Total_Upload_Events,
+            MAX(Last_Upload_DTTM) AS Latest_Upload_DTTM
+        FROM Decision_Upload_Date_To_External_System WITH (NOLOCK)
+        WHERE Last_Upload_DTTM >= DATEADD(day, -{d_back}, GETDATE())
+        GROUP BY Decision_Name, Upload_Type, Status
+        ORDER BY Decision_Name, Upload_Type
+    """
+    return cma_execute_query(chain=tenant_chain, query=sql)
+
+
+@mcp_server.tool()
+def cma_check_unmapped_room_types(
+    tenant_chain: str,
+) -> Dict[str, Any]:
+    """Check for vendor room types in PMS mapping tables that may be unmapped or inactive in G3 RMS.
+    
+    Args:
+        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').
+    """
+    sql = """
+        SELECT TOP 50
+            atvm.Accom_Type_Vendor_Mapping_ID,
+            atvm.Vendor,
+            atvm.Vendor_Accom_Type_Code,
+            atvm.Accom_Type_Code AS G3_Accom_Type_Code,
+            atvm.Last_Updated_DTTM
+        FROM Accom_Type_Vendor_Mapping atvm WITH (NOLOCK)
+        ORDER BY atvm.Last_Updated_DTTM DESC
+    """
+    return cma_execute_query(chain=tenant_chain, query=sql)
+
+
+@mcp_server.tool()
+def cma_check_unmapped_rate_codes(
+    tenant_chain: str,
+) -> Dict[str, Any]:
+    """Check for vendor rate codes and market segment mappings configured for the property.
+    
+    Args:
+        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').
+    """
+    sql = """
+        SELECT TOP 50
+            rcvm.Rate_Code_Vendor_Mapping_ID,
+            rcvm.Vendor,
+            rcvm.Vendor_Rate_Code,
+            rcvm.Rate_Code AS G3_Rate_Code,
+            rcvm.Last_Updated_DTTM
+        FROM Rate_Code_Vendor_Mapping rcvm WITH (NOLOCK)
+        ORDER BY rcvm.Last_Updated_DTTM DESC
+    """
+    return cma_execute_query(chain=tenant_chain, query=sql)
+
+
+@mcp_server.tool()
+def cma_check_unmapped_market_segments(
+    tenant_chain: str,
+) -> Dict[str, Any]:
+    """Check market segment product mappings and missing extract configurations in the tenant database.
+    
+    Args:
+        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').
+    """
+    sql = """
+        SELECT TOP 50
+            mspm.Mkt_Seg_Product_Mapping_ID,
+            mspm.Market_Segment_Code,
+            mspm.Product_Code,
+            mspm.Last_Updated_DTTM
+        FROM Mkt_Seg_Product_Mapping mspm WITH (NOLOCK)
+        ORDER BY mspm.Last_Updated_DTTM DESC
+    """
+    return cma_execute_query(chain=tenant_chain, query=sql)
+
+
+@mcp_server.tool()
+def cma_get_datafeed_status(
+    global_chain: str = "global_PROD_1",
+    client_code: str = "",
+) -> Dict[str, Any]:
+    """Query datafeed endpoint status and FTP configuration in the global database.
+    
+    Args:
+        global_chain: Target global database chain (default 'global_PROD_1').
+        client_code: Optional client organization short code (e.g. 'Hilton', 'CHOICE').
+    """
+    where_sql = ""
+    if client_code.strip():
+        clean_code = client_code.strip().replace("'", "''")
+        where_sql = f"WHERE c.Client_Code LIKE '%{clean_code}%'"
+
+    sql = f"""
+        SELECT TOP 50
+            de.Datafeed_Endpoint_ID,
+            de.Endpoint_Name,
+            de.Description,
+            de.Active_Flag,
+            de.Datafeed_Type_ID,
+            c.Client_Code
+        FROM Datafeed_Endpoint de WITH (NOLOCK)
+        LEFT JOIN Client c WITH (NOLOCK) ON c.Client_ID = de.Client_ID
+        {where_sql}
+        ORDER BY de.Endpoint_Name
+    """
+    return cma_execute_query(chain=global_chain, query=sql)
+
+
+@mcp_server.tool()
+def cma_get_datafeed_import_freshness(
+    tenant_chain: str,
+) -> Dict[str, Any]:
+    """Check the latest occupancy and BDE dates in Accom_Activity and PACE tables to diagnose datafeed ingestion lag.
+    
+    Args:
+        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').
+    """
+    sql = """
+        SELECT 
+            (SELECT MAX(Occupancy_DT) FROM Accom_Activity WITH (NOLOCK)) AS Latest_Occupancy_DT,
+            (SELECT COUNT(*) FROM Accom_Activity WITH (NOLOCK) WHERE Occupancy_DT = (SELECT MAX(Occupancy_DT) FROM Accom_Activity WITH (NOLOCK))) AS Records_On_Latest_Occupancy_DT,
+            (SELECT MAX(Business_Day_End_DT) FROM PACE_Accom_Activity WITH (NOLOCK)) AS Latest_PACE_BDE_DT,
+            CAST(GETDATE() AS DATE) AS Server_Current_Date
+    """
+    return cma_execute_query(chain=tenant_chain, query=sql)
+
+
+@mcp_server.tool()
+def cma_get_parameter_audit_history(
+    parameter_name: str,
+    global_chain: str = "global_PROD_1",
+    limit: int = 25,
+) -> Dict[str, Any]:
+    """Inspect historical changes to a PACMAN parameter in Envers Config_Parameter_Value_AUD (who modified it, old/new values, and timestamps).
+    
+    Args:
+        parameter_name: Exact or prefix parameter name (e.g. 'pacman.feature.isContinuousPricingEnabled', 'pacman.forecasting').
+        global_chain: Target global database chain (default 'global_PROD_1').
+        limit: Max audit events to return (default 25, max 100).
+    """
+    max_lim = min(max(1, int(limit)), 100)
+    clean_name = parameter_name.strip().replace("'", "''")
+
+    # Step 1: Look up Config_Parameter_ID
+    p_lookup = cma_execute_query(global_chain, f"SELECT Config_Parameter_ID, Name, Default_Value FROM Config_Parameter WITH (NOLOCK) WHERE Name = '{clean_name}'")
+    p_data = p_lookup.get("data", [])
+    if not p_data or not isinstance(p_data, list):
+        # Fallback to wildcard search
+        p_lookup = cma_execute_query(global_chain, f"SELECT TOP 5 Config_Parameter_ID, Name, Default_Value FROM Config_Parameter WITH (NOLOCK) WHERE Name LIKE '%{clean_name}%'")
+        p_data = p_lookup.get("data", [])
+
+    if not p_data:
+        return {"status": "error", "error": f"Parameter '{parameter_name}' not found in Config_Parameter."}
+
+    param_id = p_data[0].get("Config_Parameter_ID")
+    actual_name = p_data[0].get("Name")
+
+    sql_audit = f"""
+        SELECT TOP {max_lim}
+            REV,
+            CASE REVTYPE 
+                WHEN 0 THEN 'OVERRIDE_ADDED' 
+                WHEN 1 THEN 'OVERRIDE_MODIFIED' 
+                WHEN 2 THEN 'OVERRIDE_DELETED' 
+                ELSE CAST(REVTYPE AS VARCHAR) 
+            END AS Action,
+            Context,
+            FixedValue AS Value,
+            Last_Updated_By_User_Id,
+            Last_Updated_DTTM
+        FROM Config_Parameter_Value_AUD WITH (NOLOCK)
+        WHERE Config_Parameter_ID = {param_id}
+        ORDER BY REV DESC
+    """
+    res = cma_execute_query(global_chain, sql_audit)
+    res["parameter_name"] = actual_name
+    res["config_parameter_id"] = param_id
+    return res
+
+
+@mcp_server.tool()
+def cma_get_g3_user_details(
+    username_or_email: str,
+    global_chain: str = "global_PROD_1",
+) -> Dict[str, Any]:
+    """Retrieve internal G3 User ID (Users.User_ID), status, client, and Cognito identity from the global database.
+    
+    Args:
+        username_or_email: Username, Screen_Name, or email address (e.g. 'Omkar Chitnis', 'omkar.chitnis@ideas.com').
+        global_chain: Target global database chain (default 'global_PROD_1').
+    """
+    clean_target = username_or_email.strip().replace("'", "''")
+    sql = f"""
+        SELECT TOP 10
+            User_ID,
+            User_Name,
+            Screen_Name,
+            Email_Address,
+            Client_Code,
+            Status_ID,
+            Internal,
+            Corporate,
+            Salesforce_Access,
+            REMAINING_FAILED_ATTEMPTS_ALLOWED AS Remaining_Attempts,
+            Cognito_User_ID,
+            Created_DTTM,
+            Last_Updated_DTTM
+        FROM dbo.Users WITH (NOLOCK)
+        WHERE Screen_Name LIKE '%{clean_target}%' 
+           OR User_Name LIKE '%{clean_target}%' 
+           OR Email_Address LIKE '%{clean_target}%'
+        ORDER BY Status_ID ASC, Last_Updated_DTTM DESC
+    """
+    return cma_execute_query(chain=global_chain, query=sql)
+
+
+# ==========================================
 # RESOURCES
 # ==========================================
 

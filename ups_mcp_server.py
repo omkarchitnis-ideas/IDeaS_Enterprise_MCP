@@ -49,6 +49,7 @@ logger = logging.getLogger("ups-mcp-server")
 # ==============================================================================
 FDS_BASE_URL = os.getenv("FDS_BASE_URL", "https://fds.ideasrms.com").rstrip("/")
 CEDF_BASE_URL = os.getenv("CEDF_BASE_URL", "https://cedf.ideasrms.com").rstrip("/")
+HAL_BASE_URL = os.getenv("HAL_BASE_URL", "https://integration-setting-internal.ideasrms.com").rstrip("/")
 
 DEFAULT_M2M_TOKEN_URL = (
     f"{FDS_BASE_URL}/api/uis/internal_m2m/oauth2/token"
@@ -754,6 +755,85 @@ UPS_TOOLS = [
         "inputSchema": {
             "type": "object",
             "properties": {},
+            "required": [],
+        },
+    },
+    # --------------------------------------------------------------------------
+    # 7. HAL Integration Settings & Microservice Diagnostics
+    # --------------------------------------------------------------------------
+    {
+        "name": "fds_get_integration_property_configs",
+        "description": "Queries Spring Data REST HAL integrationPropertyConfigs (PMS and decision delivery integration settings, deferred delivery, vendorId, priority, extended attributes) filtered by propertyCode, clientCode, or vendorId.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "property_code": {"type": "string", "description": "Property short code (e.g. 'CO027', 'LONLK')."},
+                "client_code": {"type": "string", "description": "Client organization code (e.g. 'CHOICE', 'HILTON')."},
+                "vendor_id": {"type": "string", "description": "Integration vendor ID (e.g. 'SkyTouch', 'OperaCloud')."},
+                "page": {"type": "integer", "description": "Pagination page number (default 0)."},
+                "size": {"type": "integer", "description": "Page size (default 20)."},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "fds_get_vendor_configs",
+        "description": "Queries Spring Data REST HAL vendorConfigs (vendor connection profiles, integrationType e.g. OXI_PMS / HTNG, credentials, validation channels, and priority).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "vendor_id": {"type": "string", "description": "Vendor identifier (e.g. 'smoke_test_vendor_OXI')."},
+                "integration_type": {"type": "string", "description": "Integration protocol type (e.g. 'OXI_PMS', 'HTNG')."},
+                "page": {"type": "integer", "description": "Pagination page number (default 0)."},
+                "size": {"type": "integer", "description": "Page size (default 20)."},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "fds_get_integration_setting_changelogs",
+        "description": "Queries Spring Data REST HAL integrationSettingChangelogs to inspect historical audit changes to integration settings and configs.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "page": {"type": "integer", "description": "Pagination page number (default 0)."},
+                "size": {"type": "integer", "description": "Page size (default 20)."},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "fds_get_mongo_operation_audits",
+        "description": "Queries Spring Data REST HAL mongoOperationAudits for MongoDB operation traces, timestamps, and entity updates across integration settings.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "page": {"type": "integer", "description": "Pagination page number (default 0)."},
+                "size": {"type": "integer", "description": "Page size (default 20)."},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "fds_get_nucleus_integration_settings",
+        "description": "Queries Spring Data REST HAL base integration settings (baseIntegrationConfigs / nucleusIntegrationSettings).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "page": {"type": "integer", "description": "Pagination page number (default 0)."},
+                "size": {"type": "integer", "description": "Page size (default 20)."},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "fds_probe_microservice_health",
+        "description": "Actively probes the live health and connectivity of core IDeaS microservices (UPS, UIS, Integration Setting HAL, CEDF) using M2M OAuth2 tokens, returning latency and status.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "service_name": {"type": "string", "description": "Target service: 'ALL', 'UPS', 'UIS', 'HAL_SETTINGS', 'CEDF' (default 'ALL')."},
+            },
             "required": [],
         },
     },
@@ -1475,6 +1555,110 @@ def dispatch_ups_tool(tool_name: str, arguments: Dict[str, Any]) -> Dict[str, An
                 "message": f"FDS M2M credential validation failed: {exc}",
                 "elapsed_ms": round((time.monotonic() - t0) * 1000, 2),
             }
+
+    # 31. fds_get_integration_property_configs
+    elif tool_name == "fds_get_integration_property_configs":
+        page = int(arguments.get("page", 0))
+        size = int(arguments.get("size", 20))
+        pcode = arguments.get("property_code", "").strip().upper()
+        ccode = arguments.get("client_code", "").strip().upper()
+        vid = arguments.get("vendor_id", "").strip()
+
+        params = {"page": page, "size": size}
+        res = execute_api_call("GET", f"{HAL_BASE_URL}/integrationPropertyConfigs", params=params)
+        if not res.get("success"):
+            return res
+
+        data = res.get("data", {})
+        embedded = data.get("_embedded", {}) if isinstance(data, dict) else {}
+        configs = embedded.get("integrationPropertyConfigs", [])
+
+        # Client-side filtering if parameters are provided
+        filtered = []
+        for c in configs:
+            if pcode and c.get("propertyCode", "").upper() != pcode:
+                continue
+            if ccode and c.get("clientCode", "").upper() != ccode:
+                continue
+            if vid and vid.lower() not in c.get("vendorId", "").lower():
+                continue
+            filtered.append(c)
+
+        return {
+            "success": True,
+            "total_sampled": len(configs),
+            "matched_count": len(filtered),
+            "configs": filtered if (pcode or ccode or vid) else configs,
+            "page_metadata": data.get("page", {}),
+            "elapsed_ms": res.get("elapsed_ms"),
+        }
+
+    # 32. fds_get_vendor_configs
+    elif tool_name == "fds_get_vendor_configs":
+        vid = arguments.get("vendor_id", "").strip()
+        itype = arguments.get("integration_type", "").strip()
+        page = int(arguments.get("page", 0))
+        size = int(arguments.get("size", 20))
+
+        if vid:
+            url = f"{HAL_BASE_URL}/vendorConfigs/search/findByVendorId"
+            res = execute_api_call("GET", url, params={"vendorId": vid})
+        elif itype:
+            url = f"{HAL_BASE_URL}/vendorConfigs/search/findByIntegrationType"
+            res = execute_api_call("GET", url, params={"integrationType": itype, "page": page, "size": size})
+        else:
+            url = f"{HAL_BASE_URL}/vendorConfigs"
+            res = execute_api_call("GET", url, params={"page": page, "size": size})
+        return res
+
+    # 33. fds_get_integration_setting_changelogs
+    elif tool_name == "fds_get_integration_setting_changelogs":
+        page = int(arguments.get("page", 0))
+        size = int(arguments.get("size", 20))
+        return execute_api_call("GET", f"{HAL_BASE_URL}/integrationSettingChangelogs", params={"page": page, "size": size})
+
+    # 34. fds_get_mongo_operation_audits
+    elif tool_name == "fds_get_mongo_operation_audits":
+        page = int(arguments.get("page", 0))
+        size = int(arguments.get("size", 20))
+        return execute_api_call("GET", f"{HAL_BASE_URL}/mongoOperationAudits", params={"page": page, "size": size})
+
+    # 35. fds_get_nucleus_integration_settings
+    elif tool_name == "fds_get_nucleus_integration_settings":
+        page = int(arguments.get("page", 0))
+        size = int(arguments.get("size", 20))
+        return execute_api_call("GET", f"{HAL_BASE_URL}/baseIntegrationConfigs", params={"page": page, "size": size})
+
+    # 36. fds_probe_microservice_health
+    elif tool_name == "fds_probe_microservice_health":
+        target = arguments.get("service_name", "ALL").strip().upper()
+        results: Dict[str, Any] = {}
+
+        probes = {
+            "UPS": f"{FDS_BASE_URL}/api/ups/v1/products",
+            "UIS": f"{FDS_BASE_URL}/api/uis/v1/users?size=1",
+            "HAL_SETTINGS": f"{HAL_BASE_URL}/",
+            "CEDF": f"{CEDF_BASE_URL}/api/configuration/v1/clients",
+        }
+
+        for s_name, s_url in probes.items():
+            if target not in ("ALL", s_name):
+                continue
+            t_probe = time.monotonic()
+            r_probe = execute_api_call("GET", s_url, timeout=8)
+            results[s_name] = {
+                "status": "UP" if r_probe.get("success") else "DOWN",
+                "status_code": r_probe.get("status_code"),
+                "latency_ms": round((time.monotonic() - t_probe) * 1000, 2),
+                "url": s_url,
+            }
+
+        return {
+            "success": True,
+            "overall_status": "UP" if all(v.get("status") == "UP" for v in results.values()) else "DEGRADED",
+            "probed_services": results,
+            "elapsed_ms": round((time.monotonic() - t0) * 1000, 2),
+        }
 
     else:
         return {"status": "ERROR", "error": f"Tool '{tool_name}' not implemented"}

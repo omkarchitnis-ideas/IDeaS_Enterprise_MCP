@@ -204,7 +204,8 @@ def get_tool_domain(tool_name: str) -> str:
     elif (
         tool_name.startswith("ups_") or
         tool_name.startswith("uis_") or
-        tool_name.startswith("cedf_")
+        tool_name.startswith("cedf_") or
+        tool_name.startswith("fds_")
     ):
         return "ups_fds"
     return "general"
@@ -282,7 +283,8 @@ async def dispatch_unified_tool(tool_name: str, arguments: Dict[str, Any]) -> Di
     elif (
         tool_name.startswith("ups_") or
         tool_name.startswith("uis_") or
-        tool_name.startswith("cedf_")
+        tool_name.startswith("cedf_") or
+        tool_name.startswith("fds_")
     ):
         res = dispatch_ups_tool(tool_name, arguments)
         return res

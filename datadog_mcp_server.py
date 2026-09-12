@@ -557,6 +557,33 @@ DATADOG_TOOLS = [
             "required": [],
         },
     },
+    {
+        "name": "datadog_trace_pms_inbound_stream",
+        "description": "Deep log tracer across PMS inbound microservices (pmsinbound-internal, htng, ais) filtered by propertyCode, reservationId, or error status.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "property_code": {"type": "string", "description": "Property code to trace (e.g. 'LONLK')."},
+                "reservation_id": {"type": "string", "description": "Optional reservation ID or confirmation number."},
+                "hours_ago": {"type": "integer", "description": "Lookback window in hours (default 12)."},
+                "limit": {"type": "integer", "description": "Max log events to return (default 25)."},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "datadog_trace_decision_delivery_errors",
+        "description": "Searches Datadog error logs across outbound decision delivery pipelines (decision-delivery-internal, bmr-be-mo-service, ais-outbound-manager) for connection timeouts, schema rejections, and dropouts.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "property_code": {"type": "string", "description": "Optional property code filter."},
+                "hours_ago": {"type": "integer", "description": "Lookback window in hours (default 12)."},
+                "limit": {"type": "integer", "description": "Max log events to return (default 25)."},
+            },
+            "required": [],
+        },
+    },
 ]
 
 DATADOG_RESOURCES = [
@@ -735,6 +762,35 @@ def execute_tool(name: str, arguments: Dict[str, Any]) -> Any:
                 "queries_executed": mgr._stats["queries_executed"],
                 "queries_failed": mgr._stats["queries_failed"],
             }
+
+    elif name == "datadog_trace_pms_inbound_stream":
+        pcode = arguments.get("property_code", "").strip()
+        rid = arguments.get("reservation_id", "").strip()
+        h = int(arguments.get("hours_ago", 12))
+        lim = int(arguments.get("limit", 25))
+        from_dt = (datetime.utcnow() - timedelta(hours=h)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        query_parts = ["(service:pmsinbound-internal OR service:/ecs/prod/htng/ OR service:ais-outbound-manager)"]
+        if pcode:
+            query_parts.append(f'("{pcode}" OR @property_code:{pcode})')
+        if rid:
+            query_parts.append(f'("{rid}" OR @reservation_id:{rid} OR @confirmation_number:{rid})')
+
+        full_q = " AND ".join(query_parts)
+        return mgr.search_logs(full_q, from_time=from_dt, limit=lim)
+
+    elif name == "datadog_trace_decision_delivery_errors":
+        pcode = arguments.get("property_code", "").strip()
+        h = int(arguments.get("hours_ago", 12))
+        lim = int(arguments.get("limit", 25))
+        from_dt = (datetime.utcnow() - timedelta(hours=h)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        query_parts = ["(service:decision-delivery-internal OR service:bmr-be-mo-service OR service:ais-outbound-manager)", "(status:error OR status:critical)"]
+        if pcode:
+            query_parts.append(f'("{pcode}" OR @property_code:{pcode})')
+
+        full_q = " AND ".join(query_parts)
+        return mgr.search_logs(full_q, from_time=from_dt, limit=lim)
 
     else:
         raise ValueError(f"Unknown tool name: {name}")
