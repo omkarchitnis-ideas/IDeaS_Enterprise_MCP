@@ -314,7 +314,7 @@ async def handle_json_rpc(request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
                     "content": [
                         {
                             "type": "text",
-                            "text": json.dumps(tool_res, indent=2),
+                            "text": json.dumps(tool_res, indent=2, default=str),
                         }
                     ],
                     "isError": (
@@ -330,7 +330,7 @@ async def handle_json_rpc(request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
                 "jsonrpc": "2.0",
                 "id": req_id,
                 "result": {
-                    "content": [{"type": "text", "text": json.dumps({"error": str(exc)})}],
+                    "content": [{"type": "text", "text": json.dumps({"error": str(exc)}, default=str)}],
                     "isError": True,
                 },
             }
@@ -465,22 +465,44 @@ def create_fastapi_app():
             },
         )
 
+    @app.post("/sse")
+    @app.post("/")
+    async def sse_post_endpoint(request: Request):
+        """
+        Direct JSON-RPC over HTTP POST handler.
+        Required by Microsoft Copilot Studio (AgenticLoop) and clients that post directly to the MCP endpoint.
+        """
+        try:
+            payload = await request.json()
+        except Exception as exc:
+            return JSONResponse(status_code=400, content={"error": f"Invalid JSON payload: {exc}"})
+
+        session_id = request.query_params.get("sessionId")
+        response = await handle_json_rpc(payload)
+
+        if session_id and session_id in _active_sessions and response:
+            await _active_sessions[session_id].put(response)
+
+        if response is not None:
+            return JSONResponse(content=response, status_code=200)
+        else:
+            return Response(status_code=200)
+
     @app.post("/messages")
     async def messages_endpoint(request: Request):
         """Receives JSON-RPC messages and routes responses through SSE queue."""
         session_id = request.query_params.get("sessionId")
-        if not session_id or session_id not in _active_sessions:
-            return JSONResponse(status_code=400, content={"error": "Invalid or expired sessionId"})
-
         try:
             payload = await request.json()
         except Exception as exc:
             return JSONResponse(status_code=400, content={"error": f"Invalid JSON payload: {exc}"})
 
         response = await handle_json_rpc(payload)
-        if response:
+        if session_id and session_id in _active_sessions and response:
             await _active_sessions[session_id].put(response)
 
+        if response is not None:
+            return JSONResponse(content=response, status_code=200)
         return Response(status_code=202)
 
     # ==========================================================================
