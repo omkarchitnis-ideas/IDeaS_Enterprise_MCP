@@ -626,14 +626,18 @@ def create_fastapi_app():
     @app.get("/sse")
     async def sse_endpoint(request: Request):
         """MCP Server-Sent Events handshake endpoint."""
-        is_valid, err_msg, key_data = check_api_auth(request)
-        if not is_valid:
-            logger.warning("Unauthorized SSE attempt from %s: %s", request.client.host if request.client else "unknown", err_msg)
-            return JSONResponse(status_code=401, content={"error": err_msg})
-
-        client_name = key_data.get("client_name", "UnknownClient")
-        api_key_str = key_data.get("key_value", "anon")
+        raw_key = extract_api_key(request)
+        client_name = "CopilotStudio"
+        api_key_str = "pending_auth"
         client_ip = request.client.host if request.client else "127.0.0.1"
+
+        if raw_key:
+            is_valid, err_msg, key_data = verify_api_key(raw_key, client_ip=client_ip)
+            if not is_valid:
+                logger.warning("Unauthorized SSE handshake attempt from %s: %s", client_ip, err_msg)
+                return JSONResponse(status_code=401, content={"error": err_msg})
+            client_name = key_data.get("client_name", client_name)
+            api_key_str = key_data.get("key_value", raw_key)
 
         session_id = f"unified_sess_{int(time.time()*1000)}_{os.urandom(4).hex()}"
         queue: asyncio.Queue = asyncio.Queue()
@@ -723,13 +727,19 @@ def create_fastapi_app():
                 return JSONResponse(status_code=401, content={"jsonrpc": "2.0", "id": None, "error": {"code": -32001, "message": err_msg}})
             client_name = key_data.get("client_name", client_name)
             api_key_str = key_data.get("key_value", api_key_str)
-        elif session_id and session_id in _active_sessions:
+            if session_id and session_id in _active_sessions:
+                _active_sessions[session_id]["client_name"] = client_name
+                _active_sessions[session_id]["api_key"] = api_key_str
+        elif session_id and session_id in _active_sessions and _active_sessions[session_id].get("api_key") not in ("anon", "pending_auth"):
             sess_info = _active_sessions[session_id]
             client_name = sess_info.get("client_name", client_name)
             api_key_str = sess_info.get("api_key", api_key_str)
             client_ip = sess_info.get("client_ip", client_ip)
         else:
-            return JSONResponse(status_code=401, content={"jsonrpc": "2.0", "id": None, "error": {"code": -32001, "message": "Authentication required. Valid API key or active SSE session required."}})
+            return JSONResponse(
+                status_code=401,
+                content={"jsonrpc": "2.0", "id": None, "error": {"code": -32001, "message": "Authentication required. Provide API key via 'x-api-key' header, 'Authorization: Bearer <key>', or '?apiKey=<key>'."}},
+            )
 
         try:
             payload = await request.json()
