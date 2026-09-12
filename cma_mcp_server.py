@@ -1058,31 +1058,57 @@ def cma_get_tenant_pace_data(
 def cma_get_ratchet_srp_mappings(
     client_code: str = "",
     property_code: str = "",
+    srp_name: str = "",
+    group_name: str = "",
     ratchet_chain: str = "ratchet_PROD_1",
+    limit: int = 50,
 ) -> Dict[str, Any]:
-    """Query Standard Rate Plan (SRP) mappings and channel restrictions in G3 Ratchet database.
+    """Query Standard Rate Plan (SRP) mappings, channel groups, and SRP attributes in the G3 Ratchet database.
     
     Args:
-        client_code: Client short code.
-        property_code: Property short code.
-        ratchet_chain: Ratchet chain (default 'ratchet_PROD_1').
+        client_code: Client short code (e.g. 'HILTON').
+        property_code: Property short code (e.g. 'LONLK').
+        srp_name: Optional SRP name filter (e.g. 'BAR', 'PGFCM1').
+        group_name: Optional SRP group filter (e.g. 'AGENT', 'GRP').
+        ratchet_chain: Ratchet chain name (default 'ratchet_PROD_1').
+        limit: Maximum records to return (default 50, max 200).
     """
+    max_limit = min(max(1, int(limit)), 200)
     where_parts = []
     if client_code:
-        where_parts.append(f"rc.Client_Code = '{client_code.strip()}'")
+        clean_client = client_code.strip().replace("'", "''")
+        where_parts.append(f"rc.Ratchet_Client_Code = '{clean_client}'")
     if property_code:
-        where_parts.append(f"rp.Property_Code = '{property_code.strip()}'")
+        clean_prop = property_code.strip().replace("'", "''")
+        where_parts.append(f"rp.Ratchet_Property_Code = '{clean_prop}'")
+    if srp_name:
+        clean_srp = srp_name.strip().replace("'", "''")
+        where_parts.append(f"cs.Srp_Name LIKE '%{clean_srp}%'")
+    if group_name:
+        clean_grp = group_name.strip().replace("'", "''")
+        where_parts.append(f"csg.Srp_Group_Name LIKE '%{clean_grp}%'")
+
     where_sql = f"WHERE {' AND '.join(where_parts)}" if where_parts else ""
 
     sql = f"""
-        SELECT TOP 50
-            rc.Client_Code, rp.Property_Code, csm.SRP_Code, csm.Channel_Code,
-            csm.Active_Flag, csm.Rate_Level
-        FROM Client_Srp_Mapping csm
-        LEFT JOIN Ratchet_Client rc ON rc.Ratchet_Client_ID = csm.Ratchet_Client_ID
-        LEFT JOIN Ratchet_Property rp ON rp.Ratchet_Property_ID = csm.Ratchet_Property_ID
+        SELECT TOP {max_limit}
+            rc.Ratchet_Client_Code AS Client_Code,
+            rp.Ratchet_Property_Code AS Property_Code,
+            csg.Srp_Group_Name,
+            cs.Srp_Name,
+            rsa.mktcode AS Market_Code,
+            rsa.qualified AS Is_Qualified,
+            rsa.yieldable AS Is_Yieldable,
+            rsa.block AS Is_Block,
+            cs.Last_Updated_DTTM
+        FROM Channel_Srps cs WITH (NOLOCK)
+        INNER JOIN Ratchet_Property rp WITH (NOLOCK) ON rp.Ratchet_Property_ID = cs.Ratchet_Property_ID
+        INNER JOIN Channel_Srp_Groups csg WITH (NOLOCK) ON csg.Channel_Srp_Groups_ID = cs.Channel_Srp_Groups_ID
+        INNER JOIN Ratchet_Client rc WITH (NOLOCK) ON rc.Ratchet_Client_ID = csg.Ratchet_Client_ID
+        LEFT JOIN Ratchet_Srp_Attributes rsa WITH (NOLOCK) 
+            ON rsa.Ratchet_Property_ID = rp.Ratchet_Property_ID AND rsa.srpid = cs.Srp_Name
         {where_sql}
-        ORDER BY rc.Client_Code, rp.Property_Code, csm.SRP_Code
+        ORDER BY rc.Ratchet_Client_Code, rp.Ratchet_Property_Code, csg.Srp_Group_Name, cs.Srp_Name
     """
     return cma_execute_query(chain=ratchet_chain, query=sql)
 
