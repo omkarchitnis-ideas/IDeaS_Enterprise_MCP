@@ -1,0 +1,2420 @@
+{
+  "version": "1.0",
+  "base_url": "https://help.ideasrms.com/g3rms_cp/Content/index.html",
+  "scraped_at": "2026-09-11 22:15:08",
+  "total_documents": 268,
+  "documents": [
+    {
+      "id": 1,
+      "title": "AboutG3 RMS",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/About.htm",
+      "file": "001_aboutg3_rms.md",
+      "relative_path": "Content/About/About.htm",
+      "character_count": 2450
+    },
+    {
+      "id": 2,
+      "title": "Data Retention",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/Data-Retention.htm",
+      "file": "002_data_retention.md",
+      "relative_path": "Content/About/Data-Retention.htm",
+      "character_count": 914
+    },
+    {
+      "id": 3,
+      "title": "Glossary",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Glossary.htm",
+      "file": "003_glossary.md",
+      "relative_path": "Content/Glossary.htm",
+      "character_count": 24297
+    },
+    {
+      "id": 4,
+      "title": "IDeaShare",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/IDeaShare.htm",
+      "file": "004_ideashare.md",
+      "relative_path": "Content/About/IDeaShare.htm",
+      "character_count": 2469
+    },
+    {
+      "id": 5,
+      "title": "IDeaS Mobile RMS",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/G3-RMS-Mobile.htm",
+      "file": "005_ideas_mobile_rms.md",
+      "relative_path": "Content/About/G3-RMS-Mobile.htm",
+      "character_count": 7428
+    },
+    {
+      "id": 6,
+      "title": "Preferences",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Users/Preferences-General.htm",
+      "file": "006_preferences.md",
+      "relative_path": "Content/Users/Preferences-General.htm",
+      "character_count": 1632
+    },
+    {
+      "id": 7,
+      "title": "G3 RMSRelease Notes",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/Whats-New.htm",
+      "file": "007_g3_rmsrelease_notes.md",
+      "relative_path": "Content/About/Whats-New.htm",
+      "character_count": 155327
+    },
+    {
+      "id": 8,
+      "title": "Important Reservation and Business Practices",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Business-Practices.htm",
+      "file": "008_important_reservation_and_business_practices.md",
+      "relative_path": "Content/Rooms/Business-Practices.htm",
+      "character_count": 1498
+    },
+    {
+      "id": 9,
+      "title": "Recommended System Settings",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/System-Requirements.htm",
+      "file": "009_recommended_system_settings.md",
+      "relative_path": "Content/About/System-Requirements.htm",
+      "character_count": 1486
+    },
+    {
+      "id": 10,
+      "title": "Configuration Overview",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/Configuration-Overview.htm",
+      "file": "010_configuration_overview.md",
+      "relative_path": "Content/About/Configuration-Overview.htm",
+      "character_count": 1837
+    },
+    {
+      "id": 11,
+      "title": "Budget and My Forecast",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Budget-Forecast/Budget-Forecast.htm",
+      "file": "011_budget_and_my_forecast.md",
+      "relative_path": "Content/Budget-Forecast/Budget-Forecast.htm",
+      "character_count": 2891
+    },
+    {
+      "id": 12,
+      "title": "Budget",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Budget-Forecast/Budget-Data.htm",
+      "file": "012_budget.md",
+      "relative_path": "Content/Budget-Forecast/Budget-Data.htm",
+      "character_count": 2957
+    },
+    {
+      "id": 13,
+      "title": "My Forecast",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Budget-Forecast/My-Forecast.htm",
+      "file": "013_my_forecast.md",
+      "relative_path": "Content/Budget-Forecast/My-Forecast.htm",
+      "character_count": 3038
+    },
+    {
+      "id": 14,
+      "title": "Corporate Business Views",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/Business-Views-Corporate.htm",
+      "file": "014_corporate_business_views.md",
+      "relative_path": "Content/Property/Business-Views-Corporate.htm",
+      "character_count": 4357
+    },
+    {
+      "id": 15,
+      "title": "Inventory Groups",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/Business-Views-Inventory.htm",
+      "file": "015_inventory_groups.md",
+      "relative_path": "Content/Property/Business-Views-Inventory.htm",
+      "character_count": 2403
+    },
+    {
+      "id": 16,
+      "title": "Property Business View",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/Business-Views-Property.htm",
+      "file": "016_property_business_view.md",
+      "relative_path": "Content/Property/Business-Views-Property.htm",
+      "character_count": 5531
+    },
+    {
+      "id": 17,
+      "title": "Channel Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Channel-Costs/Channel-Configuration.htm",
+      "file": "017_channel_configuration.md",
+      "relative_path": "Content/Channel-Costs/Channel-Configuration.htm",
+      "character_count": 11644
+    },
+    {
+      "id": 18,
+      "title": "Component Rooms",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Component-Rooms/Component-Rooms.htm",
+      "file": "018_component_rooms.md",
+      "relative_path": "Content/Component-Rooms/Component-Rooms.htm",
+      "character_count": 12337
+    },
+    {
+      "id": 19,
+      "title": "Component Rooms Reservation Practices",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Component-Rooms/Component-Rooms-Reservation-Practices.htm",
+      "file": "019_component_rooms_reservation_practices.md",
+      "relative_path": "Content/Component-Rooms/Component-Rooms-Reservation-Practices.htm",
+      "character_count": 3408
+    },
+    {
+      "id": 20,
+      "title": "Select Component Rooms",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Component-Rooms/Component-Rooms-Select.htm",
+      "file": "020_select_component_rooms.md",
+      "relative_path": "Content/Component-Rooms/Component-Rooms-Select.htm",
+      "character_count": 2408
+    },
+    {
+      "id": 21,
+      "title": "Shared Physical Rooms",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Component-Rooms/Component-Rooms-Shared.htm",
+      "file": "021_shared_physical_rooms.md",
+      "relative_path": "Content/Component-Rooms/Component-Rooms-Shared.htm",
+      "character_count": 1129
+    },
+    {
+      "id": 22,
+      "title": "Function Space",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Function-Space/Function-Space.htm",
+      "file": "022_function_space.md",
+      "relative_path": "Content/Function-Space/Function-Space.htm",
+      "character_count": 9045
+    },
+    {
+      "id": 23,
+      "title": "Group Pricing Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Configuration.htm",
+      "file": "023_group_pricing_configuration.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Configuration.htm",
+      "character_count": 1469
+    },
+    {
+      "id": 24,
+      "title": "Ancillary Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Ancillary-Revenue.htm",
+      "file": "024_ancillary_configuration.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Ancillary-Revenue.htm",
+      "character_count": 10232
+    },
+    {
+      "id": 25,
+      "title": "Ceiling/Floor",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Ceiling-Floor.htm",
+      "file": "025_ceilingfloor.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Ceiling-Floor.htm",
+      "character_count": 8948
+    },
+    {
+      "id": 26,
+      "title": "Conference & Banquet  Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Conference-Banquet.htm",
+      "file": "026_conference_banquet_configuration.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Conference-Banquet.htm",
+      "character_count": 3094
+    },
+    {
+      "id": 27,
+      "title": "Minimum Profit Percentage",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Minimum-Profit.htm",
+      "file": "027_minimum_profit_percentage.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Minimum-Profit.htm",
+      "character_count": 3502
+    },
+    {
+      "id": 28,
+      "title": "Group Pricing  Package",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Package.htm",
+      "file": "028_group_pricing_package.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Package.htm",
+      "character_count": 3470
+    },
+    {
+      "id": 29,
+      "title": "Group Pricing Room Types",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Room-Type.htm",
+      "file": "029_group_pricing_room_types.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Room-Type.htm",
+      "character_count": 1754
+    },
+    {
+      "id": 30,
+      "title": "Group Pricing - Servicing Cost",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Servicing-Cost.htm",
+      "file": "030_group_pricing_servicing_cost.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Servicing-Cost.htm",
+      "character_count": 1437
+    },
+    {
+      "id": 31,
+      "title": "Market Segments Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Market-Segments/Market-Segments-Configuration.htm",
+      "file": "031_market_segments_configuration.md",
+      "relative_path": "Content/Market-Segments/Market-Segments-Configuration.htm",
+      "character_count": 38515
+    },
+    {
+      "id": 32,
+      "title": "Market Segment Attributes",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Market-Segments/Market-Segment-Attributes.htm",
+      "file": "032_market_segment_attributes.md",
+      "relative_path": "Content/Market-Segments/Market-Segment-Attributes.htm",
+      "character_count": 1829
+    },
+    {
+      "id": 33,
+      "title": "Forecast Groups",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Market-Segments/Market-Segments-Forecast-Groups-Configure.htm",
+      "file": "033_forecast_groups.md",
+      "relative_path": "Content/Market-Segments/Market-Segments-Forecast-Groups-Configure.htm",
+      "character_count": 6647
+    },
+    {
+      "id": 34,
+      "title": "Rate Protect",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Market-Segments/Market-Segment-Rate-Protect.htm",
+      "file": "034_rate_protect.md",
+      "relative_path": "Content/Market-Segments/Market-Segment-Rate-Protect.htm",
+      "character_count": 8601
+    },
+    {
+      "id": 35,
+      "title": "Pricing Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Pricing-Configuration-Overview.htm",
+      "file": "035_pricing_configuration.md",
+      "relative_path": "Content/Pricing/Pricing-Configuration-Overview.htm",
+      "character_count": 5473
+    },
+    {
+      "id": 36,
+      "title": "Base Room Type",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Base-Room-Type.htm",
+      "file": "036_base_room_type.md",
+      "relative_path": "Content/Pricing/Base-Room-Type.htm",
+      "character_count": 3430
+    },
+    {
+      "id": 37,
+      "title": "Ceiling/Floor",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Ceiling-Floor-Transient.htm",
+      "file": "037_ceilingfloor.md",
+      "relative_path": "Content/Pricing/Ceiling-Floor-Transient.htm",
+      "character_count": 8207
+    },
+    {
+      "id": 38,
+      "title": "Definition",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Definition.htm",
+      "file": "038_definition.md",
+      "relative_path": "Content/Pricing/Definition.htm",
+      "character_count": 2001
+    },
+    {
+      "id": 39,
+      "title": "Group Products",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Group-Products.htm",
+      "file": "039_group_products.md",
+      "relative_path": "Content/Pricing/Group-Products.htm",
+      "character_count": 1618
+    },
+    {
+      "id": 40,
+      "title": "Independent Products",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Independent-Products.htm",
+      "file": "040_independent_products.md",
+      "relative_path": "Content/Pricing/Independent-Products.htm",
+      "character_count": 5342
+    },
+    {
+      "id": 41,
+      "title": "Linked Products",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-Overview.htm",
+      "file": "041_linked_products.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-Overview.htm",
+      "character_count": 2872
+    },
+    {
+      "id": 42,
+      "title": "Offsets",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Offsets.htm",
+      "file": "042_offsets.md",
+      "relative_path": "Content/Pricing/Offsets.htm",
+      "character_count": 10485
+    },
+    {
+      "id": 43,
+      "title": "Per Person Pricing",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Per-Person-Pricing.htm",
+      "file": "043_per_person_pricing.md",
+      "relative_path": "Content/Pricing/Per-Person-Pricing.htm",
+      "character_count": 4677
+    },
+    {
+      "id": 44,
+      "title": "Rounding Rules",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Rounding-Rules.htm",
+      "file": "044_rounding_rules.md",
+      "relative_path": "Content/Pricing/Rounding-Rules.htm",
+      "character_count": 2226
+    },
+    {
+      "id": 45,
+      "title": "Supplements",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Supplements.htm",
+      "file": "045_supplements.md",
+      "relative_path": "Content/Pricing/Supplements.htm",
+      "character_count": 5034
+    },
+    {
+      "id": 46,
+      "title": "Fiscal Calendar",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/Fiscal-Calendar.htm",
+      "file": "046_fiscal_calendar.md",
+      "relative_path": "Content/Property/Fiscal-Calendar.htm",
+      "character_count": 979
+    },
+    {
+      "id": 47,
+      "title": "Group Status Codes",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Integrations/Group-Status-Codes.htm",
+      "file": "047_group_status_codes.md",
+      "relative_path": "Content/Integrations/Group-Status-Codes.htm",
+      "character_count": 5361
+    },
+    {
+      "id": 48,
+      "title": "Heat Map",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/Heat-Map.htm",
+      "file": "048_heat_map.md",
+      "relative_path": "Content/Property/Heat-Map.htm",
+      "character_count": 2199
+    },
+    {
+      "id": 49,
+      "title": "Integration Questionnaire",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Integrations/Integration-Questions.htm",
+      "file": "049_integration_questionnaire.md",
+      "relative_path": "Content/Integrations/Integration-Questions.htm",
+      "character_count": 2279
+    },
+    {
+      "id": 50,
+      "title": "Manage System Mode",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Optimization/Decision-Configuration-Manage-System-Mode.htm",
+      "file": "050_manage_system_mode.md",
+      "relative_path": "Content/Optimization/Decision-Configuration-Manage-System-Mode.htm",
+      "character_count": 13279
+    },
+    {
+      "id": 51,
+      "title": "Optimization Controls",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Optimization/Optimization-Controls.htm",
+      "file": "051_optimization_controls.md",
+      "relative_path": "Content/Optimization/Optimization-Controls.htm",
+      "character_count": 10019
+    },
+    {
+      "id": 52,
+      "title": "Property Attributes",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/Property-Attributes.htm",
+      "file": "052_property_attributes.md",
+      "relative_path": "Content/Property/Property-Attributes.htm",
+      "character_count": 6225
+    },
+    {
+      "id": 53,
+      "title": "Property Attribute Assignments",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/Property-Attributes-Assign.htm",
+      "file": "053_property_attribute_assignments.md",
+      "relative_path": "Content/Property/Property-Attributes-Assign.htm",
+      "character_count": 4350
+    },
+    {
+      "id": 54,
+      "title": "Property Groups",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/Property-Group-View.htm",
+      "file": "054_property_groups.md",
+      "relative_path": "Content/Property/Property-Group-View.htm",
+      "character_count": 8617
+    },
+    {
+      "id": 55,
+      "title": "Property Information",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/Property-Information.htm",
+      "file": "055_property_information.md",
+      "relative_path": "Content/Property/Property-Information.htm",
+      "character_count": 3505
+    },
+    {
+      "id": 56,
+      "title": "Request Full Upload",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Optimization/Decision-Configuration-Request-Full-Upload.htm",
+      "file": "056_request_full_upload.md",
+      "relative_path": "Content/Optimization/Decision-Configuration-Request-Full-Upload.htm",
+      "character_count": 3365
+    },
+    {
+      "id": 57,
+      "title": "Vendor Integration Mapping",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Integrations/Vendor-Integration-Mapping.htm",
+      "file": "057_vendor_integration_mapping.md",
+      "relative_path": "Content/Integrations/Vendor-Integration-Mapping.htm",
+      "character_count": 7102
+    },
+    {
+      "id": 58,
+      "title": "Rate Shopping",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Rate-Shopping.htm",
+      "file": "058_rate_shopping.md",
+      "relative_path": "Content/Rate-Shopping/Rate-Shopping.htm",
+      "character_count": 8197
+    },
+    {
+      "id": 59,
+      "title": "Channel Settings",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Rate-Shopping-Channel.htm",
+      "file": "059_channel_settings.md",
+      "relative_path": "Content/Rate-Shopping/Rate-Shopping-Channel.htm",
+      "character_count": 4281
+    },
+    {
+      "id": 60,
+      "title": "Competitor Settings",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Rate-Shopping-Competitor.htm",
+      "file": "060_competitor_settings.md",
+      "relative_path": "Content/Rate-Shopping/Rate-Shopping-Competitor.htm",
+      "character_count": 8995
+    },
+    {
+      "id": 61,
+      "title": "Competitive Market Position Constraints",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Rate-Shopping-Constraints.htm",
+      "file": "061_competitive_market_position_constraints.md",
+      "relative_path": "Content/Rate-Shopping/Rate-Shopping-Constraints.htm",
+      "character_count": 9612
+    },
+    {
+      "id": 62,
+      "title": "Data Quality",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Data-Quality.htm",
+      "file": "062_data_quality.md",
+      "relative_path": "Content/Rate-Shopping/Data-Quality.htm",
+      "character_count": 1117
+    },
+    {
+      "id": 63,
+      "title": "Reputation Competitor Mapping",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Rate-Shopping-Reputation-Mapping.htm",
+      "file": "063_reputation_competitor_mapping.md",
+      "relative_path": "Content/Rate-Shopping/Rate-Shopping-Reputation-Mapping.htm",
+      "character_count": 1144
+    },
+    {
+      "id": 64,
+      "title": "Room Class Mapping",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Rate-Shopping-Room-Class.htm",
+      "file": "064_room_class_mapping.md",
+      "relative_path": "Content/Rate-Shopping/Rate-Shopping-Room-Class.htm",
+      "character_count": 4624
+    },
+    {
+      "id": 65,
+      "title": "Rate Shopping Schedule",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Rate-Shopping-Schedule.htm",
+      "file": "065_rate_shopping_schedule.md",
+      "relative_path": "Content/Rate-Shopping/Rate-Shopping-Schedule.htm",
+      "character_count": 3001
+    },
+    {
+      "id": 66,
+      "title": "Smart Mapping",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Smart-Mapping.htm",
+      "file": "066_smart_mapping.md",
+      "relative_path": "Content/Rate-Shopping/Smart-Mapping.htm",
+      "character_count": 20805
+    },
+    {
+      "id": 67,
+      "title": "Vendor Mapping",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Rate-Shopping-Vendor-Mapping.htm",
+      "file": "067_vendor_mapping.md",
+      "relative_path": "Content/Rate-Shopping/Rate-Shopping-Vendor-Mapping.htm",
+      "character_count": 2551
+    },
+    {
+      "id": 68,
+      "title": "Last Room Availability (LRA) Restrictions",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Restrictions/LRA-Restrictions.htm",
+      "file": "068_last_room_availability_lra_restrictions.md",
+      "relative_path": "Content/Restrictions/LRA-Restrictions.htm",
+      "character_count": 9373
+    },
+    {
+      "id": 69,
+      "title": "Last Room Value (LRV)",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Restrictions/LRV.htm",
+      "file": "069_last_room_value_lrv.md",
+      "relative_path": "Content/Restrictions/LRV.htm",
+      "character_count": 18944
+    },
+    {
+      "id": 70,
+      "title": "Mass Restriction Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Restrictions/Restriction-Configuration-Mass.htm",
+      "file": "070_mass_restriction_configuration.md",
+      "relative_path": "Content/Restrictions/Restriction-Configuration-Mass.htm",
+      "character_count": 5270
+    },
+    {
+      "id": 71,
+      "title": "Restriction Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Restrictions/Restriction-Configuration.htm",
+      "file": "071_restriction_configuration.md",
+      "relative_path": "Content/Restrictions/Restriction-Configuration.htm",
+      "character_count": 18453
+    },
+    {
+      "id": 72,
+      "title": "Restriction Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Restriction-Level-Report.htm",
+      "file": "072_restriction_report.md",
+      "relative_path": "Content/Reports/Restriction-Level-Report.htm",
+      "character_count": 5566
+    },
+    {
+      "id": 73,
+      "title": "Rooms Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Configuration-Overview.htm",
+      "file": "073_rooms_configuration.md",
+      "relative_path": "Content/Rooms/Rooms-Configuration-Overview.htm",
+      "character_count": 1714
+    },
+    {
+      "id": 74,
+      "title": "Complimentary Upgrades",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Complimentary-Upgrades.htm",
+      "file": "074_complimentary_upgrades.md",
+      "relative_path": "Content/Rooms/Complimentary-Upgrades.htm",
+      "character_count": 4017
+    },
+    {
+      "id": 75,
+      "title": "Cost of Walk Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Cost-of-Walk.htm",
+      "file": "075_cost_of_walk_configuration.md",
+      "relative_path": "Content/Rooms/Rooms-Cost-of-Walk.htm",
+      "character_count": 1747
+    },
+    {
+      "id": 76,
+      "title": "Display Preferences",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Display-Preferences.htm",
+      "file": "076_display_preferences.md",
+      "relative_path": "Content/Rooms/Rooms-Display-Preferences.htm",
+      "character_count": 1403
+    },
+    {
+      "id": 77,
+      "title": "Group Price Ranking and Upgrade Path",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Group-Price-Ranking.htm",
+      "file": "077_group_price_ranking_and_upgrade_path.md",
+      "relative_path": "Content/Rooms/Rooms-Group-Price-Ranking.htm",
+      "character_count": 2545
+    },
+    {
+      "id": 78,
+      "title": "Maximum Occupants per Room Type",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/PPP-Maximum-Occupancy.htm",
+      "file": "078_maximum_occupants_per_room_type.md",
+      "relative_path": "Content/Rooms/PPP-Maximum-Occupancy.htm",
+      "character_count": 3581
+    },
+    {
+      "id": 79,
+      "title": "Minimum Price Differentials",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Minimum-Price-Differential.htm",
+      "file": "079_minimum_price_differentials.md",
+      "relative_path": "Content/Rooms/Rooms-Minimum-Price-Differential.htm",
+      "character_count": 3748
+    },
+    {
+      "id": 80,
+      "title": "Price Ranking and Upgrade Path",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Price-Ranking.htm",
+      "file": "080_price_ranking_and_upgrade_path.md",
+      "relative_path": "Content/Rooms/Rooms-Price-Ranking.htm",
+      "character_count": 6195
+    },
+    {
+      "id": 81,
+      "title": "Restricted Inventory",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Restricted-Inventory.htm",
+      "file": "081_restricted_inventory.md",
+      "relative_path": "Content/Rooms/Restricted-Inventory.htm",
+      "character_count": 1918
+    },
+    {
+      "id": 82,
+      "title": "Room Class",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Room-Class.htm",
+      "file": "082_room_class.md",
+      "relative_path": "Content/Rooms/Rooms-Room-Class.htm",
+      "character_count": 12039
+    },
+    {
+      "id": 83,
+      "title": "Room Class Capacity Ratio",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Room-Class-Capacity-Ratio.htm",
+      "file": "083_room_class_capacity_ratio.md",
+      "relative_path": "Content/Rooms/Rooms-Room-Class-Capacity-Ratio.htm",
+      "character_count": 1227
+    },
+    {
+      "id": 84,
+      "title": "Room Type Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Room-Type.htm",
+      "file": "084_room_type_configuration.md",
+      "relative_path": "Content/Rooms/Rooms-Room-Type.htm",
+      "character_count": 6481
+    },
+    {
+      "id": 85,
+      "title": "Special Events",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Special-Events/Special-Events.htm",
+      "file": "085_special_events.md",
+      "relative_path": "Content/Special-Events/Special-Events.htm",
+      "character_count": 16325
+    },
+    {
+      "id": 86,
+      "title": "Special Events Upload",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Special-Events/Special-Events-Upload.htm",
+      "file": "086_special_events_upload.md",
+      "relative_path": "Content/Special-Events/Special-Events-Upload.htm",
+      "character_count": 5215
+    },
+    {
+      "id": 87,
+      "title": "Hot Start - Synthetic Data",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/LDB/Limited-Data-Build.htm",
+      "file": "087_hot_start_synthetic_data.md",
+      "relative_path": "Content/LDB/Limited-Data-Build.htm",
+      "character_count": 16976
+    },
+    {
+      "id": 88,
+      "title": "Booking Pattern",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/LDB/LDB-Booking-Patterns.htm",
+      "file": "088_booking_pattern.md",
+      "relative_path": "Content/LDB/LDB-Booking-Patterns.htm",
+      "character_count": 4330
+    },
+    {
+      "id": 89,
+      "title": "Synthetic Data - Market Segments",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/LDB/LDB-Market-Segment.htm",
+      "file": "089_synthetic_data_market_segments.md",
+      "relative_path": "Content/LDB/LDB-Market-Segment.htm",
+      "character_count": 2714
+    },
+    {
+      "id": 90,
+      "title": "Projections",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/LDB/LDB-Projections.htm",
+      "file": "090_projections.md",
+      "relative_path": "Content/LDB/LDB-Projections.htm",
+      "character_count": 27188
+    },
+    {
+      "id": 91,
+      "title": "Synthetic Data Room Types",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/LDB/LDB-Room-Type.htm",
+      "file": "091_synthetic_data_room_types.md",
+      "relative_path": "Content/LDB/LDB-Room-Type.htm",
+      "character_count": 1420
+    },
+    {
+      "id": 92,
+      "title": "Demand and WashManagement",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/Demand-and-Wash.htm",
+      "file": "092_demand_and_washmanagement.md",
+      "relative_path": "Content/Demand-Wash/Demand-and-Wash.htm",
+      "character_count": 6020
+    },
+    {
+      "id": 93,
+      "title": "Override Demand by Arrival by LOS",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/Demand-Wash-Arrival-by-LOS.htm",
+      "file": "093_override_demand_by_arrival_by_los.md",
+      "relative_path": "Content/Demand-Wash/Demand-Wash-Arrival-by-LOS.htm",
+      "character_count": 1749
+    },
+    {
+      "id": 94,
+      "title": "Override Demand by Occupancy Date",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/Demand-Wash-Occupancy-Date.htm",
+      "file": "094_override_demand_by_occupancy_date.md",
+      "relative_path": "Content/Demand-Wash/Demand-Wash-Occupancy-Date.htm",
+      "character_count": 4134
+    },
+    {
+      "id": 95,
+      "title": "Forecast Investigator",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/Investigator-Forecast.htm",
+      "file": "095_forecast_investigator.md",
+      "relative_path": "Content/Demand-Wash/Investigator-Forecast.htm",
+      "character_count": 11916
+    },
+    {
+      "id": 96,
+      "title": "Multiday Demand Overrides",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/Multiday-Overrides-Occupancy-Date.htm",
+      "file": "096_multiday_demand_overrides.md",
+      "relative_path": "Content/Demand-Wash/Multiday-Overrides-Occupancy-Date.htm",
+      "character_count": 3143
+    },
+    {
+      "id": 97,
+      "title": "Multiday Demand Override by Arrival by LOS",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/Multiday-Overrides-Arrival-LOS.htm",
+      "file": "097_multiday_demand_override_by_arrival_by_los.md",
+      "relative_path": "Content/Demand-Wash/Multiday-Overrides-Arrival-LOS.htm",
+      "character_count": 1873
+    },
+    {
+      "id": 98,
+      "title": "What If",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Optimization/What-If.htm",
+      "file": "098_what_if.md",
+      "relative_path": "Content/Optimization/What-If.htm",
+      "character_count": 10283
+    },
+    {
+      "id": 99,
+      "title": "ManagingG3 RMSDuring Demand Disruptions",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/Demand-Disruption.htm",
+      "file": "099_managingg3_rmsduring_demand_disruptions.md",
+      "relative_path": "Content/About/Demand-Disruption.htm",
+      "character_count": 18447
+    },
+    {
+      "id": 100,
+      "title": "Function Space Dashboard",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Function-Space/FS-Dashboard.htm",
+      "file": "100_function_space_dashboard.md",
+      "relative_path": "Content/Function-Space/FS-Dashboard.htm",
+      "character_count": 3962
+    },
+    {
+      "id": 101,
+      "title": "Function Space Demand Calendar",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Function-Space/FS-Demand-Calendar.htm",
+      "file": "101_function_space_demand_calendar.md",
+      "relative_path": "Content/Function-Space/FS-Demand-Calendar.htm",
+      "character_count": 3708
+    },
+    {
+      "id": 102,
+      "title": "Function Space Evaluations",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Function-Space/FS-Evaluation.htm",
+      "file": "102_function_space_evaluations.md",
+      "relative_path": "Content/Function-Space/FS-Evaluation.htm",
+      "character_count": 4486
+    },
+    {
+      "id": 103,
+      "title": "Best Practices for Group Block Business",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Wash/Group-Business-Practices.htm",
+      "file": "103_best_practices_for_group_block_business.md",
+      "relative_path": "Content/Group-Wash/Group-Business-Practices.htm",
+      "character_count": 6924
+    },
+    {
+      "id": 104,
+      "title": "Group Wash by Group",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Wash/Group-Wash-by-Group.htm",
+      "file": "104_group_wash_by_group.md",
+      "relative_path": "Content/Group-Wash/Group-Wash-by-Group.htm",
+      "character_count": 6157
+    },
+    {
+      "id": 105,
+      "title": "Override Wash for Individual Groups",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Wash/Wash-Overrides-Individual-Group.htm",
+      "file": "105_override_wash_for_individual_groups.md",
+      "relative_path": "Content/Group-Wash/Wash-Overrides-Individual-Group.htm",
+      "character_count": 5890
+    },
+    {
+      "id": 106,
+      "title": "Overbooking",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Overbooking/Overbooking-Management.htm",
+      "file": "106_overbooking.md",
+      "relative_path": "Content/Overbooking/Overbooking-Management.htm",
+      "character_count": 5783
+    },
+    {
+      "id": 107,
+      "title": "Overbookingor Cost of WalkOverrides",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Overbooking/Overbooking-Overrides.htm",
+      "file": "107_overbookingor_cost_of_walkoverrides.md",
+      "relative_path": "Content/Overbooking/Overbooking-Overrides.htm",
+      "character_count": 4715
+    },
+    {
+      "id": 108,
+      "title": "Multiday Overbookingor Cost of WalkOverrides",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Overbooking/Overbooking-Overrides-Multiday.htm",
+      "file": "108_multiday_overbookingor_cost_of_walkoverrides.md",
+      "relative_path": "Content/Overbooking/Overbooking-Overrides-Multiday.htm",
+      "character_count": 4822
+    },
+    {
+      "id": 109,
+      "title": "Overbooking Ceiling Defaults",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Overbooking/Overbooking-Ceiling-Defaults.htm",
+      "file": "109_overbooking_ceiling_defaults.md",
+      "relative_path": "Content/Overbooking/Overbooking-Ceiling-Defaults.htm",
+      "character_count": 3577
+    },
+    {
+      "id": 110,
+      "title": "Competitor Details",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Competitor-Details.htm",
+      "file": "110_competitor_details.md",
+      "relative_path": "Content/Pricing/Competitor-Details.htm",
+      "character_count": 863
+    },
+    {
+      "id": 111,
+      "title": "Pricing Investigator",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Investigator.htm",
+      "file": "111_pricing_investigator.md",
+      "relative_path": "Content/Pricing/Investigator.htm",
+      "character_count": 16643
+    },
+    {
+      "id": 112,
+      "title": "Manage Pricing - Calendar View",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Pricing-Calendar-View.htm",
+      "file": "112_manage_pricing_calendar_view.md",
+      "relative_path": "Content/Pricing/Pricing-Calendar-View.htm",
+      "character_count": 16391
+    },
+    {
+      "id": 113,
+      "title": "Manage Pricing - Tabular View",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Pricing-Tabular-View.htm",
+      "file": "113_manage_pricing_tabular_view.md",
+      "relative_path": "Content/Pricing/Pricing-Tabular-View.htm",
+      "character_count": 11206
+    },
+    {
+      "id": 114,
+      "title": "Manual Upload",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Manual-Upload.htm",
+      "file": "114_manual_upload.md",
+      "relative_path": "Content/Pricing/Manual-Upload.htm",
+      "character_count": 5002
+    },
+    {
+      "id": 115,
+      "title": "Multiday Pricing Overrides",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Pricing-Override-Multiday-CP.htm",
+      "file": "115_multiday_pricing_overrides.md",
+      "relative_path": "Content/Pricing/Pricing-Override-Multiday-CP.htm",
+      "character_count": 8317
+    },
+    {
+      "id": 116,
+      "title": "Override History",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Pricing-Override-History.htm",
+      "file": "116_override_history.md",
+      "relative_path": "Content/Pricing/Pricing-Override-History.htm",
+      "character_count": 1818
+    },
+    {
+      "id": 117,
+      "title": "Pricing Summary",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Pricing-Summary.htm",
+      "file": "117_pricing_summary.md",
+      "relative_path": "Content/Pricing/Pricing-Summary.htm",
+      "character_count": 6342
+    },
+    {
+      "id": 118,
+      "title": "Reputation Management",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reputation/Reputation-Management.htm",
+      "file": "118_reputation_management.md",
+      "relative_path": "Content/Reputation/Reputation-Management.htm",
+      "character_count": 5373
+    },
+    {
+      "id": 119,
+      "title": "Reputation Performance",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reputation/Reputation-Performance.htm",
+      "file": "119_reputation_performance.md",
+      "relative_path": "Content/Reputation/Reputation-Performance.htm",
+      "character_count": 2604
+    },
+    {
+      "id": 120,
+      "title": "Reputation Quadrant",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reputation/Reputation-Quadrant.htm",
+      "file": "120_reputation_quadrant.md",
+      "relative_path": "Content/Reputation/Reputation-Quadrant.htm",
+      "character_count": 5240
+    },
+    {
+      "id": 121,
+      "title": "Special Events Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Special-Events-Report.htm",
+      "file": "121_special_events_report.md",
+      "relative_path": "Content/Reports/Special-Events-Report.htm",
+      "character_count": 3373
+    },
+    {
+      "id": 122,
+      "title": "Data Differences between IDeaS Systems",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Transitions/Data-Differences.htm",
+      "file": "122_data_differences_between_ideas_systems.md",
+      "relative_path": "Content/Transitions/Data-Differences.htm",
+      "character_count": 8983
+    },
+    {
+      "id": 123,
+      "title": "PATHWAYS Program",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Transitions/Pathways-Program-Info.htm",
+      "file": "123_pathways_program.md",
+      "relative_path": "Content/Transitions/Pathways-Program-Info.htm",
+      "character_count": 1078
+    },
+    {
+      "id": 124,
+      "title": "Reports",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Reports-Overview.htm",
+      "file": "124_reports.md",
+      "relative_path": "Content/Reports/Reports-Overview.htm",
+      "character_count": 1294
+    },
+    {
+      "id": 125,
+      "title": "Arrivals by LOS Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Arrivals-by-LOS.htm",
+      "file": "125_arrivals_by_los_report.md",
+      "relative_path": "Content/Reports/Arrivals-by-LOS.htm",
+      "character_count": 3730
+    },
+    {
+      "id": 126,
+      "title": "Arrival By LOS Remaining Demand Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Arrival-by-LOS-Remaining-Demand.htm",
+      "file": "126_arrival_by_los_remaining_demand_report.md",
+      "relative_path": "Content/Reports/Arrival-by-LOS-Remaining-Demand.htm",
+      "character_count": 3853
+    },
+    {
+      "id": 127,
+      "title": "Booking Pace Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Booking-Pace-Report.htm",
+      "file": "127_booking_pace_report.md",
+      "relative_path": "Content/Reports/Booking-Pace-Report.htm",
+      "character_count": 5279
+    },
+    {
+      "id": 128,
+      "title": "Booking Situation Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Booking-Situation-Report.htm",
+      "file": "128_booking_situation_report.md",
+      "relative_path": "Content/Reports/Booking-Situation-Report.htm",
+      "character_count": 8609
+    },
+    {
+      "id": 129,
+      "title": "Comparative Booking Pace Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Comparative-Booking-Pace-Report.htm",
+      "file": "129_comparative_booking_pace_report.md",
+      "relative_path": "Content/Reports/Comparative-Booking-Pace-Report.htm",
+      "character_count": 3752
+    },
+    {
+      "id": 130,
+      "title": "Data Extraction Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Data-Extract.htm",
+      "file": "130_data_extraction_report.md",
+      "relative_path": "Content/Reports/Data-Extract.htm",
+      "character_count": 9331
+    },
+    {
+      "id": 131,
+      "title": "Decision Pace Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Decision-Pace-Report.htm",
+      "file": "131_decision_pace_report.md",
+      "relative_path": "Content/Reports/Decision-Pace-Report.htm",
+      "character_count": 3394
+    },
+    {
+      "id": 132,
+      "title": "Input Override Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Input-Override-Report.htm",
+      "file": "132_input_override_report.md",
+      "relative_path": "Content/Reports/Input-Override-Report.htm",
+      "character_count": 4175
+    },
+    {
+      "id": 133,
+      "title": "Market Segment Mapping Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Market-Segment-Mapping-Report.htm",
+      "file": "133_market_segment_mapping_report.md",
+      "relative_path": "Content/Reports/Market-Segment-Mapping-Report.htm",
+      "character_count": 1775
+    },
+    {
+      "id": 134,
+      "title": "Operations Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Operations-Report.htm",
+      "file": "134_operations_report.md",
+      "relative_path": "Content/Reports/Operations-Report.htm",
+      "character_count": 2298
+    },
+    {
+      "id": 135,
+      "title": "Output Override Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Output-Override-Report.htm",
+      "file": "135_output_override_report.md",
+      "relative_path": "Content/Reports/Output-Override-Report.htm",
+      "character_count": 4369
+    },
+    {
+      "id": 136,
+      "title": "Performance Comparison Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Performance-Comparison-Report.htm",
+      "file": "136_performance_comparison_report.md",
+      "relative_path": "Content/Reports/Performance-Comparison-Report.htm",
+      "character_count": 8925
+    },
+    {
+      "id": 137,
+      "title": "Pickup/Change and Differential Control Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Pickup-Change-Differential-Control-Report.htm",
+      "file": "137_pickupchange_and_differential_control_report.md",
+      "relative_path": "Content/Reports/Pickup-Change-Differential-Control-Report.htm",
+      "character_count": 9945
+    },
+    {
+      "id": 138,
+      "title": "Pricing Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Pricing-Report.htm",
+      "file": "138_pricing_report.md",
+      "relative_path": "Content/Reports/Pricing-Report.htm",
+      "character_count": 5455
+    },
+    {
+      "id": 139,
+      "title": "Pricing Override History Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Pricing-Override-History-Report.htm",
+      "file": "139_pricing_override_history_report.md",
+      "relative_path": "Content/Reports/Pricing-Override-History-Report.htm",
+      "character_count": 4168
+    },
+    {
+      "id": 140,
+      "title": "Property Attributes Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Property-Attributes-Report.htm",
+      "file": "140_property_attributes_report.md",
+      "relative_path": "Content/Reports/Property-Attributes-Report.htm",
+      "character_count": 1472
+    },
+    {
+      "id": 141,
+      "title": "Rate Plan Production Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Rate-Plan-Production-Report.htm",
+      "file": "141_rate_plan_production_report.md",
+      "relative_path": "Content/Reports/Rate-Plan-Production-Report.htm",
+      "character_count": 5462
+    },
+    {
+      "id": 142,
+      "title": "Saved Reports",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Saved-Reports.htm",
+      "file": "142_saved_reports.md",
+      "relative_path": "Content/Reports/Saved-Reports.htm",
+      "character_count": 2855
+    },
+    {
+      "id": 143,
+      "title": "Straight Line Availability Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Straight-Line-Availability-Report.htm",
+      "file": "143_straight_line_availability_report.md",
+      "relative_path": "Content/Reports/Straight-Line-Availability-Report.htm",
+      "character_count": 6154
+    },
+    {
+      "id": 144,
+      "title": "Scheduling Reports",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/Scheduled-Reports.htm",
+      "file": "144_scheduling_reports.md",
+      "relative_path": "Content/Reports/Scheduled-Reports.htm",
+      "character_count": 6233
+    },
+    {
+      "id": 145,
+      "title": "User Activity Log Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/User-Activity-Log-Report.htm",
+      "file": "145_user_activity_log_report.md",
+      "relative_path": "Content/Reports/User-Activity-Log-Report.htm",
+      "character_count": 5243
+    },
+    {
+      "id": 146,
+      "title": "User Report",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Reports/User-Report.htm",
+      "file": "146_user_report.md",
+      "relative_path": "Content/Reports/User-Report.htm",
+      "character_count": 3453
+    },
+    {
+      "id": 147,
+      "title": "At a Glance Dashboard",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/AAG/At-a-Glance.htm",
+      "file": "147_at_a_glance_dashboard.md",
+      "relative_path": "Content/AAG/At-a-Glance.htm",
+      "character_count": 2139
+    },
+    {
+      "id": 148,
+      "title": "At a Glance Calendar",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/AAG/At-a-Glance-Calendar.htm",
+      "file": "148_at_a_glance_calendar.md",
+      "relative_path": "Content/AAG/At-a-Glance-Calendar.htm",
+      "character_count": 3006
+    },
+    {
+      "id": 149,
+      "title": "Monthly Booking Pace",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/AAG/At-a-Glance-Monthly-Booking-Pace.htm",
+      "file": "149_monthly_booking_pace.md",
+      "relative_path": "Content/AAG/At-a-Glance-Monthly-Booking-Pace.htm",
+      "character_count": 3316
+    },
+    {
+      "id": 150,
+      "title": "Occupancy and ADR",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/AAG/At-a-Glance-Occupancy-ADR-Chart.htm",
+      "file": "150_occupancy_and_adr.md",
+      "relative_path": "Content/AAG/At-a-Glance-Occupancy-ADR-Chart.htm",
+      "character_count": 1522
+    },
+    {
+      "id": 151,
+      "title": "Occupancy and Revenue",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/AAG/At-a-Glance-Occupancy-Revenue-Chart.htm",
+      "file": "151_occupancy_and_revenue.md",
+      "relative_path": "Content/AAG/At-a-Glance-Occupancy-Revenue-Chart.htm",
+      "character_count": 1639
+    },
+    {
+      "id": 152,
+      "title": "RevPAR Chart",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/AAG/At-a-Glance-RevPar-Chart.htm",
+      "file": "152_revpar_chart.md",
+      "relative_path": "Content/AAG/At-a-Glance-RevPar-Chart.htm",
+      "character_count": 1180
+    },
+    {
+      "id": 153,
+      "title": "At a Glance Summary",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/AAG/At-a-Glance-Summary.htm",
+      "file": "153_at_a_glance_summary.md",
+      "relative_path": "Content/AAG/At-a-Glance-Summary.htm",
+      "character_count": 5991
+    },
+    {
+      "id": 154,
+      "title": "Business Analysis Dashboard",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/Business-Analysis-Overview.htm",
+      "file": "154_business_analysis_dashboard.md",
+      "relative_path": "Content/BAD/Business-Analysis-Overview.htm",
+      "character_count": 3227
+    },
+    {
+      "id": 155,
+      "title": "Business Analysis Data Details",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/Business-Analysis-Data-Details.htm",
+      "file": "155_business_analysis_data_details.md",
+      "relative_path": "Content/BAD/Business-Analysis-Data-Details.htm",
+      "character_count": 6278
+    },
+    {
+      "id": 156,
+      "title": "Data Level Differences",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/Data-Level-Discrepancies.htm",
+      "file": "156_data_level_differences.md",
+      "relative_path": "Content/BAD/Data-Level-Discrepancies.htm",
+      "character_count": 5576
+    },
+    {
+      "id": 157,
+      "title": "Pace Data Missing for Last Year",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/Missing-Pace-Data.htm",
+      "file": "157_pace_data_missing_for_last_year.md",
+      "relative_path": "Content/BAD/Missing-Pace-Data.htm",
+      "character_count": 7084
+    },
+    {
+      "id": 158,
+      "title": "Business Analysis Pace Data",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/Business-Analysis-Pace-Data.htm",
+      "file": "158_business_analysis_pace_data.md",
+      "relative_path": "Content/BAD/Business-Analysis-Pace-Data.htm",
+      "character_count": 4122
+    },
+    {
+      "id": 159,
+      "title": "Pace Differences Compared to  DailyExtracts",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/Pace-Data-Discrepancies.htm",
+      "file": "159_pace_differences_compared_to_dailyextracts.md",
+      "relative_path": "Content/BAD/Pace-Data-Discrepancies.htm",
+      "character_count": 8847
+    },
+    {
+      "id": 160,
+      "title": "Business Analysis Performance",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/Business-Analysis-Performance.htm",
+      "file": "160_business_analysis_performance.md",
+      "relative_path": "Content/BAD/Business-Analysis-Performance.htm",
+      "character_count": 4126
+    },
+    {
+      "id": 161,
+      "title": "Business Analysis Summary",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/Business-Analysis-Summary.htm",
+      "file": "161_business_analysis_summary.md",
+      "relative_path": "Content/BAD/Business-Analysis-Summary.htm",
+      "character_count": 5420
+    },
+    {
+      "id": 162,
+      "title": "Business Insights",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Insights/BusinessInsights.htm",
+      "file": "162_business_insights.md",
+      "relative_path": "Content/Insights/BusinessInsights.htm",
+      "character_count": 10027
+    },
+    {
+      "id": 163,
+      "title": "Channel Forecast Dashboard",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Channel-Costs/Channel-Forecast-Dashboard.htm",
+      "file": "163_channel_forecast_dashboard.md",
+      "relative_path": "Content/Channel-Costs/Channel-Forecast-Dashboard.htm",
+      "character_count": 6696
+    },
+    {
+      "id": 164,
+      "title": "Demand360 Dashboard",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Insights/Demand360.htm",
+      "file": "164_demand360_dashboard.md",
+      "relative_path": "Content/Insights/Demand360.htm",
+      "character_count": 4114
+    },
+    {
+      "id": 165,
+      "title": "Alerts",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Information-Manager/Alerts.htm",
+      "file": "165_alerts.md",
+      "relative_path": "Content/Information-Manager/Alerts.htm",
+      "character_count": 3448
+    },
+    {
+      "id": 166,
+      "title": "Exceptions",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Information-Manager/Exceptions.htm",
+      "file": "166_exceptions.md",
+      "relative_path": "Content/Information-Manager/Exceptions.htm",
+      "character_count": 5193
+    },
+    {
+      "id": 167,
+      "title": "Notifications",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Information-Manager/Notifications.htm",
+      "file": "167_notifications.md",
+      "relative_path": "Content/Information-Manager/Notifications.htm",
+      "character_count": 14390
+    },
+    {
+      "id": 168,
+      "title": "Processing",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Optimization/System-Processing.htm",
+      "file": "168_processing.md",
+      "relative_path": "Content/Optimization/System-Processing.htm",
+      "character_count": 5193
+    },
+    {
+      "id": 169,
+      "title": "Sync",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Optimization/Sync-Services.htm",
+      "file": "169_sync.md",
+      "relative_path": "Content/Optimization/Sync-Services.htm",
+      "character_count": 4916
+    },
+    {
+      "id": 170,
+      "title": "Important Information",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Optimization/Important-Information.htm",
+      "file": "170_important_information.md",
+      "relative_path": "Content/Optimization/Important-Information.htm",
+      "character_count": 3534
+    },
+    {
+      "id": 171,
+      "title": "Regular Tasks",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Tasks/Tasks.htm",
+      "file": "171_regular_tasks.md",
+      "relative_path": "Content/Tasks/Tasks.htm",
+      "character_count": 514
+    },
+    {
+      "id": 172,
+      "title": "G3 RMSPricing Methods",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/PricingMethods.htm",
+      "file": "172_g3_rmspricing_methods.md",
+      "relative_path": "Content/About/PricingMethods.htm",
+      "character_count": 7126
+    },
+    {
+      "id": 173,
+      "title": "Purpose and Use of Unconstrained Demand",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/Unconstrained-Demand-Purpose.htm",
+      "file": "173_purpose_and_use_of_unconstrained_demand.md",
+      "relative_path": "Content/Demand-Wash/Unconstrained-Demand-Purpose.htm",
+      "character_count": 12066
+    },
+    {
+      "id": 174,
+      "title": "Synthetic Data for Inventory Change",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/LDB/LDB-for-Inventory-Change.htm",
+      "file": "174_synthetic_data_for_inventory_change.md",
+      "relative_path": "Content/LDB/LDB-for-Inventory-Change.htm",
+      "character_count": 11615
+    },
+    {
+      "id": 175,
+      "title": "Best Practices for Setting Up Market Segments",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Market-Segments/BP-Market-Segments-Configuration.htm",
+      "file": "175_best_practices_for_setting_up_market_segments.md",
+      "relative_path": "Content/Market-Segments/BP-Market-Segments-Configuration.htm",
+      "character_count": 16192
+    },
+    {
+      "id": 176,
+      "title": "Best Practices for Overriding Wash",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Wash/BP-Overriding-Wash.htm",
+      "file": "176_best_practices_for_overriding_wash.md",
+      "relative_path": "Content/Group-Wash/BP-Overriding-Wash.htm",
+      "character_count": 3552
+    },
+    {
+      "id": 177,
+      "title": "Best Practices for Advanced Price Ranking and Upgrade Path",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/BP-Rooms-Price-Ranking-Advanced.htm",
+      "file": "177_best_practices_for_advanced_price_ranking_and_upgrade_path.md",
+      "relative_path": "Content/Rooms/BP-Rooms-Price-Ranking-Advanced.htm",
+      "character_count": 6011
+    },
+    {
+      "id": 178,
+      "title": "Group Floor Management",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Floor-Management.htm",
+      "file": "178_group_floor_management.md",
+      "relative_path": "Content/Group-Pricing/Group-Floor-Management.htm",
+      "character_count": 10748
+    },
+    {
+      "id": 179,
+      "title": "IDeaS Support",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/Cases.htm",
+      "file": "179_ideas_support.md",
+      "relative_path": "Content/About/Cases.htm",
+      "character_count": 3676
+    },
+    {
+      "id": 180,
+      "title": "Best Practices for Hot Start - Limited History",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/LDB/BP-Hot-Start-Limited-History.htm",
+      "file": "180_best_practices_for_hot_start_limited_history.md",
+      "relative_path": "Content/LDB/BP-Hot-Start-Limited-History.htm",
+      "character_count": 3983
+    },
+    {
+      "id": 181,
+      "title": "Occupant Grouping",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Occupant-Value-Grouping.htm",
+      "file": "181_occupant_grouping.md",
+      "relative_path": "Content/Pricing/Occupant-Value-Grouping.htm",
+      "character_count": 3553
+    },
+    {
+      "id": 182,
+      "title": "Age Based Pricing",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-Age-Based-Pricing.htm",
+      "file": "182_age_based_pricing.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-Age-Based-Pricing.htm",
+      "character_count": 3355
+    },
+    {
+      "id": 183,
+      "title": "Package Elements",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-Package.htm",
+      "file": "183_package_elements.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-Package.htm",
+      "character_count": 6140
+    },
+    {
+      "id": 184,
+      "title": "Product Groups",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-Product-Groups.htm",
+      "file": "184_product_groups.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-Product-Groups.htm",
+      "character_count": 2313
+    },
+    {
+      "id": 185,
+      "title": "Delphi Integration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Amadeus-Integration.htm",
+      "file": "185_delphi_integration.md",
+      "relative_path": "Content/Group-Pricing/Amadeus-Integration.htm",
+      "character_count": 2006
+    },
+    {
+      "id": 186,
+      "title": "Best Practices   for Base Room Type",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/BP-Base-Room-Type.htm",
+      "file": "186_best_practices_for_base_room_type.md",
+      "relative_path": "Content/Pricing/BP-Base-Room-Type.htm",
+      "character_count": 3912
+    },
+    {
+      "id": 187,
+      "title": "Market Segment",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Market-Segment.htm",
+      "file": "187_market_segment.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Market-Segment.htm",
+      "character_count": 1372
+    },
+    {
+      "id": 188,
+      "title": "Best Practices for Room Type Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/BP-Overbooking-Room-Type.htm",
+      "file": "188_best_practices_for_room_type_configuration.md",
+      "relative_path": "Content/Rooms/BP-Overbooking-Room-Type.htm",
+      "character_count": 14037
+    },
+    {
+      "id": 189,
+      "title": "Best Practices for Setting Up Rounding Rules",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/BP-Rounding-Rules.htm",
+      "file": "189_best_practices_for_setting_up_rounding_rules.md",
+      "relative_path": "Content/Pricing/BP-Rounding-Rules.htm",
+      "character_count": 2795
+    },
+    {
+      "id": 190,
+      "title": "Best Practices for Overriding Prices",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/BP-Override-Pricing.htm",
+      "file": "190_best_practices_for_overriding_prices.md",
+      "relative_path": "Content/Pricing/BP-Override-Pricing.htm",
+      "character_count": 7342
+    },
+    {
+      "id": 191,
+      "title": "Best Practices for Linked Products",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/BP-Linked-Products.htm",
+      "file": "191_best_practices_for_linked_products.md",
+      "relative_path": "Content/Linked-Products/BP-Linked-Products.htm",
+      "character_count": 4059
+    },
+    {
+      "id": 192,
+      "title": "Best Practices for Setting Ceiling and Floor Values",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/BP-Ceiling-Floor-Values.htm",
+      "file": "192_best_practices_for_setting_ceiling_and_floor_values.md",
+      "relative_path": "Content/Pricing/BP-Ceiling-Floor-Values.htm",
+      "character_count": 3373
+    },
+    {
+      "id": 193,
+      "title": "Best Practices for Setting Up Inventory Groups",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Property/BP-Business-Views-Inventory.htm",
+      "file": "193_best_practices_for_setting_up_inventory_groups.md",
+      "relative_path": "Content/Property/BP-Business-Views-Inventory.htm",
+      "character_count": 1321
+    },
+    {
+      "id": 194,
+      "title": "Best Practices for Managing Restricted Inventory",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/BP-Restricted-Inventory.htm",
+      "file": "194_best_practices_for_managing_restricted_inventory.md",
+      "relative_path": "Content/Rooms/BP-Restricted-Inventory.htm",
+      "character_count": 9305
+    },
+    {
+      "id": 195,
+      "title": "Best Practices for Entering Budget Data",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Budget-Forecast/BP-Budget-Data.htm",
+      "file": "195_best_practices_for_entering_budget_data.md",
+      "relative_path": "Content/Budget-Forecast/BP-Budget-Data.htm",
+      "character_count": 4064
+    },
+    {
+      "id": 196,
+      "title": "Best Practices for Demand Override",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/BP-Demand-Override.htm",
+      "file": "196_best_practices_for_demand_override.md",
+      "relative_path": "Content/Demand-Wash/BP-Demand-Override.htm",
+      "character_count": 17768
+    },
+    {
+      "id": 197,
+      "title": "Best Practices for Comparing Pace Data",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/BP-Business-Analysis-Pace-Data.htm",
+      "file": "197_best_practices_for_comparing_pace_data.md",
+      "relative_path": "Content/BAD/BP-Business-Analysis-Pace-Data.htm",
+      "character_count": 948
+    },
+    {
+      "id": 198,
+      "title": "Best Practices for Supplements",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/BP-Supplements.htm",
+      "file": "198_best_practices_for_supplements.md",
+      "relative_path": "Content/Pricing/BP-Supplements.htm",
+      "character_count": 3070
+    },
+    {
+      "id": 199,
+      "title": "Best Practices for Reviewing Benefits",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/BP-Reviewing-Benefits.htm",
+      "file": "199_best_practices_for_reviewing_benefits.md",
+      "relative_path": "Content/About/BP-Reviewing-Benefits.htm",
+      "character_count": 1762
+    },
+    {
+      "id": 200,
+      "title": "Best Practices for Setting Up My Forecast",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Budget-Forecast/BP-My-Forecast.htm",
+      "file": "200_best_practices_for_setting_up_my_forecast.md",
+      "relative_path": "Content/Budget-Forecast/BP-My-Forecast.htm",
+      "character_count": 4080
+    },
+    {
+      "id": 201,
+      "title": "Days to Arrival",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-DtA.htm",
+      "file": "201_days_to_arrival.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-DtA.htm",
+      "character_count": 1283
+    },
+    {
+      "id": 202,
+      "title": "Blended Price",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Blended-Price.htm",
+      "file": "202_blended_price.md",
+      "relative_path": "Content/Pricing/Blended-Price.htm",
+      "character_count": 2095
+    },
+    {
+      "id": 203,
+      "title": "Best Practices for Complimentary Upgrades",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/BP-Complimentary-Upgrades.htm",
+      "file": "203_best_practices_for_complimentary_upgrades.md",
+      "relative_path": "Content/Rooms/BP-Complimentary-Upgrades.htm",
+      "character_count": 1367
+    },
+    {
+      "id": 204,
+      "title": "Best Practices for Setting Up Competitors",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/BP-Rate-Shopping-Competitor.htm",
+      "file": "204_best_practices_for_setting_up_competitors.md",
+      "relative_path": "Content/Rate-Shopping/BP-Rate-Shopping-Competitor.htm",
+      "character_count": 5644
+    },
+    {
+      "id": 205,
+      "title": "Market Segments Setup",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Market-Segments/Market-Segments-Simple-Configuration.htm",
+      "file": "205_market_segments_setup.md",
+      "relative_path": "Content/Market-Segments/Market-Segments-Simple-Configuration.htm",
+      "character_count": 6624
+    },
+    {
+      "id": 206,
+      "title": "Best Practices for Overbooking Overrides",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Overbooking/BP-Overbooking-Overrides.htm",
+      "file": "206_best_practices_for_overbooking_overrides.md",
+      "relative_path": "Content/Overbooking/BP-Overbooking-Overrides.htm",
+      "character_count": 8018
+    },
+    {
+      "id": 207,
+      "title": "Understand HowG3 RMSCalculates Overbooking",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Overbooking/Overbooking-Calculation-How.htm",
+      "file": "207_understand_howg3_rmscalculates_overbooking.md",
+      "relative_path": "Content/Overbooking/Overbooking-Calculation-How.htm",
+      "character_count": 1735
+    },
+    {
+      "id": 208,
+      "title": "Out of Order Overrides",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Integrations/Out-of-Order-Overrides.htm",
+      "file": "208_out_of_order_overrides.md",
+      "relative_path": "Content/Integrations/Out-of-Order-Overrides.htm",
+      "character_count": 3113
+    },
+    {
+      "id": 209,
+      "title": "Defaults",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-Default.htm",
+      "file": "209_defaults.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-Default.htm",
+      "character_count": 1048
+    },
+    {
+      "id": 210,
+      "title": "Best Practices forOccupant Grouping",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/BP-Occupant-Value-Grouping.htm",
+      "file": "210_best_practices_foroccupant_grouping.md",
+      "relative_path": "Content/Pricing/BP-Occupant-Value-Grouping.htm",
+      "character_count": 1409
+    },
+    {
+      "id": 211,
+      "title": "Restrictions",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-Restrictions.htm",
+      "file": "211_restrictions.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-Restrictions.htm",
+      "character_count": 2750
+    },
+    {
+      "id": 212,
+      "title": "Best Practices for Setting Up  Room Classes",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/BP-Rooms-Room-Class.htm",
+      "file": "212_best_practices_for_setting_up_room_classes.md",
+      "relative_path": "Content/Rooms/BP-Rooms-Room-Class.htm",
+      "character_count": 12927
+    },
+    {
+      "id": 213,
+      "title": "Data Changes for COVID-19",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/Covid-Data-Changes.htm",
+      "file": "213_data_changes_for_covid_19.md",
+      "relative_path": "Content/About/Covid-Data-Changes.htm",
+      "character_count": 7048
+    },
+    {
+      "id": 214,
+      "title": "Import Market Segment Attributes",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Market-Segments/Market-Segments-Import.htm",
+      "file": "214_import_market_segment_attributes.md",
+      "relative_path": "Content/Market-Segments/Market-Segments-Import.htm",
+      "character_count": 5972
+    },
+    {
+      "id": 215,
+      "title": "Best Practices for Competitive Market Position Constraints",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/BP-Competive-Market-Position-Constraints.htm",
+      "file": "215_best_practices_for_competitive_market_position_constraints.md",
+      "relative_path": "Content/Rate-Shopping/BP-Competive-Market-Position-Constraints.htm",
+      "character_count": 3476
+    },
+    {
+      "id": 216,
+      "title": "Hierarchy",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-Hierarchy.htm",
+      "file": "216_hierarchy.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-Hierarchy.htm",
+      "character_count": 1881
+    },
+    {
+      "id": 217,
+      "title": "On Demand Optimization",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Optimization/On-Demand-Optimization.htm",
+      "file": "217_on_demand_optimization.md",
+      "relative_path": "Content/Optimization/On-Demand-Optimization.htm",
+      "character_count": 1315
+    },
+    {
+      "id": 218,
+      "title": "Best Practices for Setting Up Cost of Walk",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/BP-Rooms-Cost-of-Walk.htm",
+      "file": "218_best_practices_for_setting_up_cost_of_walk.md",
+      "relative_path": "Content/Rooms/BP-Rooms-Cost-of-Walk.htm",
+      "character_count": 3039
+    },
+    {
+      "id": 219,
+      "title": "Welcome toEvolveHelp",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Evolve/indexEvolve.html",
+      "file": "219_welcome_toevolvehelp.md",
+      "relative_path": "Content/Evolve/indexEvolve.html",
+      "character_count": 156
+    },
+    {
+      "id": 220,
+      "title": "Information Manager",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Information-Manager/Information-Manager.htm",
+      "file": "220_information_manager.md",
+      "relative_path": "Content/Information-Manager/Information-Manager.htm",
+      "character_count": 8632
+    },
+    {
+      "id": 221,
+      "title": "Profit Optimization",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Profit/ProfitOptimization.htm",
+      "file": "221_profit_optimization.md",
+      "relative_path": "Content/Profit/ProfitOptimization.htm",
+      "character_count": 12536
+    },
+    {
+      "id": 222,
+      "title": "Best Practices for Overbooking Ceiling Defaults",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Overbooking/BP-Overbooking-Ceiling-Defaults.htm",
+      "file": "222_best_practices_for_overbooking_ceiling_defaults.md",
+      "relative_path": "Content/Overbooking/BP-Overbooking-Ceiling-Defaults.htm",
+      "character_count": 1963
+    },
+    {
+      "id": 223,
+      "title": "Best Practices for Using the Forecast Investigator",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/BP-Investigator-Forecast.htm",
+      "file": "223_best_practices_for_using_the_forecast_investigator.md",
+      "relative_path": "Content/Demand-Wash/BP-Investigator-Forecast.htm",
+      "character_count": 5057
+    },
+    {
+      "id": 224,
+      "title": "Rate Data Advantage",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rate-Shopping/Rate-Data-Advantage.htm",
+      "file": "224_rate_data_advantage.md",
+      "relative_path": "Content/Rate-Shopping/Rate-Data-Advantage.htm",
+      "character_count": 3258
+    },
+    {
+      "id": 225,
+      "title": "Best Practices for Restriction Setup",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Restrictions/BP-Restriction-Configuration.htm",
+      "file": "225_best_practices_for_restriction_setup.md",
+      "relative_path": "Content/Restrictions/BP-Restriction-Configuration.htm",
+      "character_count": 9715
+    },
+    {
+      "id": 226,
+      "title": "Sales and Catering Status Codes",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Status-Codes-Configuration.htm",
+      "file": "226_sales_and_catering_status_codes.md",
+      "relative_path": "Content/Group-Pricing/Status-Codes-Configuration.htm",
+      "character_count": 3298
+    },
+    {
+      "id": 227,
+      "title": "Best Practices for Using Group Occupancy Forecast Overrides",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Wash/BP-Group-Occupancy-Forecast-Overrides.htm",
+      "file": "227_best_practices_for_using_group_occupancy_forecast_overrides.md",
+      "relative_path": "Content/Group-Wash/BP-Group-Occupancy-Forecast-Overrides.htm",
+      "character_count": 3666
+    },
+    {
+      "id": 228,
+      "title": "Best Practices for Offsets",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/BP-Offsets.htm",
+      "file": "228_best_practices_for_offsets.md",
+      "relative_path": "Content/Pricing/BP-Offsets.htm",
+      "character_count": 6385
+    },
+    {
+      "id": 229,
+      "title": "Calculation and Use of Wash",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Demand-Wash/Wash-Use-Calculation.htm",
+      "file": "229_calculation_and_use_of_wash.md",
+      "relative_path": "Content/Demand-Wash/Wash-Use-Calculation.htm",
+      "character_count": 2800
+    },
+    {
+      "id": 230,
+      "title": "Group Floor Configuration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Floor-Configuration.htm",
+      "file": "230_group_floor_configuration.md",
+      "relative_path": "Content/Group-Pricing/Group-Floor-Configuration.htm",
+      "character_count": 1959
+    },
+    {
+      "id": 231,
+      "title": "Seasons",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-Seasons.htm",
+      "file": "231_seasons.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-Seasons.htm",
+      "character_count": 1336
+    },
+    {
+      "id": 232,
+      "title": "Guest Room Types",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Group-Pricing/Group-Pricing-Guest-Room-Type.htm",
+      "file": "232_guest_room_types.md",
+      "relative_path": "Content/Group-Pricing/Group-Pricing-Guest-Room-Type.htm",
+      "character_count": 1401
+    },
+    {
+      "id": 233,
+      "title": "Best Practices for Minimum Price Differential",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/BP-Rooms-Minimum-Price-Differential.htm",
+      "file": "233_best_practices_for_minimum_price_differential.md",
+      "relative_path": "Content/Rooms/BP-Rooms-Minimum-Price-Differential.htm",
+      "character_count": 5202
+    },
+    {
+      "id": 234,
+      "title": "Best Practices for Overbooking",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Overbooking/BP-Overbooking-Management.htm",
+      "file": "234_best_practices_for_overbooking.md",
+      "relative_path": "Content/Overbooking/BP-Overbooking-Management.htm",
+      "character_count": 1314
+    },
+    {
+      "id": 235,
+      "title": "Best Practices for the Business Analysis Dashboard",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/BP-Business-Analysis-Dashboard.htm",
+      "file": "235_best_practices_for_the_business_analysis_dashboard.md",
+      "relative_path": "Content/BAD/BP-Business-Analysis-Dashboard.htm",
+      "character_count": 2573
+    },
+    {
+      "id": 236,
+      "title": "Configuration Manager",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/Configuration-Manager.htm",
+      "file": "236_configuration_manager.md",
+      "relative_path": "Content/About/Configuration-Manager.htm",
+      "character_count": 232
+    },
+    {
+      "id": 237,
+      "title": "Recoding Market Segments",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Market-Segments/Market-Segment-Recoding.htm",
+      "file": "237_recoding_market_segments.md",
+      "relative_path": "Content/Market-Segments/Market-Segment-Recoding.htm",
+      "character_count": 10609
+    },
+    {
+      "id": 238,
+      "title": "Best Practices for Managing LRV",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Restrictions/BP-Managing-LRV.htm",
+      "file": "238_best_practices_for_managing_lrv.md",
+      "relative_path": "Content/Restrictions/BP-Managing-LRV.htm",
+      "character_count": 7171
+    },
+    {
+      "id": 239,
+      "title": "Multiday Out of Order Overrides",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Integrations/Multiday-Out-of-Order-Overrides.htm",
+      "file": "239_multiday_out_of_order_overrides.md",
+      "relative_path": "Content/Integrations/Multiday-Out-of-Order-Overrides.htm",
+      "character_count": 1076
+    },
+    {
+      "id": 240,
+      "title": "Welcome toG3 RMSHelp",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/index.html",
+      "file": "240_welcome_tog3_rmshelp.md",
+      "relative_path": "Content/index.html",
+      "character_count": 344
+    },
+    {
+      "id": 241,
+      "title": "Product Floor",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/Product-Floor.htm",
+      "file": "241_product_floor.md",
+      "relative_path": "Content/Pricing/Product-Floor.htm",
+      "character_count": 3634
+    },
+    {
+      "id": 242,
+      "title": "Best Practices for Managing Special Events",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Special-Events/BP-Managing-Special-Events.htm",
+      "file": "242_best_practices_for_managing_special_events.md",
+      "relative_path": "Content/Special-Events/BP-Managing-Special-Events.htm",
+      "character_count": 12639
+    },
+    {
+      "id": 243,
+      "title": "Benefit Measurement",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/About/Benefits-Measurement.htm",
+      "file": "243_benefit_measurement.md",
+      "relative_path": "Content/About/Benefits-Measurement.htm",
+      "character_count": 1634
+    },
+    {
+      "id": 244,
+      "title": "Advanced Price Ranking and Upgrade",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/Rooms-Price-Ranking-Advanced.htm",
+      "file": "244_advanced_price_ranking_and_upgrade.md",
+      "relative_path": "Content/Rooms/Rooms-Price-Ranking-Advanced.htm",
+      "character_count": 3725
+    },
+    {
+      "id": 245,
+      "title": "Multi-Product  Seasons",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/Linked-Products-Seasons-Bulk.htm",
+      "file": "245_multi_product_seasons.md",
+      "relative_path": "Content/Linked-Products/Linked-Products-Seasons-Bulk.htm",
+      "character_count": 5856
+    },
+    {
+      "id": 246,
+      "title": "Best Practices for Investigating Data Discrepancies",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/BAD/BP-Investigating-Data-Discrepancies.htm",
+      "file": "246_best_practices_for_investigating_data_discrepancies.md",
+      "relative_path": "Content/BAD/BP-Investigating-Data-Discrepancies.htm",
+      "character_count": 1139
+    },
+    {
+      "id": 247,
+      "title": "Best Practices for Hierarchy Setup",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Linked-Products/BP-Linked-Products-Hierarchy.htm",
+      "file": "247_best_practices_for_hierarchy_setup.md",
+      "relative_path": "Content/Linked-Products/BP-Linked-Products-Hierarchy.htm",
+      "character_count": 1632
+    },
+    {
+      "id": 248,
+      "title": "System Health",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Information-Manager/System-Health.htm",
+      "file": "248_system_health.md",
+      "relative_path": "Content/Information-Manager/System-Health.htm",
+      "character_count": 2111
+    },
+    {
+      "id": 249,
+      "title": "Best Practices for Price Ranking and Upgrade Path",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Rooms/BP-Rooms-Price-Ranking-Upgrade-Path.htm",
+      "file": "249_best_practices_for_price_ranking_and_upgrade_path.md",
+      "relative_path": "Content/Rooms/BP-Rooms-Price-Ranking-Upgrade-Path.htm",
+      "character_count": 9527
+    },
+    {
+      "id": 250,
+      "title": "Howthe RMSDetermines Pricing",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Pricing/BAR-Calculation.htm",
+      "file": "250_howthe_rmsdetermines_pricing.md",
+      "relative_path": "Content/Pricing/BAR-Calculation.htm",
+      "character_count": 6072
+    },
+    {
+      "id": 251,
+      "title": "Best Practices for Mass Restriction Setup",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/Content/Restrictions/BP-Restriction-Configuration-Mass.htm",
+      "file": "251_best_practices_for_mass_restriction_setup.md",
+      "relative_path": "Content/Restrictions/BP-Restriction-Configuration-Mass.htm",
+      "character_count": 4481
+    },
+    {
+      "id": 252,
+      "title": "Quick Access",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/QuickAccess/calibration.htm",
+      "file": "252_quick_access.md",
+      "relative_path": "MicroContent/Resources/MicroContent/QuickAccess/calibration.htm",
+      "character_count": 130
+    },
+    {
+      "id": 253,
+      "title": "Masking",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Masking/masking.htm",
+      "file": "253_masking.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Masking/masking.htm",
+      "character_count": 210
+    },
+    {
+      "id": 254,
+      "title": "Demand",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Demand/demand.htm",
+      "file": "254_demand.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Demand/demand.htm",
+      "character_count": 1069
+    },
+    {
+      "id": 255,
+      "title": "Linked Product",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Linked Products/linked-product.htm",
+      "file": "255_linked_product.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Linked Products/linked-product.htm",
+      "character_count": 443
+    },
+    {
+      "id": 256,
+      "title": "Price Sensitivity",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/PriceSensitivity/price-sensitivity.htm",
+      "file": "256_price_sensitivity.md",
+      "relative_path": "MicroContent/Resources/MicroContent/PriceSensitivity/price-sensitivity.htm",
+      "character_count": 644
+    },
+    {
+      "id": 258,
+      "title": "Discover",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/UAD_Discover/what-is-micro-content.htm",
+      "file": "258_discover.md",
+      "relative_path": "MicroContent/Resources/MicroContent/UAD_Discover/what-is-micro-content.htm",
+      "character_count": 182
+    },
+    {
+      "id": 259,
+      "title": "Extended Stay",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Extended Stay/linked-product.htm",
+      "file": "259_extended_stay.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Extended Stay/linked-product.htm",
+      "character_count": 746
+    },
+    {
+      "id": 260,
+      "title": "Password",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Password/password.htm",
+      "file": "260_password.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Password/password.htm",
+      "character_count": 119
+    },
+    {
+      "id": 261,
+      "title": "Pricing",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Pricing/pricing.htm",
+      "file": "261_pricing.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Pricing/pricing.htm",
+      "character_count": 726
+    },
+    {
+      "id": 262,
+      "title": "Managing Permissions",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/UAD_Permissions/what-is-micro-content.htm",
+      "file": "262_managing_permissions.md",
+      "relative_path": "MicroContent/Resources/MicroContent/UAD_Permissions/what-is-micro-content.htm",
+      "character_count": 287
+    },
+    {
+      "id": 263,
+      "title": "data extract",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Data Extract/data-extract.htm",
+      "file": "263_data_extract.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Data Extract/data-extract.htm",
+      "character_count": 1600
+    },
+    {
+      "id": 264,
+      "title": "Market Segment",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Market Segments/market-segment.htm",
+      "file": "264_market_segment.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Market Segments/market-segment.htm",
+      "character_count": 546
+    },
+    {
+      "id": 265,
+      "title": "revplan",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Optix/revplan.htm",
+      "file": "265_revplan.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Optix/revplan.htm",
+      "character_count": 85
+    },
+    {
+      "id": 266,
+      "title": "Rate Shopping",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Rate Shopping/rate-shopping.htm",
+      "file": "266_rate_shopping.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Rate Shopping/rate-shopping.htm",
+      "character_count": 1023
+    },
+    {
+      "id": 267,
+      "title": "Group Pricing",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/GroupPricing/what-is-micro-content.htm",
+      "file": "267_group_pricing.md",
+      "relative_path": "MicroContent/Resources/MicroContent/GroupPricing/what-is-micro-content.htm",
+      "character_count": 1142
+    },
+    {
+      "id": 268,
+      "title": "Calibration",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Calibration/calibration.htm",
+      "file": "268_calibration.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Calibration/calibration.htm",
+      "character_count": 176
+    },
+    {
+      "id": 269,
+      "title": "Overbooking",
+      "breadcrumb": "",
+      "url": "https://help.ideasrms.com/g3rms_cp/MicroContent/Resources/MicroContent/Overbooking/overbooking.htm",
+      "file": "269_overbooking.md",
+      "relative_path": "MicroContent/Resources/MicroContent/Overbooking/overbooking.htm",
+      "character_count": 1128
+    }
+  ]
+}

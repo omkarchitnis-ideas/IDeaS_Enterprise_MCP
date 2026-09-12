@@ -1,0 +1,48 @@
+# Best Practices for Managing Restricted Inventory
+
+- **Source URL:** `https://help.ideasrms.com/g3rms_cp/Content/Rooms/BP-Restricted-Inventory.htm`
+- **Breadcrumb:** `Home`
+- **Topic Path:** `Content/Rooms/BP-Restricted-Inventory.htm`
+- **Ingestion Date:** `2026-09-11 22:14:18`
+
+---
+
+# Best Practices for Managing Restricted Inventory
+
+Review these best practices andscenariosfor how to manage restricted inventory. Restricted inventory means that an out of order block covers more than 20% of your total inventory and lasts more than seven consecutive days.
+
+## Best Practices
+
+We recommend that you follow these steps:
+- If the out of order period results in changes to your inventory (new or discontinued room types or Room Classes or a shift in their capacity), note the details of the changes.You'll need to provide this information to IDeaS.
+- As soon as you know the dates, remove the inventory from sale within thereservation systemthat provides data tothe RMS. To achieve that, use out of order or a similar control that reduces theEffective CapacityThe property's physical capacity minus the out of order rooms.inthe RMS. Based on the capacity reduction,the RMSrevises the forecast and decisions for the impacted dates in the next optimization.
+- When you first enter the out of order block, it will likely trigger aCostly Out-of-Order (OOO) Rooms Exceptionthat you need to resolve.
+- Decide if you need to enter a Special Event for the impacted period. Seethe scenariosbelow.
+- Until the out of order period is past, perform regularforecast and decision reviewsfor the impacted period. If necessary, apply overrides to ensure that  the system knows what you know. If the out of order status doesn't remove the rooms from sale in your selling systems, apply additional controls in those systems.
+- If your property is 100% closed, continue to run night audits in yourreservation system. Without running night audits (or rolling the business date),the RMSdoesn't receive daily data and might not be able to optimize or update decisions.If you can't run night audits, inform IDeaS and we stop the daily emails warning thatthe RMSisn't processing.Note that if you don't run night audits, you will not see pace data or Same Time Last Year (STLY) data in reports and dashboards for the impacted period.If the closure is longer than 44 days, check a Comp or House reservations into a physical room for the full duration. With a daily record during the closure,the RMShas fewer issues at re-opening.
+- If you make changes to room types or Room Classes, review the considerations and complete the additional steps in theRoom Classsetup. Then complete the remaining Rooms Configuration tabs.
+- Is your out of order period due to a renovation and, as a result, you want to increase pricing? If so, considerhowthe RMSforecasts demand. It uses history to understand the value of demand, so the forecasted ADR may not immediately be as high as you expect it. As a temporary fix, you may need to use pricing overrides or a Competitive Market Position Constraint. Contact your IDeaS representative for questions.
+- Once the period is in the past,the RMScreates anOut of Order Rooms Present in Hotel Data Alert. Resolve it using the appropriate reason, see the followingscenarios.
+- Continue to review forecasts and decisions to ensure thatthe RMShas correctly reacted to the impact of the out of order block.Three to four weeks after the end of the out of order period, the IDeaS support team will do a final investigation, share their observations with you, and close the case.
+
+## Scenarios
+
+The following are three scenarios with restricted periods and our recommended actions for Special Events and the Alert,Out of Order Rooms Present in Hotel Data:
+For example, you close every year during a season with very low demand. The patterns and the extend of the closure repeat. It's either all days of the week or, if you only close for some days of the week, it is always the same days of the week.
+You wantthe RMSto expect no demand for all affected days of the closure. And you want the system to expect the same for the next closure.
+- Don't enter a Special Event for past and future closure periods. Based on the below OOO Alert action,the RMScan learn the seasonality of this closure to forecast future closures similarly.
+- For the OOO Alert, selectA) Use the data to forecast - Seasonal Out of Order rooms.
+The closure  can be due to a renovation or an extreme demand disruption. You don't want the system to use any data of the closure to forecast future demand.
+- 100% of the inventory is closed. You wantthe RMSto expect no demand for all impacted days of the closure.You don't need to enter a Special Event. Enter an Information Only event if you want to track it.For the OOO Alert selectC) Don't use the data to forecast - Out of Order rooms constrain the performance.
+- You don't need to enter a Special Event. Enter an Information Only event if you want to track it.
+- For the OOO Alert selectC) Don't use the data to forecast - Out of Order rooms constrain the performance.
+- Only parts of your inventory are closed. You wantthe RMSto forecast future days of the closure based on the past days of the closure.Enter a Special Event if you wantthe RMSto copy the demand of past days of the Special Event to the future days of the same instance.After the Special Event ends, resolve the OOO Alert usingC) Don't use the data to forecast - Out of Order rooms constrain the performance. If you select the option before the Special Event ends,the RMScan't use the data to forecast the remainder of the restricted period. If you don't get this Alert, contactSupportto ensure that the period is excluded.
+- Enter a Special Event if you wantthe RMSto copy the demand of past days of the Special Event to the future days of the same instance.
+- After the Special Event ends, resolve the OOO Alert usingC) Don't use the data to forecast - Out of Order rooms constrain the performance. If you select the option before the Special Event ends,the RMScan't use the data to forecast the remainder of the restricted period. If you don't get this Alert, contactSupportto ensure that the period is excluded.
+You are open on some days of the week and closed on others. The closure can be due to a renovation or an extreme demand disruption.
+- You wantthe RMSto forecast future days of the closure based on the past days of the closure. You don't want the system to use any data of the closure to forecast future demand.Enter a Special Event for the period.The RMScopies the demand from past days of the Special Event to future days. If you want to take closer control because you think you know what demand to expect, enter multiple instances. For example, four weeks have passed and you expect that the last week, week 4, better represents the demand for the remaining period than the first three weeks. In that case, create one instance for the weeks one to three, one for week four, and one for the remaining weeks.The RMSforecasts the next weeks based on the average of the transient demand of all past instances.Note: The more you change the instances of the Special Event, the more forecasts might change.After the Special Event ends, resolve the OOO Alert usingC) Don't use the data to forecast - Out of Order rooms constrain the performance. If you select the option before the Special Event ends,the RMScan't use the data to forecast the remainder of the restricted period. If you don't get this Alert, contactSupportto ensure that the period is excluded.
+- Enter a Special Event for the period.The RMScopies the demand from past days of the Special Event to future days. If you want to take closer control because you think you know what demand to expect, enter multiple instances. For example, four weeks have passed and you expect that the last week, week 4, better represents the demand for the remaining period than the first three weeks. In that case, create one instance for the weeks one to three, one for week four, and one for the remaining weeks.The RMSforecasts the next weeks based on the average of the transient demand of all past instances.Note: The more you change the instances of the Special Event, the more forecasts might change.
+- After the Special Event ends, resolve the OOO Alert usingC) Don't use the data to forecast - Out of Order rooms constrain the performance. If you select the option before the Special Event ends,the RMScan't use the data to forecast the remainder of the restricted period. If you don't get this Alert, contactSupportto ensure that the period is excluded.
+- You wantthe RMSto forecast and learn "normally". Forecast demand for the open days of the closure based on past days (of the same day of the week).Don't enter a Special Event for the open days. For closed days of the week you can enter a Special Event, but you don't need to.The RMSshould set the appropriate controls, as long as rooms are Out of Order.In the OOO Alert for the closed dates selectC) Don't use the data to forecast - Out of Order rooms constrain the performance.  If you don't get this Alert, contactSupportto ensure that the period is excluded.
+- Don't enter a Special Event for the open days. For closed days of the week you can enter a Special Event, but you don't need to.The RMSshould set the appropriate controls, as long as rooms are Out of Order.
+- In the OOO Alert for the closed dates selectC) Don't use the data to forecast - Out of Order rooms constrain the performance.  If you don't get this Alert, contactSupportto ensure that the period is excluded.

@@ -1,0 +1,36 @@
+# ==============================================================================
+# Optix Data Warehouse MCP Server Container
+# ==============================================================================
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies (curl for healthcheck, build tools for pymssql)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install python dependencies for Optix MCP
+RUN pip install --no-cache-dir \
+    pymssql>=2.3.0 \
+    fastapi>=0.110.0 \
+    uvicorn>=0.30.0 \
+    pydantic>=2.7.0 \
+    python-dotenv>=1.0.1 \
+    requests>=2.32.0 \
+    starlette>=0.37.0
+
+# Copy application server
+COPY optix_mcp_server.py /app/optix_mcp_server.py
+
+# Expose MCP HTTP SSE Port
+EXPOSE 8557
+
+# Container Healthcheck Probe
+HEALTHCHECK --interval=15s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:8557/health || exit 1
+
+# Start Optix MCP Server
+CMD ["python", "optix_mcp_server.py", "--host", "0.0.0.0", "--port", "8557"]

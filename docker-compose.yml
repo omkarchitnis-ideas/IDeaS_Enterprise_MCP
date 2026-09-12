@@ -1,0 +1,56 @@
+# =================================================================
+# SAS IDeaS Master Enterprise Unified Super-MCP Server (Port 8550)
+# Dedicated Top-Level Orchestration for Docker Desktop
+# =================================================================
+name: ideas-enterprise-mcp
+
+services:
+  enterprise-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: unified-mcp:latest
+    container_name: ideas-enterprise-mcp
+    ports:
+      - "8550:8550"
+    env_file:
+      - .env
+    environment:
+      - UNIFIED_MCP_PORT=8550
+      - SFDC_MIDDLEWARE_URL=${SFDC_MIDDLEWARE_URL:-http://172.27.210.162:4000}
+      - SFDC_API_KEY=${SFDC_API_KEY:-admin_9a34d764efac11e4abfed0e9ccad61ae}
+      - CMA_GATEWAY_URL=${CMA_GATEWAY_URL:-http://172.27.210.162:8555}
+      - CMA_API_KEY=${CMA_API_KEY:-cma_6Z2AkhS4ux70JGlTa4mzGeWVVhaQRGWu}
+      - OPTIX_DB_USERNAME=${OPTIX_DB_USERNAME:-optixro}
+      - OPTIX_DB_PASSWORD=${OPTIX_DB_PASSWORD:-ThisIsMy1andOnlyReadOnlyPasswordForProd}
+      - CONFLUENCE_URL=${CONFLUENCE_URL:-https://ideasinc.atlassian.net/wiki}
+      - CONFLUENCE_USERNAME=${CONFLUENCE_USERNAME:-omkar.chitnis@ideas.com}
+      - CONFLUENCE_API_TOKEN=${CONFLUENCE_API_TOKEN:-}
+      - QDRANT_URL=${QDRANT_URL:-http://172.27.210.162:6333}
+      - DATADOG_API_KEY=${DATADOG_API_KEY:-f365101df48d434c90867dcfc55cbe74}
+      - DATADOG_APP_KEY=${DATADOG_APP_KEY:-68af7ed081b3b7be01905bc0d17d6f07c275f6f5}
+      - DATADOG_SITE=${DATADOG_SITE:-datadoghq.com}
+      - FDS_BASE_URL=${FDS_BASE_URL:-https://fds.ideasrms.com}
+      - CEDF_BASE_URL=${CEDF_BASE_URL:-https://cedf.ideasrms.com}
+    extra_hosts:
+      - "optix-db-01.optix-db.ideasrms.com:10.246.15.226"
+      - "optix-db-02.optix-db.ideasrms.com:10.246.13.38"
+      - "optix-db-03.optix-db.ideasrms.com:10.246.8.150"
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./unified_mcp_server.py:/app/unified_mcp_server.py:ro
+      - ./sfdc_mcp_server.py:/app/sfdc_mcp_server.py:ro
+      - ./cma_mcp_server.py:/app/cma_mcp_server.py:ro
+      - ./optix_mcp_server.py:/app/optix_mcp_server.py:ro
+      - ./confluence_mcp_server.py:/app/confluence_mcp_server.py:ro
+      - ./datadog_mcp_server.py:/app/datadog_mcp_server.py:ro
+      - ./ups_mcp_server.py:/app/ups_mcp_server.py:ro
+      - ./chains_cache.json:/app/chains_cache.json:ro
+      - ./data/g3_help_docs:/app/data/g3_help_docs:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8550/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: always
