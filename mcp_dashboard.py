@@ -142,6 +142,8 @@ def render_dashboard(data: Dict[str, Any], new_key: str = None) -> str:
         toggle_label = "Revoke" if is_act else "Activate"
         toggle_class = "text-rose-400 hover:text-rose-300 hover:bg-rose-500/10" if is_act else "text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10"
         masked_val = k["key_value"][:12] + "••••••••" + k["key_value"][-4:]
+        last_used = k.get("last_used_at")
+        last_used_display = (last_used[:19].replace("T", " ")) if last_used else "Never"
 
         key_rows += f"""
         <tr class="border-b border-slate-800/60 hover:bg-slate-800/20 transition">
@@ -159,7 +161,7 @@ def render_dashboard(data: Dict[str, Any], new_key: str = None) -> str:
             </td>
             <td class="py-3.5 px-4 text-xs font-mono text-slate-400">{k.get("rate_limit_rpm", 120)} / min</td>
             <td class="py-3.5 px-4 text-xs font-semibold text-slate-300">{k.get("total_calls", 0):,}</td>
-            <td class="py-3.5 px-4 text-xs text-slate-400">{k.get("last_used_at", "Never")[:19].replace("T", " ")}</td>
+            <td class="py-3.5 px-4 text-xs text-slate-400">{last_used_display}</td>
             <td class="py-3.5 px-4">{status_badge}</td>
             <td class="py-3.5 px-4 text-right">
                 <form method="POST" action="/admin/keys/toggle" class="inline mr-2">
@@ -186,10 +188,12 @@ def render_dashboard(data: Dict[str, Any], new_key: str = None) -> str:
         tool_name = log.get("tool_name") or log.get("endpoint", "")
         domain = log.get("domain") or "-"
         domain_badge = f'<span class="px-2 py-0.5 text-xs font-medium rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">{domain.upper()}</span>' if domain != "-" else '<span class="text-slate-500">-</span>'
+        ts = log.get("timestamp")
+        ts_display = (ts[:19].replace("T", " ")) if ts else "-"
 
         log_rows += f"""
         <tr class="border-b border-slate-800/40 hover:bg-slate-800/10 transition text-xs">
-            <td class="py-2.5 px-4 font-mono text-slate-400">{log["timestamp"][:19].replace("T", " ")}</td>
+            <td class="py-2.5 px-4 font-mono text-slate-400">{ts_display}</td>
             <td class="py-2.5 px-4 font-medium text-slate-200">{log["client_name"]}</td>
             <td class="py-2.5 px-4">{domain_badge}</td>
             <td class="py-2.5 px-4 font-mono text-slate-300">{tool_name}</td>
