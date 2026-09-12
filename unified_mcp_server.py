@@ -467,9 +467,10 @@ def create_fastapi_app():
 
         async def event_generator():
             try:
-                endpoint_url = f"/messages?sessionId={session_id}"
+                prefix = request.headers.get("x-forwarded-prefix", "").rstrip("/")
+                endpoint_url = f"{prefix}/messages?sessionId={session_id}"
                 yield f"event: endpoint\ndata: {endpoint_url}\n\n"
-                logger.info("SSE client connected: session=%s", session_id)
+                logger.info("SSE client connected: session=%s (prefix=%s)", session_id, prefix)
 
                 while True:
                     if await request.is_disconnected():
