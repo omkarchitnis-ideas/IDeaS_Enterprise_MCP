@@ -114,9 +114,9 @@ def init_db():
                     "Microsoft_Copilot_Studio_Prod",
                     "Primary Production Key for M365 Copilot Studio Agent",
                     now_str,
-                    300
+                    0
                 ))
-                logger.info("Seeded default production API key: %s (Client: Microsoft_Copilot_Studio_Prod)", DEFAULT_MASTER_KEY)
+                logger.info("Seeded default production API key: %s (Client: Microsoft_Copilot_Studio_Prod, Rate Limit: Unlimited)", DEFAULT_MASTER_KEY)
 
     finally:
         conn.close()
@@ -126,6 +126,7 @@ def verify_api_key(raw_key: str, client_ip: str = "127.0.0.1") -> Tuple[bool, Op
     """
     Validates the provided API key against the database, checks active status,
     updates last-used telemetry, and enforces sliding-window rate limiting.
+    A rate limit of 0 or negative represents Unlimited requests.
     """
     if not raw_key:
         return False, "Missing API Key. Provide via 'x-api-key' header, 'Authorization: Bearer <key>', or '?apiKey=<key>'", None
@@ -143,16 +144,18 @@ def verify_api_key(raw_key: str, client_ip: str = "127.0.0.1") -> Tuple[bool, Op
             return False, "API Key has been revoked or deactivated by an administrator.", key_data
 
         # Rate limiting (sliding 60-second window)
-        rpm_limit = key_data.get("rate_limit_rpm") or 120
-        now = time.monotonic()
-        bucket = _RATE_LIMIT_BUCKETS.setdefault(clean_key, [])
-        # Expire timestamps older than 60 seconds
-        _RATE_LIMIT_BUCKETS[clean_key] = [t for t in bucket if now - t < 60.0]
+        # 0 or negative = Unlimited
+        rpm_limit = key_data.get("rate_limit_rpm")
+        if rpm_limit is not None and rpm_limit > 0:
+            now = time.monotonic()
+            bucket = _RATE_LIMIT_BUCKETS.setdefault(clean_key, [])
+            # Expire timestamps older than 60 seconds
+            _RATE_LIMIT_BUCKETS[clean_key] = [t for t in bucket if now - t < 60.0]
 
-        if len(_RATE_LIMIT_BUCKETS[clean_key]) >= rpm_limit:
-            return False, f"Rate limit exceeded for client '{key_data['client_name']}' (Limit: {rpm_limit} req/min).", key_data
+            if len(_RATE_LIMIT_BUCKETS[clean_key]) >= rpm_limit:
+                return False, f"Rate limit exceeded for client '{key_data['client_name']}' (Limit: {rpm_limit} req/min).", key_data
 
-        _RATE_LIMIT_BUCKETS[clean_key].append(now)
+            _RATE_LIMIT_BUCKETS[clean_key].append(now)
 
         # Update last used timestamp and call count
         now_iso = datetime.now(timezone.utc).isoformat()
@@ -229,8 +232,8 @@ def toggle_domain(domain_name: str) -> bool:
         conn.close()
 
 
-def create_api_key(client_name: str, description: str = "", rate_limit_rpm: int = 120) -> str:
-    """Generates and registers a new cryptographically secure API key."""
+def create_api_key(client_name: str, description: str = "", rate_limit_rpm: int = 0) -> str:
+    """Generates and registers a new cryptographically secure API key (0 = Unlimited)."""
     token = secrets.token_urlsafe(24)
     key = f"mcp_{token}"
     now_iso = datetime.now(timezone.utc).isoformat()
@@ -242,6 +245,17 @@ def create_api_key(client_name: str, description: str = "", rate_limit_rpm: int 
                 VALUES (?, ?, ?, ?, ?, 1)
             """, (key, client_name.strip(), description.strip(), now_iso, rate_limit_rpm))
         return key
+    finally:
+        conn.close()
+
+
+def update_api_key_limit(key_id: int, rate_limit_rpm: int) -> bool:
+    """Updates rate limit for a key (0 = Unlimited)."""
+    conn = get_db_connection()
+    try:
+        with conn:
+            conn.execute("UPDATE api_keys SET rate_limit_rpm = ? WHERE id = ?", (rate_limit_rpm, key_id))
+            return True
     finally:
         conn.close()
 

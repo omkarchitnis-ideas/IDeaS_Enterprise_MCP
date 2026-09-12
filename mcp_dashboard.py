@@ -144,6 +144,9 @@ def render_dashboard(data: Dict[str, Any], new_key: str = None) -> str:
         masked_val = k["key_value"][:12] + "••••••••" + k["key_value"][-4:]
         last_used = k.get("last_used_at")
         last_used_display = (last_used[:19].replace("T", " ")) if last_used else "Never"
+        rpm = k.get("rate_limit_rpm", 0)
+        rpm_badge = '<span class="px-2 py-0.5 text-xs font-semibold rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Unlimited (∞)</span>' if (rpm is None or rpm <= 0) else f'<span class="font-mono text-xs text-slate-300">{rpm} / min</span>'
+        rpm_val = 0 if (rpm is None or rpm <= 0) else rpm
 
         key_rows += f"""
         <tr class="border-b border-slate-800/60 hover:bg-slate-800/20 transition">
@@ -159,7 +162,19 @@ def render_dashboard(data: Dict[str, Any], new_key: str = None) -> str:
                     </button>
                 </div>
             </td>
-            <td class="py-3.5 px-4 text-xs font-mono text-slate-400">{k.get("rate_limit_rpm", 120)} / min</td>
+            <td class="py-3.5 px-4">
+                <div class="flex items-center gap-2">
+                    {rpm_badge}
+                    <form method="POST" action="/admin/keys/update-limit" class="inline flex items-center gap-1">
+                        <input type="hidden" name="key_id" value="{k['id']}">
+                        <input type="number" name="rate_limit_rpm" value="{rpm_val}" min="0" max="10000" title="Set to 0 for Unlimited"
+                            class="w-16 px-1.5 py-0.5 text-xs bg-slate-950/80 border border-slate-700 rounded text-white text-center focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <button type="submit" class="text-[10px] uppercase font-bold text-indigo-400 hover:text-indigo-300 px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 transition" title="Save Limit (0 = Unlimited)">
+                            Set
+                        </button>
+                    </form>
+                </div>
+            </td>
             <td class="py-3.5 px-4 text-xs font-semibold text-slate-300">{k.get("total_calls", 0):,}</td>
             <td class="py-3.5 px-4 text-xs text-slate-400">{last_used_display}</td>
             <td class="py-3.5 px-4">{status_badge}</td>
@@ -328,8 +343,8 @@ def render_dashboard(data: Dict[str, Any], new_key: str = None) -> str:
                             class="w-full px-3.5 py-2 rounded-lg bg-slate-950/80 border border-slate-800 text-white placeholder-slate-600 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Rate Limit (Requests / Min)</label>
-                        <input type="number" name="rate_limit_rpm" value="120" min="10" max="1000"
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Rate Limit (Requests / Min, 0 = Unlimited)</label>
+                        <input type="number" name="rate_limit_rpm" value="0" min="0" max="10000"
                             class="w-full px-3.5 py-2 rounded-lg bg-slate-950/80 border border-slate-800 text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                     </div>
                     <button type="submit"

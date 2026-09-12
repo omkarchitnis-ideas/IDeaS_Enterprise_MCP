@@ -58,6 +58,7 @@ from mcp_auth_manager import (
     create_api_key,
     toggle_api_key,
     delete_api_key,
+    update_api_key_limit,
     get_dashboard_metrics,
     ADMIN_USERNAME,
     ADMIN_PASSWORD,
@@ -849,6 +850,25 @@ def create_fastapi_app():
             delete_api_key(key_id)
         except Exception as exc:
             logger.error("Error deleting API key: %s", exc)
+
+        return RedirectResponse(url=admin_url, status_code=303)
+
+    @app.post("/admin/keys/update-limit")
+    async def admin_update_key_limit(request: Request):
+        prefix = request.headers.get("x-forwarded-prefix", "").rstrip("/")
+        admin_url = f"{prefix}/admin" if prefix else "/admin"
+        login_url = f"{prefix}/admin/login" if prefix else "/admin/login"
+
+        if not check_admin_auth(request):
+            return RedirectResponse(url=login_url, status_code=303)
+
+        form = await parse_form_body(request)
+        try:
+            key_id = int(form.get("key_id", 0))
+            rpm = int(form.get("rate_limit_rpm", 0))
+            update_api_key_limit(key_id, rpm)
+        except Exception as exc:
+            logger.error("Error updating key rate limit: %s", exc)
 
         return RedirectResponse(url=admin_url, status_code=303)
 
