@@ -580,6 +580,9 @@ def create_fastapi_app():
 
     @app.get("/")
     async def root_info(request: Request):
+        accept = request.headers.get("accept", "")
+        if "text/event-stream" in accept:
+            return await sse_endpoint(request)
         prefix = request.headers.get("x-forwarded-prefix", "").rstrip("/")
         return {
             "status": "UP",
@@ -594,6 +597,7 @@ def create_fastapi_app():
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
+    @app.head("/")
     @app.head("/sse")
     async def sse_head():
         return Response(status_code=200, headers={"Content-Type": "text/event-stream"})
@@ -652,8 +656,13 @@ def create_fastapi_app():
 
         async def event_generator():
             try:
+                proto = request.headers.get("x-forwarded-proto", "https")
+                host = request.headers.get("x-forwarded-host", request.headers.get("host", ""))
                 prefix = request.headers.get("x-forwarded-prefix", "").rstrip("/")
-                endpoint_url = f"{prefix}/messages?sessionId={session_id}"
+                if host:
+                    endpoint_url = f"{proto}://{host}{prefix}/messages?sessionId={session_id}"
+                else:
+                    endpoint_url = f"{prefix}/messages?sessionId={session_id}"
                 yield f"event: endpoint\ndata: {endpoint_url}\n\n"
                 logger.info("SSE client connected: session=%s (client=%s, prefix=%s)", session_id, client_name, prefix)
 
