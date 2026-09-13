@@ -1674,13 +1674,27 @@ def execute_tool(name: str, arguments: Dict[str, Any]) -> Any:
     elif name == "kb_search_operations_guide":
         query = arguments["query"].lower().strip()
         sec = arguments.get("section", "ALL").upper()
-        kb_docs = ["ZERO_DB_OPERATIONS_PLAYBOOK.md", "IDeaS_Triage_Knowledge_Base.md", "IDeaS_Error_Codes_And_Glossary.md"]
+        kb_docs = [
+            "ZERO_DB_OPERATIONS_PLAYBOOK.md",
+            "IDeaS_Triage_Knowledge_Base.md",
+            "IDeaS_Error_Codes_And_Glossary.md",
+            "TENANT_DB_TABLES_CATALOG.md",
+            "GLOBAL_DB_TABLES_CATALOG.md",
+            "JOB_DB_TABLES_CATALOG.md",
+        ]
         matches = []
         for dname in kb_docs:
-            dpath = os.path.join(SCRIPT_DIR, "knowledge_docs", dname)
-            if not os.path.exists(dpath):
-                dpath = os.path.join(SCRIPT_DIR, dname)
-            if os.path.exists(dpath):
+            dpath = None
+            for cand in [
+                os.path.join(SCRIPT_DIR, "data", "knowledge_docs", dname),
+                os.path.join(SCRIPT_DIR, "knowledge_docs", dname),
+                os.path.join(SCRIPT_DIR, "data", dname),
+                os.path.join(SCRIPT_DIR, dname),
+            ]:
+                if os.path.exists(cand):
+                    dpath = cand
+                    break
+            if dpath:
                 try:
                     with open(dpath, "r", encoding="utf-8", errors="ignore") as fp:
                         content = fp.read()
