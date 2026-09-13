@@ -36,6 +36,9 @@ COPY confluence_mcp_server.py /app/confluence_mcp_server.py
 COPY datadog_mcp_server.py /app/datadog_mcp_server.py
 COPY ups_mcp_server.py /app/ups_mcp_server.py
 COPY unified_mcp_server.py /app/unified_mcp_server.py
+COPY mcp_auth_manager.py /app/mcp_auth_manager.py
+COPY mcp_dashboard.py /app/mcp_dashboard.py
+COPY composite_triage_tools.py /app/composite_triage_tools.py
 COPY chains_cache.json /app/chains_cache.json
 COPY data/g3_help_docs /app/data/g3_help_docs
 

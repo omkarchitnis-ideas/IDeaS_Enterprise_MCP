@@ -1,0 +1,1268 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SAS IDeaS - UPS & FDS Platform (M365 Copilot Action)",
+    "description": "Dedicated Microsoft 365 Copilot Action Connector for UPS & FDS Platform.",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Comprehensive multi-domain health telemetry probe.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/call": {
+      "post": {
+        "tags": [
+          "Enterprise MCP Dispatcher"
+        ],
+        "summary": "Call Tool Universal",
+        "description": "Universal endpoint to invoke any of the 168 canonical tools dynamically.",
+        "operationId": "call_tool_universal_api_v1_tools_call_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UniversalToolCallRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_auth_status": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Auth Status",
+        "description": "Returns the active status of the FDS M2M OAuth2 token, including TTL in seconds, renewals count, and endpoint connectivity.",
+        "operationId": "ups_get_auth_status",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_auth_status",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_refresh_token": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Refresh Token",
+        "description": "Forces an immediate refresh of the FDS M2M OAuth2 Bearer token from the UIS OAuth2 service.",
+        "operationId": "ups_refresh_token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_refresh_token",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_property_by_id": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Property By Id",
+        "description": "Retrieves comprehensive property details from UPS by unifiedId (name, chains, address, coordinates, hotelCapacity, salesforceAccountId, appConfig, vendorMappings, channels).",
+        "operationId": "ups_get_property_by_id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_property_by_id",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_search_properties": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Search Properties",
+        "description": "Performs advanced search across 100,000+ enterprise properties using application configuration filters (clientCode, propertyCode, pmsPropertyId), chain code, postal code, or name.",
+        "operationId": "ups_search_properties",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_search_properties",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_property_app_config": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Property App Config",
+        "description": "Extracts the application-specific configuration object for a property (e.g. 'g3', 'centralrms', 'elevate', 'revplan'), returning tenantDBHost, tenantDBName, hostUrl, and propertyCode.",
+        "operationId": "ups_get_property_app_config",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_property_app_config",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_property_vendor_mappings": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Property Vendor Mappings",
+        "description": "Extracts competitive rate shopping vendor mappings for a property (RateGain, Rubicon, OTA Insight, TravelClick, etc.).",
+        "operationId": "ups_get_property_vendor_mappings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_property_vendor_mappings",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_property_channels": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Property Channels",
+        "description": "Retrieves distribution and OTA channels configured for a property (Booking.com, Expedia, GDS, Sabre, Ctrip, etc.).",
+        "operationId": "ups_get_property_channels",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_property_channels",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_nearby_properties": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Nearby Properties",
+        "description": "Finds competitor or sister properties within a specified radius (in meters or kilometers) of a target property using geo-coordinates.",
+        "operationId": "ups_get_nearby_properties",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_nearby_properties",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_property_custom_attributes": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Property Custom Attributes",
+        "description": "Retrieves business custom attributes defined on a property (e.g. RDRM, Management Type, Brand Code, Number of Rooms, Property Owner, Open Status).",
+        "operationId": "ups_get_property_custom_attributes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_property_custom_attributes",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_recent_property_audits": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Recent Property Audits",
+        "description": "Fetches property UUIDs modified, created, or audited across the platform within the last 24 hours.",
+        "operationId": "ups_get_recent_property_audits",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_recent_property_audits",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_list_clients": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups List Clients",
+        "description": "Lists enterprise clients from the UPS directory (1,280+ clients) with optional search filter and pagination.",
+        "operationId": "ups_list_clients",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_list_clients",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_client_by_code": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Client By Code",
+        "description": "Fetches client organization metadata by clientCode or clientId (e.g. 'HILTON', 'JENKINS', 'CHOICE').",
+        "operationId": "ups_get_client_by_code",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_client_by_code",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_client_product_environments": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Client Product Environments",
+        "description": "Lists active product environments activated for a client organization by clientId.",
+        "operationId": "ups_get_client_product_environments",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_client_product_environments",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_client_custom_attributes": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Client Custom Attributes",
+        "description": "Retrieves custom configuration attributes defined for a client organization by clientId.",
+        "operationId": "ups_get_client_custom_attributes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_client_custom_attributes",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_list_optix_clients": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups List Optix Clients",
+        "description": "Fetches the full list of all 417 enterprise clients licensed for Optix product access with 1-hour caching.",
+        "operationId": "ups_list_optix_clients",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_list_optix_clients",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_check_optix_client_access": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Check Optix Client Access",
+        "description": "Verifies whether a specific clientCode has active Optix product entitlement (required for SystemCEO role access).",
+        "operationId": "ups_check_optix_client_access",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_check_optix_client_access",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_list_products": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups List Products",
+        "description": "Lists all available SAS IDeaS products (g3, elevate, centralrms, revplan, optix, smartspace, bmr, rdl, edf, processingdashboard).",
+        "operationId": "ups_list_products",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_list_products",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_list_product_environments": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups List Product Environments",
+        "description": "Lists all 42+ active product environments with URLs, display names, and cluster tags (e.g. G3-PROD1, G3-PROD5, Elevate, CentralRMS).",
+        "operationId": "ups_list_product_environments",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_list_product_environments",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_resolve_cluster_url": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Resolve Cluster Url",
+        "description": "Resolves the live HTTPS base URL for a given productEnvironmentId or environment nameId.",
+        "operationId": "ups_resolve_cluster_url",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_resolve_cluster_url",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cedf_get_clients_configuration": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Cedf Get Clients Configuration",
+        "description": "Retrieves the complete CEDF client configuration feed from cedf.ideasrms.com with 1-hour caching.",
+        "operationId": "cedf_get_clients_configuration",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cedf_get_clients_configuration",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cedf_check_client_upload_status": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Cedf Check Client Upload Status",
+        "description": "Verifies whether a client is configured in CEDF and whether 'isClientUploadEnabled' is True for a given source system and product.",
+        "operationId": "cedf_check_client_upload_status",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cedf_check_client_upload_status",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_list_announcements": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups List Announcements",
+        "description": "Retrieves active operational announcements, scheduled maintenance notices, and platform updates defined in UPS.",
+        "operationId": "ups_list_announcements",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_list_announcements",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_resolve_property_to_cluster": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Resolve Property To Cluster",
+        "description": "High-level helper: directly resolves clientCode and propertyCode into its target G3 / Optix cluster URL, database host, database name, and salesforceAccountId in one unified response.",
+        "operationId": "ups_resolve_property_to_cluster",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_resolve_property_to_cluster",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_system_health": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get System Health",
+        "description": "Executes health check and latency benchmarks across UPS, UIS, and CEDF APIs.",
+        "operationId": "ups_get_system_health",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_system_health",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_get_api_catalog": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Get Api Catalog",
+        "description": "Returns a comprehensive catalog of all active UPS, UIS, and CEDF endpoints, Swagger documentations, and capabilities.",
+        "operationId": "ups_get_api_catalog",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_get_api_catalog",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_validate_m2m_credentials": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Validate M2M Credentials",
+        "description": "Validates that FDS M2M OAuth2 client credentials can successfully issue tokens and authenticate against live endpoints.",
+        "operationId": "ups_validate_m2m_credentials",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_validate_m2m_credentials",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "UniversalToolCallRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "arguments": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Arguments",
+            "default": {}
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "UniversalToolCallRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://172.27.210.162:8550",
+      "description": "SAS IDeaS Master Enterprise Gateway"
+    }
+  ]
+}

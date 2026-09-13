@@ -20,11 +20,13 @@ import json
 import time
 import logging
 import argparse
+import threading
 from typing import Any, Dict, List, Optional
 from datetime import datetime, timezone
 import requests
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from psycopg2.pool import ThreadedConnectionPool
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -50,29 +52,55 @@ SFDC_MIDDLEWARE_URL = os.getenv("SFDC_MIDDLEWARE_URL", "http://172.27.210.162:40
 SFDC_API_KEY = os.getenv("SFDC_API_KEY", "admin_9a34d764efac11e4abfed0e9ccad61ae")
 
 # ==============================================================================
-# DATABASE CONNECTION HELPER
+# DATABASE CONNECTION & THREADED POOL HELPER
 # ==============================================================================
+_PG_POOL: Optional[ThreadedConnectionPool] = None
+_POOL_LOCK = threading.Lock()
+
+def get_pg_pool() -> ThreadedConnectionPool:
+    """Lazily initializes and returns the ThreadedConnectionPool."""
+    global _PG_POOL
+    if _PG_POOL is None:
+        with _POOL_LOCK:
+            if _PG_POOL is None:
+                min_conn = int(os.getenv("SFDC_PG_POOL_MIN", "2"))
+                max_conn = int(os.getenv("SFDC_PG_POOL_MAX", "20"))
+                logger.info("Initializing SFDC PostgreSQL ThreadedConnectionPool (min=%d, max=%d)...", min_conn, max_conn)
+                _PG_POOL = ThreadedConnectionPool(
+                    minconn=min_conn,
+                    maxconn=max_conn,
+                    host=PG_HOST,
+                    port=PG_PORT,
+                    dbname=PG_DATABASE,
+                    user=PG_USER,
+                    password=PG_PASSWORD,
+                    connect_timeout=8,
+                )
+    return _PG_POOL
+
 def get_pg_connection():
-    """Returns a direct psycopg2 connection to the PostgreSQL clone."""
-    return psycopg2.connect(
-        host=PG_HOST,
-        port=PG_PORT,
-        dbname=PG_DATABASE,
-        user=PG_USER,
-        password=PG_PASSWORD,
-        connect_timeout=8,
-    )
+    """Returns a direct psycopg2 connection or one from the pool."""
+    return get_pg_pool().getconn()
 
 def query_pg(sql: str, params: Optional[List[Any]] = None) -> List[Dict[str, Any]]:
-    """Executes a SQL query against the PostgreSQL clone and returns dict rows."""
-    conn = get_pg_connection()
+    """Executes a SQL query against the PostgreSQL clone using connection pooling."""
+    pool = get_pg_pool()
+    conn = pool.getconn()
+    is_broken = False
     try:
+        if conn.closed != 0:
+            pool.putconn(conn, close=True)
+            conn = pool.getconn()
         with conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute(sql, params or [])
             rows = cur.fetchall()
             return [dict(r) for r in rows]
+    except (psycopg2.OperationalError, psycopg2.InterfaceError) as exc:
+        is_broken = True
+        logger.error("Database connection error in query_pg: %s", exc)
+        raise
     finally:
-        conn.close()
+        pool.putconn(conn, close=is_broken)
 
 def query_soql_middleware(soql: str) -> Dict[str, Any]:
     """Executes SOQL via SFDC Middleware on port 4000."""

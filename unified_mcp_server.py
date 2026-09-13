@@ -109,10 +109,44 @@ if loop.is_running():
 else:
     loop.run_until_complete(_init_cma_tools())
 
+# 7. Composite Autonomous Super-Tools
+import composite_triage_tools
+
+COMPOSITE_TOOLS: List[Dict[str, Any]] = [
+    {
+        "name": "ideas_triage_case_e2e",
+        "description": "Autonomous end-to-end investigation for a Salesforce Case across all 5 enterprise domains (Salesforce Case + UPS Property Config + CMA Spring Batch Chains + Datadog Error Logs + Confluence Runbooks). Produces root-cause hypotheses, failing components, and recommended remediation steps in 1 turn.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "case_number": {"type": "string", "description": "8-digit Salesforce Case Number (e.g. '03379138')"},
+                "property_code": {"type": "string", "description": "Optional explicit property code (auto-extracted if omitted)"},
+                "include_logs": {"type": "boolean", "default": True, "description": "Whether to scan Datadog for error spikes"},
+                "include_runbook": {"type": "boolean", "default": True, "description": "Whether to attach matching Confluence runbook"},
+            },
+            "required": ["case_number"],
+        },
+    },
+    {
+        "name": "ideas_diagnose_rate_upload",
+        "description": "Autonomously diagnoses why pricing/rate uploads failed to publish to PMS or external partners. Inspects CMA decision delivery records (BAR, AgileRates, LRV), CEDF client upload enablement, and Datadog outbound APM timeout logs in 1 turn.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "property_code": {"type": "string", "description": "Property code or short code (e.g. 'H8808', '8808')"},
+                "lookback_hours": {"type": "integer", "default": 24, "description": "Hours of delivery history to inspect (default 24)"},
+                "target_date": {"type": "string", "description": "Optional specific pricing date to diagnose (YYYY-MM-DD)"},
+            },
+            "required": ["property_code"],
+        },
+    },
+]
+
 # ==============================================================================
-# MASTER CATALOG REGISTRATION (168 TOOLS & 14 RESOURCES)
+# MASTER CATALOG REGISTRATION (TOOLS & RESOURCES)
 # ==============================================================================
 MASTER_TOOLS: List[Dict[str, Any]] = (
+    COMPOSITE_TOOLS +
     SFDC_TOOLS +
     CMA_TOOLS +
     OPTIX_TOOLS +
@@ -122,6 +156,7 @@ MASTER_TOOLS: List[Dict[str, Any]] = (
 )
 
 DOMAIN_COUNTS = {
+    "composite": len(COMPOSITE_TOOLS),
     "sfdc": len(SFDC_TOOLS),
     "cma": len(CMA_TOOLS),
     "optix": len(OPTIX_TOOLS),
@@ -185,8 +220,10 @@ MUTATION_TOOLS = {
 # UNIFIED TOOL DISPATCH ENGINE
 # ==============================================================================
 def get_tool_domain(tool_name: str) -> str:
-    """Classifies tool into one of the 6 canonical enterprise domains."""
-    if tool_name.startswith("sfdc_"):
+    """Classifies tool into one of the canonical enterprise domains."""
+    if tool_name.startswith("ideas_"):
+        return "composite"
+    elif tool_name.startswith("sfdc_"):
         return "salesforce"
     elif tool_name.startswith("cma_"):
         return "cma"
@@ -234,9 +271,26 @@ async def dispatch_unified_tool(tool_name: str, arguments: Dict[str, Any]) -> Di
             "read_only": True,
         }
 
+    # Composite Autonomous Super-Tools
+    if tool_name == "ideas_triage_case_e2e":
+        res = await composite_triage_tools.execute_ideas_triage_case_e2e(
+            case_number=arguments.get("case_number", ""),
+            property_code=arguments.get("property_code"),
+            include_logs=arguments.get("include_logs", True),
+            include_runbook=arguments.get("include_runbook", True),
+        )
+        return res
+    elif tool_name == "ideas_diagnose_rate_upload":
+        res = await composite_triage_tools.execute_ideas_diagnose_rate_upload(
+            property_code=arguments.get("property_code", ""),
+            lookback_hours=int(arguments.get("lookback_hours", 24)),
+            target_date=arguments.get("target_date"),
+        )
+        return res
+
     # Domain 1: Salesforce (SFDC)
-    if tool_name.startswith("sfdc_"):
-        res = dispatch_sfdc_tool(tool_name, arguments)
+    elif tool_name.startswith("sfdc_"):
+        res = await asyncio.to_thread(dispatch_sfdc_tool, tool_name, arguments)
         return res
 
     # Domain 2: CMA SQL Gateway
@@ -261,7 +315,7 @@ async def dispatch_unified_tool(tool_name: str, arguments: Dict[str, Any]) -> Di
 
     # Domain 3: Optix DB Cluster
     elif tool_name.startswith("optix_"):
-        res = optix_mcp_server.execute_tool(tool_name, arguments)
+        res = await asyncio.to_thread(optix_mcp_server.execute_tool, tool_name, arguments)
         return res
 
     # Domain 4: Confluence Knowledge Base & Runbooks
@@ -271,12 +325,12 @@ async def dispatch_unified_tool(tool_name: str, arguments: Dict[str, Any]) -> Di
         tool_name.startswith("runbook_") or
         tool_name.startswith("swagger_")
     ):
-        res = confluence_mcp_server.execute_tool(tool_name, arguments)
+        res = await asyncio.to_thread(confluence_mcp_server.execute_tool, tool_name, arguments)
         return res
 
     # Domain 5: Datadog Observability
     elif tool_name.startswith("datadog_"):
-        res = datadog_mcp_server.execute_tool(tool_name, arguments)
+        res = await asyncio.to_thread(datadog_mcp_server.execute_tool, tool_name, arguments)
         return res
 
     # Domain 6: UPS, FDS, UIS & CEDF Platform
@@ -286,7 +340,7 @@ async def dispatch_unified_tool(tool_name: str, arguments: Dict[str, Any]) -> Di
         tool_name.startswith("cedf_") or
         tool_name.startswith("fds_")
     ):
-        res = dispatch_ups_tool(tool_name, arguments)
+        res = await asyncio.to_thread(dispatch_ups_tool, tool_name, arguments)
         return res
 
     else:
@@ -473,7 +527,7 @@ async def handle_json_rpc(
                 "error": {"code": -32602, "message": "Missing parameter 'uri'"},
             }
         try:
-            content = read_unified_resource(uri)
+            content = await asyncio.to_thread(read_unified_resource, uri)
             return {
                 "jsonrpc": "2.0",
                 "id": req_id,
@@ -998,7 +1052,7 @@ def create_fastapi_app():
         if not is_valid:
             return JSONResponse(status_code=401, content={"error": err_msg})
         try:
-            content = read_unified_resource(uri)
+            content = await asyncio.to_thread(read_unified_resource, uri)
             return {"uri": uri, "content": content}
         except Exception as exc:
             return JSONResponse(status_code=400, content={"error": str(exc)})
@@ -1056,6 +1110,7 @@ def create_fastapi_app():
 
     # Dynamically register individual REST routes for all 168 canonical tools
     domain_tag_map = {
+        "ideas_": "Autonomous Super-Tools",
         "sfdc_": "Salesforce Core",
         "cma_": "CMA Edge Gateway",
         "optix_": "Optix SQL Cluster",
@@ -1147,6 +1202,9 @@ def create_fastapi_app():
         """
         domain_clean = domain.lower().replace("_", "").replace("-", "")
         domain_lookup = {
+            "ideas": ("ideas_", "Autonomous Super-Tools"),
+            "composite": ("ideas_", "Autonomous Super-Tools"),
+            "supertools": ("ideas_", "Autonomous Super-Tools"),
             "sfdc": ("sfdc_", "Salesforce Core"),
             "salesforce": ("sfdc_", "Salesforce Core"),
             "cma": ("cma_", "CMA Edge Gateway"),

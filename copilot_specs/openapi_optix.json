@@ -1,0 +1,1741 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SAS IDeaS - Optix SQL Cluster (M365 Copilot Action)",
+    "description": "Dedicated Microsoft 365 Copilot Action Connector for Optix SQL Cluster.",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Comprehensive multi-domain health telemetry probe.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/call": {
+      "post": {
+        "tags": [
+          "Enterprise MCP Dispatcher"
+        ],
+        "summary": "Call Tool Universal",
+        "description": "Universal endpoint to invoke any of the 168 canonical tools dynamically.",
+        "operationId": "call_tool_universal_api_v1_tools_call_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UniversalToolCallRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_ping_cluster": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Ping Cluster",
+        "description": "Probes all 3 Optix MSSQL production cluster nodes (optix-db-01, optix-db-02, optix-db-03) and returns real-time TCP connectivity, round-trip latency, MSSQL version, and online tenant database counts.",
+        "operationId": "optix_ping_cluster",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_ping_cluster",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_list_all_databases": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix List All Databases",
+        "description": "Returns the complete catalog of all 427+ tenant databases indexed across all 3 Optix cluster nodes, including the exact node hosting each database. Supports optional search filter pattern.",
+        "operationId": "optix_list_all_databases",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_list_all_databases",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_resolve_database": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Resolve Database",
+        "description": "Resolves the exact cluster node (host/IP) and database name for a given client code (e.g. 'ALTHOFF', 'SONESTA', '1666') or property code. Uses exact, prefix, suffix, and metadata heuristics.",
+        "operationId": "optix_resolve_database",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_resolve_database",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_cluster_stats": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Cluster Stats",
+        "description": "Returns aggregate cluster metrics including active nodes, total indexed tenant databases, routing cache stats, query execution counters, and server uptime.",
+        "operationId": "optix_cluster_stats",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_cluster_stats",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_execute_query": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Execute Query",
+        "description": "Executes an arbitrary read-only SQL query against any Optix tenant database or cluster node. Automatically adds NOLOCK hints, blocks all DDL/DML, and enforces row limits and timeouts.",
+        "operationId": "optix_execute_query",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_execute_query",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_execute_batch": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Execute Batch",
+        "description": "Executes a batch of read-only queries in sequence across one or more Optix databases. Returns structured results grouped by query label.",
+        "operationId": "optix_execute_batch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_execute_batch",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_explain_query": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Explain Query",
+        "description": "Returns estimated query execution plan and cost analysis for a given SQL query using SET SHOWPLAN_ALL ON without executing the query.",
+        "operationId": "optix_explain_query",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_explain_query",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_list_tables": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix List Tables",
+        "description": "Lists all tables and views in an Optix tenant database. Supports filtering by schema (dbo, STAGE, SPOT, RMS) and name wildcard search.",
+        "operationId": "optix_list_tables",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_list_tables",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_describe_table": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Describe Table",
+        "description": "Returns comprehensive schema definition for a table or view: column names, data types, nullability, max lengths, primary key flags, and foreign key references.",
+        "operationId": "optix_describe_table",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_describe_table",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_table_row_count": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Table Row Count",
+        "description": "Returns exact row count and total storage space (in KB) for tables in a tenant database using sys.dm_db_partition_stats.",
+        "operationId": "optix_get_table_row_count",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_table_row_count",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_search_columns": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Search Columns",
+        "description": "Searches for column names matching a pattern across all tables and views in an Optix tenant database (e.g. search for 'accom_revenue', 'calendar_id', 'as_of').",
+        "operationId": "optix_search_columns",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_search_columns",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_properties": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Properties",
+        "description": "Retrieves all properties configured in an Optix tenant database from Dim_Property (property_id, property_cd, property_nm, currency_cd, status_id, pms_property_id, ups_id, time_zone_txt).",
+        "operationId": "optix_get_properties",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_properties",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_resolve_property": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Resolve Property",
+        "description": "Resolves a property code (unpadded or padded, e.g. '10' vs '0010') to its internal Optix numeric property_id, official name, and currency in Dim_Property.",
+        "operationId": "optix_resolve_property",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_resolve_property",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_feature_flags": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Feature Flags",
+        "description": "Audits feature flags from Feature and Feature_Property tables in an Optix tenant database, including the 5 mandatory RMS flags (enableCompetitiveRatesEtl, enableCompetitiveRatesDashboard, enablePMSInboundProfileData, dashboard.travel_agent, dashboard.company).",
+        "operationId": "optix_get_feature_flags",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_feature_flags",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_property_hierarchy": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Property Hierarchy",
+        "description": "Retrieves property hierarchy tree, groups, and estate configurations from Property_Group, Property_Group_Master, and vw_property_hierarchy.",
+        "operationId": "optix_get_property_hierarchy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_property_hierarchy",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_activity_summary": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Activity Summary",
+        "description": "Extracts total rooms sold, accommodation revenue, F&B revenue, beverage, other revenue, and gross revenue for a property across a date range from Fact_Daily_Activity.",
+        "operationId": "optix_get_activity_summary",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_activity_summary",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_daily_activity": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Daily Activity",
+        "description": "Granular day-by-day drill-down of solds, room revenue, and ADR across stay dates (calendar_id) from Fact_Daily_Activity. Supports up to 1,095 stay dates.",
+        "operationId": "optix_get_daily_activity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_daily_activity",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_activity_hierarchy": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Activity Hierarchy",
+        "description": "Hierarchical rollups by Year (YYYY), Month (YYYY-MM), and Day (YYYYMMDD) for long-term trend analysis and multi-year comparisons from Fact_Daily_Activity.",
+        "operationId": "optix_get_activity_hierarchy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_activity_hierarchy",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_current_pace": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Current Pace",
+        "description": "Extracts forward On-The-Books (OTB) booking pace for future stay dates from today onwards from Fact_Daily_Activity (calendar_id >= TODAY).",
+        "operationId": "optix_get_current_pace",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_current_pace",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_forward_monthly_pace": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Forward Monthly Pace",
+        "description": "Summarizes forward 365-day booking horizon aggregated by future calendar month (OTB Solds, Revenue, ADR) from Fact_Daily_Activity.",
+        "operationId": "optix_get_forward_monthly_pace",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_forward_monthly_pace",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_stly_pace": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Stly Pace",
+        "description": "Extracts historical Same Time Last Year (STLY) pace with 364-day (52-week DOW matched) snapshot from Fact_Daily_Activity_Pace using the latest as_of_calendar_id.",
+        "operationId": "optix_get_stly_pace",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_stly_pace",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_stly_actuals": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Stly Actuals",
+        "description": "Extracts final settled actuals for the 364-day prior occupancy dates from Fact_Daily_Activity for YoY growth reconciliation.",
+        "operationId": "optix_get_stly_actuals",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_stly_actuals",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_pace_snapshots": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Pace Snapshots",
+        "description": "Lists available snapshot dates (as_of_calendar_id) in Fact_Daily_Activity_Pace for a property, showing row counts and date horizons.",
+        "operationId": "optix_get_pace_snapshots",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_pace_snapshots",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_market_segments": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Market Segments",
+        "description": "Reconciles accommodation solds, revenue, and ADR by PMS market segment and analytical split category from Fact_Daily_Activity joined with Dim_Market_Property.",
+        "operationId": "optix_get_market_segments",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_market_segments",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_list_market_dimensions": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix List Market Dimensions",
+        "description": "Lists all configured market segment dimensions in Dim_Market_Property (market_property_cd, market_property_nm, market_segment_type).",
+        "operationId": "optix_list_market_dimensions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_list_market_dimensions",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_room_type_summary": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Room Type Summary",
+        "description": "Reconciles accommodation solds, room revenue, and ADR by physical and logical room category from Fact_Daily_Activity joined with Dim_Accom_Property.",
+        "operationId": "optix_get_room_type_summary",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_room_type_summary",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_list_room_types": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix List Room Types",
+        "description": "Lists all configured room type dimensions in Dim_Accom_Property (accom_property_cd, accom_property_nm).",
+        "operationId": "optix_list_room_types",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_list_room_types",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_group_reconciliation": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Group Reconciliation",
+        "description": "Performs comprehensive 3-tier group reconciliation: Tier 1 Unpicked Blocks ('B'), Tier 2 Materialized Group Pickup ('R'), Contracted Block Revenue, Pickup Revenue, and Total Group Revenue.",
+        "operationId": "optix_get_group_reconciliation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_group_reconciliation",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_group_details": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Group Details",
+        "description": "Queries specific group master definitions, contracts, and status from Dim_Group and STAGE.Group_Master.",
+        "operationId": "optix_get_group_details",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_group_details",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_business_views": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Business Views",
+        "description": "Partitions hotel performance into commercial Business Views: Transient, Group, Contract & Crew, and House Use / Other Business Views.",
+        "operationId": "optix_get_business_views",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_business_views",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_scan_no_value_anomalies": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Scan No Value Anomalies",
+        "description": "Quality anomaly scanner detecting unmapped dimensions (-2, 0, 'ZNV'), complimentary zero-revenue stays with active solds, and late cancellation fees without solds.",
+        "operationId": "optix_scan_no_value_anomalies",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_scan_no_value_anomalies",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_compare_discrepancy": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Compare Discrepancy",
+        "description": "Computes exact discrepancy percentage between G3 RMS source metrics and Optix DW metrics with the official <5% tolerance check and automated pass/fail determination.",
+        "operationId": "optix_compare_discrepancy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_compare_discrepancy",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_batch_history": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Batch History",
+        "description": "Inspects recent ETL and data processing batch runs from Process_History or Processing_Batch (Batch_ID, Status, End_Time, row counts, error messages).",
+        "operationId": "optix_get_batch_history",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_batch_history",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_flush_routing_cache": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Flush Routing Cache",
+        "description": "Flushes the in-memory database routing cache and initiates a full live re-index of all databases across all cluster nodes.",
+        "operationId": "optix_flush_routing_cache",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_flush_routing_cache",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/optix_get_cache_stats": {
+      "post": {
+        "tags": [
+          "Optix SQL Cluster"
+        ],
+        "summary": "Optix Get Cache Stats",
+        "description": "Returns routing cache statistics, cache hit/miss ratio, indexed database counts, and query counters.",
+        "operationId": "optix_get_cache_stats",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for optix_get_cache_stats",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_list_optix_clients": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups List Optix Clients",
+        "description": "Fetches the full list of all 417 enterprise clients licensed for Optix product access with 1-hour caching.",
+        "operationId": "ups_list_optix_clients",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_list_optix_clients",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ups_check_optix_client_access": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Ups Check Optix Client Access",
+        "description": "Verifies whether a specific clientCode has active Optix product entitlement (required for SystemCEO role access).",
+        "operationId": "ups_check_optix_client_access",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ups_check_optix_client_access",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "UniversalToolCallRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "arguments": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Arguments",
+            "default": {}
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "UniversalToolCallRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://172.27.210.162:8550",
+      "description": "SAS IDeaS Master Enterprise Gateway"
+    }
+  ]
+}

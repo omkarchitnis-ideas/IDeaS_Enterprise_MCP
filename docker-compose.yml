@@ -50,6 +50,7 @@ services:
       - ./unified_mcp_server.py:/app/unified_mcp_server.py:ro
       - ./mcp_auth_manager.py:/app/mcp_auth_manager.py:ro
       - ./mcp_dashboard.py:/app/mcp_dashboard.py:ro
+      - ./composite_triage_tools.py:/app/composite_triage_tools.py:ro
       - ./sfdc_mcp_server.py:/app/sfdc_mcp_server.py:ro
       - ./cma_mcp_server.py:/app/cma_mcp_server.py:ro
       - ./optix_mcp_server.py:/app/optix_mcp_server.py:ro

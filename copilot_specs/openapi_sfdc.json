@@ -1,0 +1,1225 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SAS IDeaS - Salesforce Core (M365 Copilot Action)",
+    "description": "Dedicated Microsoft 365 Copilot Action Connector for Salesforce Core.",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Comprehensive multi-domain health telemetry probe.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/call": {
+      "post": {
+        "tags": [
+          "Enterprise MCP Dispatcher"
+        ],
+        "summary": "Call Tool Universal",
+        "description": "Universal endpoint to invoke any of the 168 canonical tools dynamically.",
+        "operationId": "call_tool_universal_api_v1_tools_call_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UniversalToolCallRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_get_case": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Get Case",
+        "description": "Retrieve complete details for a Salesforce Case from PostgreSQL clone in <50ms. Includes all 557 fields, case comments, and owner details.",
+        "operationId": "sfdc_get_case",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_get_case",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_search_cases": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Search Cases",
+        "description": "Search and filter historical or active Salesforce cases using indexed attributes (account chain code, property name, product environment, status, priority).",
+        "operationId": "sfdc_search_cases",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_search_cases",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_create_case": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Create Case",
+        "description": "Create a new Case record in Salesforce with instant dual-write to PostgreSQL clone and DLQ protection.",
+        "operationId": "sfdc_create_case",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_create_case",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_update_case": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Update Case",
+        "description": "Update an existing Case record in Salesforce with immediate write-through to PostgreSQL clone.",
+        "operationId": "sfdc_update_case",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_update_case",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_add_case_comment": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Add Case Comment",
+        "description": "Add a CaseComment note to a Salesforce Case with dual-write to PostgreSQL clone.",
+        "operationId": "sfdc_add_case_comment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_add_case_comment",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_get_case_history": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Get Case History",
+        "description": "Retrieve the field audit trail history for a case (tracking changes to Status, Owner, Priority).",
+        "operationId": "sfdc_get_case_history",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_get_case_history",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_get_task": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Get Task",
+        "description": "Retrieve full task details and parent case context by task ID or task number from PostgreSQL clone in <10ms.",
+        "operationId": "sfdc_get_task",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_get_task",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_search_tasks": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Search Tasks",
+        "description": "Search operational tasks by status, assignee, priority, case number, or subject keyword with full pagination.",
+        "operationId": "sfdc_search_tasks",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_search_tasks",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_create_task": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Create Task",
+        "description": "Create a new Salesforce Task attached to a Case or Account with instant write to Salesforce and Postgres.",
+        "operationId": "sfdc_create_task",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_create_task",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_update_task": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Update Task",
+        "description": "Update an existing Task (status, priority, subject, description) in Salesforce and Postgres.",
+        "operationId": "sfdc_update_task",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_update_task",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_reassign_task": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Reassign Task",
+        "description": "Safely reassign a Salesforce Task to another engineer or queue with dual-sync across Postgres.",
+        "operationId": "sfdc_reassign_task",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_reassign_task",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_get_team_workload": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Get Team Workload",
+        "description": "Retrieve live aggregated team and queue workload metrics from the pre-aggregated summary table.",
+        "operationId": "sfdc_get_team_workload",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_get_team_workload",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_get_account": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Get Account",
+        "description": "Retrieve complete details for a client Account from PostgreSQL clone (Chain Code, Brand, Property Name, Salesforce Account ID).",
+        "operationId": "sfdc_get_account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_get_account",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_search_accounts": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Search Accounts",
+        "description": "Search the 94k accounts directory by chain code, brand, country, or keyword in <15ms.",
+        "operationId": "sfdc_search_accounts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_search_accounts",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_resolve_user": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Resolve User",
+        "description": "Resolve any past or present engineer, consultant, or queue from the complete 15k users catalog in PostgreSQL clone.",
+        "operationId": "sfdc_resolve_user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_resolve_user",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_get_contact": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Get Contact",
+        "description": "Retrieve hotel or client contacts by contact ID, email, or account ID.",
+        "operationId": "sfdc_get_contact",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_get_contact",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_get_integration": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Get Integration",
+        "description": "Retrieve RMS PMS/CRS integration profiles (Overbooking Controls, Decision Modes, System Types).",
+        "operationId": "sfdc_get_integration",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_get_integration",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_upload_attachment": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Upload Attachment",
+        "description": "Upload a file (diagnostic report, Excel audit, screenshot) as a ContentVersion attached to a Case or Task.",
+        "operationId": "sfdc_upload_attachment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_upload_attachment",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_list_attachments": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc List Attachments",
+        "description": "List all files and attachments linked to a Salesforce Case or Task.",
+        "operationId": "sfdc_list_attachments",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_list_attachments",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_describe_object": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Describe Object",
+        "description": "Introspect the schema, queryable fields, relationships, and types of any Salesforce standard or custom object.",
+        "operationId": "sfdc_describe_object",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_describe_object",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_get_picklist_values": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Get Picklist Values",
+        "description": "Retrieve valid picklist options for any field (e.g. Case.Status, Case.Priority).",
+        "operationId": "sfdc_get_picklist_values",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_get_picklist_values",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_query_clone": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Query Clone",
+        "description": "Execute arbitrary read-only SQL queries against the local PostgreSQL clone (344,000+ cases, 557 columns).",
+        "operationId": "sfdc_query_clone",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_query_clone",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_query_soql": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Query Soql",
+        "description": "Execute arbitrary read-only SOQL queries directly against live Salesforce via the SFDC Middleware.",
+        "operationId": "sfdc_query_soql",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_query_soql",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_generic_dml": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Generic Dml",
+        "description": "Generic insert or update for ANY standard or custom Salesforce object via Middleware.",
+        "operationId": "sfdc_generic_dml",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_generic_dml",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_get_sfdc_case_audit_history": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Get Sfdc Case Audit History",
+        "description": "Search CMA portal audit logs for every query executed against a specific Salesforce Case Number.\n    \n    Args:\n        case_number: 8-digit Salesforce Case Number (e.g. '03019231').\n        start_date: Start date YYYY-MM-DD (defaults to 1 year ago).\n        end_date: End date YYYY-MM-DD (defaults to tomorrow).",
+        "operationId": "cma_get_sfdc_case_audit_history",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_get_sfdc_case_audit_history",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "UniversalToolCallRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "arguments": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Arguments",
+            "default": {}
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "UniversalToolCallRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://172.27.210.162:8550",
+      "description": "SAS IDeaS Master Enterprise Gateway"
+    }
+  ]
+}

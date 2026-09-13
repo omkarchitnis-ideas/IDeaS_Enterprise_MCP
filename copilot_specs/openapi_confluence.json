@@ -1,0 +1,1225 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SAS IDeaS - Confluence Knowledge Base (M365 Copilot Action)",
+    "description": "Dedicated Microsoft 365 Copilot Action Connector for Confluence Knowledge Base.",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Comprehensive multi-domain health telemetry probe.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/call": {
+      "post": {
+        "tags": [
+          "Enterprise MCP Dispatcher"
+        ],
+        "summary": "Call Tool Universal",
+        "description": "Universal endpoint to invoke any of the 168 canonical tools dynamically.",
+        "operationId": "call_tool_universal_api_v1_tools_call_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UniversalToolCallRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_search": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Search",
+        "description": "Searches Atlassian Confluence documentation by text or title using CQL. If Cloud API is unavailable or unauthenticated, automatically falls back to searching vector memory and 274 local markdown guides.",
+        "operationId": "confluence_search",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_search",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_cql_search": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Cql Search",
+        "description": "Executes raw Atlassian Confluence Query Language (CQL) expressions (e.g. 'space = \"OPTIX\" and type = page order by lastmodified desc').",
+        "operationId": "confluence_cql_search",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_cql_search",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_semantic_search": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Semantic Search",
+        "description": "Performs dense semantic vector search across Qdrant vector memory collections (confluence_kb, g3_help_docs_kb, g3_knowledge).",
+        "operationId": "confluence_semantic_search",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_semantic_search",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_search_by_label": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Search By Label",
+        "description": "Searches for Confluence pages tagged with specific operational labels (e.g. 'runbook', 'sfdc', 'optix', 'troubleshooting', 'cma').",
+        "operationId": "confluence_search_by_label",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_search_by_label",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_page": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Page",
+        "description": "Fetches the full clean readable markdown/text content of an Atlassian Confluence page by numeric page ID.",
+        "operationId": "confluence_get_page",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_page",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_page_by_title": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Page By Title",
+        "description": "Finds and fetches full page content given a page title and space key.",
+        "operationId": "confluence_get_page_by_title",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_page_by_title",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_page_history": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Page History",
+        "description": "Retrieves version history, authors, modification timestamps, and change comments for a Confluence page.",
+        "operationId": "confluence_get_page_history",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_page_history",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_page_labels": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Page Labels",
+        "description": "Retrieves all labels and tags applied to a specific Confluence page.",
+        "operationId": "confluence_get_page_labels",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_page_labels",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_list_spaces": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence List Spaces",
+        "description": "Lists all accessible Confluence spaces with space keys, names, descriptions, and web URLs.",
+        "operationId": "confluence_list_spaces",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_list_spaces",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_space_details": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Space Details",
+        "description": "Returns detailed metadata for a specific Confluence space: name, description, homepage ID, and web link.",
+        "operationId": "confluence_get_space_details",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_space_details",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_list_space_pages": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence List Space Pages",
+        "description": "Paginated listing of pages within a target Confluence space.",
+        "operationId": "confluence_list_space_pages",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_list_space_pages",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_page_children": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Page Children",
+        "description": "Lists direct child pages nested under a parent Confluence page ID.",
+        "operationId": "confluence_get_page_children",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_page_children",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_runbook": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Runbook",
+        "description": "Retrieves the complete technical troubleshooting guide, identification technique, and remediation steps for a known operational issue key (e.g. 'HTNG_STATS_VS_INVENTORY', 'PSEUDO_ROOM_TYPE_FILTER', 'CRS_DATA_NOT_ARRIVED', 'JOB_DB_LOCK_DEADLOCK_FPLOS', 'GROUP_PRICING_HIERARCHY_NPE', 'OXI_PMS_MESSAGE_TRACE', 'SFTP_CHECKSUM_VERIFICATION').",
+        "operationId": "confluence_get_runbook",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_runbook",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_list_all_runbooks": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence List All Runbooks",
+        "description": "Catalogs all 7+ core engineering diagnostic runbooks derived from production postmortems, including operational domains and page links.",
+        "operationId": "confluence_list_all_runbooks",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_list_all_runbooks",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_match_runbook_by_symptom": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Match Runbook By Symptom",
+        "description": "Analyzes an observed error string, stack trace, or case description and matches the most applicable engineering runbook.",
+        "operationId": "confluence_match_runbook_by_symptom",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_match_runbook_by_symptom",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_consult_knowledge_base": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Consult Knowledge Base",
+        "description": "Comprehensive engineering knowledge lookup: automatically matches relevant runbooks, official Swagger API specifications, S3 portals, and local documentation.",
+        "operationId": "confluence_consult_knowledge_base",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_consult_knowledge_base",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_list_swagger_catalogs": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence List Swagger Catalogs",
+        "description": "Catalogs all 13 official microservice Swagger/OpenAPI endpoints across PROD, STAGE, and DEV tiers (UPS, UIS, UAS, BMR, AIS Outbound, PMS Inbound, Decision Delivery, STR, TARS, FOLS).",
+        "operationId": "confluence_list_swagger_catalogs",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_list_swagger_catalogs",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_swagger_endpoint": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Swagger Endpoint",
+        "description": "Returns the Swagger UI and OpenAPI documentation URL for a specific microservice (e.g. 'UPS', 'AIS Outbound Manager', 'PMS Inbound').",
+        "operationId": "confluence_get_swagger_endpoint",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_swagger_endpoint",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_search_api_specs": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Search Api Specs",
+        "description": "Searches across official microservice Swagger catalogs for matching REST endpoints and operational domains.",
+        "operationId": "confluence_search_api_specs",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_search_api_specs",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_list_s3_resources": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence List S3 Resources",
+        "description": "Catalogs internal S3 explorers and object storage portals: Atlantis S3 Explorer, Atlantis Pull-SFTP Observability, and Analytics Lakehouse Trino buckets.",
+        "operationId": "confluence_list_s3_resources",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_list_s3_resources",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_s3_explorer_link": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get S3 Explorer Link",
+        "description": "Returns direct links to Atlantis S3 Explorer for browsing raw drop files, differential snapshots, and extract payloads.",
+        "operationId": "confluence_get_s3_explorer_link",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_s3_explorer_link",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_search_help_docs": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Search Help Docs",
+        "description": "Performs full-text keyword search across 274 local markdown G3 Help Docs (Release Notes, Configuration Overviews, System Settings, Budget, Forecast).",
+        "operationId": "confluence_search_help_docs",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_search_help_docs",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_help_doc": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Help Doc",
+        "description": "Fetches the full markdown text of a specific G3 help documentation file by filename.",
+        "operationId": "confluence_get_help_doc",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_help_doc",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_get_kb_stats": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Get Kb Stats",
+        "description": "Reports vector memory statistics and point counts for Qdrant collections: confluence_kb, g3_help_docs_kb, g3_knowledge, g3_schema_kb.",
+        "operationId": "confluence_get_kb_stats",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_get_kb_stats",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/confluence_sync_space_to_kb": {
+      "post": {
+        "tags": [
+          "Confluence Knowledge Base"
+        ],
+        "summary": "Confluence Sync Space To Kb",
+        "description": "Initiates synchronization of pages from an Atlassian Confluence space into Qdrant vector memory collection confluence_kb.",
+        "operationId": "confluence_sync_space_to_kb",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for confluence_sync_space_to_kb",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "UniversalToolCallRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "arguments": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Arguments",
+            "default": {}
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "UniversalToolCallRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://172.27.210.162:8550",
+      "description": "SAS IDeaS Master Enterprise Gateway"
+    }
+  ]
+}
