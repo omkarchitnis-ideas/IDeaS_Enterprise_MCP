@@ -352,6 +352,109 @@ DIAGNOSTIC_RUNBOOKS: Dict[str, Dict[str, Any]] = {
             "3. Trigger manual reprocess via /pull-sftp/reprocess/{id} once valid checksum is verified."
         ),
     },
+    "PRICING_SCREEN_INCORRECT_SYNTAX": {
+        "title": "Pricing Screen Access Failure & Empty Collection IN () Syntax Error",
+        "confluence_page_id": "5699012345",
+        "confluence_title": "Pricing View Crash: SQLServerException Incorrect syntax near ')'",
+        "confluence_url": "https://ideasinc.atlassian.net/wiki/spaces/G3P/pages/5699012345/Pricing+Screen+Syntax+Error+Near+Closing+Paren",
+        "domain": "pricing_view",
+        "keywords": ["incorrect syntax near", "pricing view", "pricing screen", "empty in", "onpresenterinit", "getcpdecisionbaroutputforaccomtypes", "ideas-29963", "palett"],
+        "summary": (
+            "Occurs when opening Manage -> Pricing. PricingPresenter executes checkForRoomClassRankHierarchyWarningsOptimizedLoop "
+            "to validate price differentials across active Price Rank Paths. When base room classes have 0 physical capacity (due to "
+            "renovations or room migration), an empty accommodation list [] is passed to getCpDecisionBAROutputForAccomTypes, generating "
+            "SQL Server 'WHERE Accom_Type_ID IN ()', which fatally crashes the entire Pricing View."
+        ),
+        "identification_technique": (
+            "Inspect Datadog error logs for stack trace containing PricingConfigurationService.getCpDecisionBAROutputForAccomTypes:3963 "
+            "followed by SQLServerException 'Incorrect syntax near )'. Check tenant Accom_Type for room classes with 0 physical rooms."
+        ),
+        "suggested_remediation": (
+            "1. (Option A - Recommended): In G3 RMS UI -> Configure -> Rooms -> Room Class Configuration (or Price Rank Hierarchy), "
+            "remove or disconnect rank paths referencing empty room classes (e.g. STANDARD -> PREMIUM). Save and reload Pricing.\n"
+            "2. (Option B): In Configure -> Rooms -> Room Configuration -> Room Types, assign at least 1 room capacity to the base representative room type.\n"
+            "3. (Engineering Defect): Core dev team must add defensive check in PricingConfigurationService: if (CollectionUtils.isEmpty(accomTypeIds)) return Collections.emptyList();"
+        ),
+    },
+    "UNMAPPED_DIMENSIONS_TRIAGE": {
+        "title": "Unmapped Room Types, Rate Codes & Market Segments Resolution",
+        "confluence_page_id": "5699012346",
+        "confluence_title": "Unmapped Dimension Triage & Zero-DB Remapping",
+        "confluence_url": "https://ideasinc.atlassian.net/wiki/spaces/BMR/pages/5699012346/Unmapped+Dimensions+Triage",
+        "domain": "dimensions",
+        "keywords": ["unmapped", "room type", "rate code", "srp", "market segment", "err_unmapped_dimension"],
+        "summary": (
+            "New room types, rate plans, or market segments introduced in upstream PMS (Opera, OnQ) that have not yet been registered "
+            "in G3 RMS, causing BDE batch ETL failures or revenues accumulating in unassigned buckets."
+        ),
+        "identification_technique": (
+            "Execute cma_check_unmapped_room_types, cma_check_unmapped_rate_codes, and cma_check_unmapped_market_segments."
+        ),
+        "suggested_remediation": (
+            "1. Room Types: In G3 RMS UI -> Settings -> Property Setup -> Room Configuration -> Room Types -> Unmapped Room Types tab. Link to Room Class or create physical type, save.\n"
+            "2. Rate Codes: In Pricing & Restrictions -> Rate Management -> Rate Codes, link code to Strategic Rate Plan (SRP) group, set parity rules, and publish.\n"
+            "3. Reprocess: Navigate to System -> Sync Status -> Resync Reservations."
+        ),
+    },
+    "DECISION_DELIVERY_TIMEOUT": {
+        "title": "Decision Delivery Partner Timeout & Upload Drops (ERR_PMS_TIMEOUT)",
+        "confluence_page_id": "5699012347",
+        "confluence_title": "Decision Delivery Upload Drop & HTNG Interface Recovery",
+        "confluence_url": "https://ideasinc.atlassian.net/wiki/spaces/OPS/pages/5699012347/Decision+Delivery+Timeout",
+        "domain": "decision_delivery",
+        "keywords": ["err_pms_timeout", "decision delivery", "upload drop", "htng", "http 504", "partner timeout"],
+        "summary": (
+            "Outbound pricing recommendations fail to publish to external partner PMS/CRS (SynXis, Choice, OnQ) due to partner listener timeout (>30s), "
+            "expired TLS credentials, or XML schema rejections."
+        ),
+        "identification_technique": (
+            "Check cma_get_decision_delivery_details and datadog_trace_decision_delivery_errors. Inspect HTNG Troubleshooter V2 (https://htng-troubleshooter.ideasrms.com/troubleshootV2/)."
+        ),
+        "suggested_remediation": (
+            "1. In G3 RMS UI -> Pricing -> Decision Delivery -> Delivery Status -> Click 'Force Redelivery'.\n"
+            "2. Verify partner endpoint credentials in HAL Explorer (fds_get_integration_property_configs).\n"
+            "3. If partner listener timed out, instruct hotel IT / PMS vendor to restart their local HTNG interface receiver."
+        ),
+    },
+    "CEDF_DATA_LAG_STALE_IMPORT": {
+        "title": "CEDF Data Lag, Missing Batch Feeds & Ingestion Gaps",
+        "confluence_page_id": "5699012348",
+        "confluence_title": "CEDF Inbound Extract Recovery & SFTP Ingestion Gap",
+        "confluence_url": "https://ideasinc.atlassian.net/wiki/spaces/HAWKING/pages/5699012348/CEDF+Data+Lag+Recovery",
+        "domain": "pms_feed",
+        "keywords": ["cedf", "data lag", "stale import", "freshness", "missing feed", "sftp drop"],
+        "summary": (
+            "BDE reservation data import freshness exceeds 24 hours due to missing PMS extract files or 0-byte transmission locks on SFTP."
+        ),
+        "identification_technique": (
+            "Check cma_get_datafeed_import_freshness and cma_get_datafeed_status. Verify cedf_check_client_upload_status."
+        ),
+        "suggested_remediation": (
+            "1. Do NOT manually insert reservation rows in database.\n"
+            "2. Request hotel Night Auditor / IT trigger manual delta or historical extract from PMS (Opera: Miscellaneous -> File Export) directly to CEDF SFTP /inbound/.\n"
+            "3. In G3 RMS UI -> System Operations -> Data Feeds -> Ingest Queue -> Process Now."
+        ),
+    },
+    "COMPETITIVE_CONSTRAINT_CONFLICT": {
+        "title": "Competitive Market Position Constraint Conflict & Rate Freezing",
+        "confluence_page_id": "5699012349",
+        "confluence_title": "Competitive Constraint Conflicts & Pricing Boundaries",
+        "confluence_url": "https://ideasinc.atlassian.net/wiki/spaces/G3P/pages/5699012349/Competitive+Constraint+Conflicts",
+        "domain": "pricing_engine",
+        "keywords": ["competitive constraint", "rates frozen", "lrv floor", "price ranking violation", "closed rates"],
+        "summary": (
+            "Pricing recommendations appear frozen or hit unexpected ceilings/floors because configured competitor rules conflict "
+            "with the Last Room Value (LRV) hurdle floor or cause price inversions between room classes."
+        ),
+        "identification_technique": (
+            "Inspect Optix Competitive_Constraint and LRV tables via optix_execute_query."
+        ),
+        "suggested_remediation": (
+            "1. In G3 RMS UI -> Pricing -> Competitive Intelligence -> Positioning Rules.\n"
+            "2. Locate conflicting competitor rule; check 'Exclude Competitor When Rates Are Closed' or adjust percentile floor.\n"
+            "3. Click Save & Recalculate."
+        ),
+    },
 }
 
 DEFAULT_CONFLUENCE_SPACES = [
@@ -1088,6 +1191,72 @@ CONFLUENCE_TOOLS = [
             "required": ["space_key"],
         },
     },
+
+    # -------------------------------------------------------------
+    # Group 9: Built-in SRE Master Knowledge Base & Zero-DB Engine (4 Tools)
+    # -------------------------------------------------------------
+    {
+        "name": "kb_get_triage_playbook",
+        "description": "Retrieves the master SRE incident triage playbook and Zero-DB resolution steps for a given failure key or symptom (e.g. 'PRICING_SCREEN_INCORRECT_SYNTAX', 'BATCH_DEADLOCK', 'DECISION_DELIVERY_TIMEOUT', 'UNMAPPED_DIMENSIONS_TRIAGE', 'CEDF_DATA_LAG_STALE_IMPORT', 'COMPETITIVE_CONSTRAINT_CONFLICT', 'HAL_CONFIG_DESYNC').",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "playbook_key": {
+                    "type": "string",
+                    "description": "The playbook identifier or symptom key (e.g. 'PRICING_SCREEN_INCORRECT_SYNTAX', 'BATCH_DEADLOCK', 'DECISION_DELIVERY_TIMEOUT', 'UNMAPPED_DIMENSIONS_TRIAGE', 'CEDF_DATA_LAG_STALE_IMPORT', 'COMPETITIVE_CONSTRAINT_CONFLICT').",
+                },
+            },
+            "required": ["playbook_key"],
+        },
+    },
+    {
+        "name": "kb_search_operations_guide",
+        "description": "Searches the complete SAS IDeaS Master Operations & Architecture Knowledge Base (subsystems, 4 transport topologies, Zero-DB compliance rules, error codes, click-paths, and playbooks) for relevant guidance.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search topic, question, or keyword (e.g. 'Zero-DB mandate', 'NGI streaming failure', 'Opera delta extract', 'Hibernate empty collection', 'deadlock').",
+                },
+                "section": {
+                    "type": "string",
+                    "description": "Optional section filter: 'ARCHITECTURE', 'TRANSPORT_TOPOLOGY', 'ZERO_DB_MANDATE', 'PLAYBOOKS', 'TOOL_ROUTING', or 'ALL' (default 'ALL').",
+                    "default": "ALL",
+                },
+            },
+            "required": ["query"],
+        },
+    },
+    {
+        "name": "kb_get_transport_topology",
+        "description": "Returns comprehensive architecture, failure modes, diagnostic tools, and recovery actions for external PMS/CRS transport mechanisms (NGI, Direct URL / HTNG, CEDF SFTP, Ratchet SRP).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "mechanism": {
+                    "type": "string",
+                    "description": "Transport mechanism: 'NGI', 'DIRECT_URL_HTNG', 'CEDF_SFTP', 'RATCHET_SRP', or 'ALL' (default 'ALL').",
+                    "default": "ALL",
+                },
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "kb_get_zero_db_clickpaths",
+        "description": "Returns exact click-by-click G3 RMS UI navigation paths, save procedures, and verification checks for non-database operational fixes.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Target module: 'ROOM_TYPES', 'RATE_CODES_SRP', 'DECISION_DELIVERY', 'BATCH_CHAINS', 'COMPETITIVE_RULES', 'PACMAN_PARAMETERS', or 'RESERVATIONS_RESYNC'.",
+                },
+            },
+            "required": ["category"],
+        },
+    },
 ]
 
 CONFLUENCE_RESOURCES = [
@@ -1466,6 +1635,190 @@ def execute_tool(name: str, arguments: Dict[str, Any]) -> Any:
             "max_pages": max_p,
             "message": f"Confluence sync scheduled for space '{space}' into Qdrant collection confluence_kb.",
         }
+
+    # --- Group 9: Built-in SRE Master Knowledge Base & Zero-DB Engine ---
+    elif name == "kb_get_triage_playbook":
+        pkey = arguments["playbook_key"].upper().strip()
+        if pkey in DIAGNOSTIC_RUNBOOKS:
+            rb = DIAGNOSTIC_RUNBOOKS[pkey]
+            return {
+                "playbook_key": pkey,
+                "found": True,
+                "title": rb["title"],
+                "domain": rb["domain"],
+                "summary": rb["summary"],
+                "identification_technique": rb["identification_technique"],
+                "suggested_remediation": rb["suggested_remediation"],
+                "confluence_url": rb.get("confluence_url"),
+            }
+        for k, rb in DIAGNOSTIC_RUNBOOKS.items():
+            if pkey in k or any(kw in pkey.lower() for kw in rb.get("keywords", [])):
+                return {
+                    "playbook_key": k,
+                    "matched_query": pkey,
+                    "found": True,
+                    "title": rb["title"],
+                    "domain": rb["domain"],
+                    "summary": rb["summary"],
+                    "identification_technique": rb["identification_technique"],
+                    "suggested_remediation": rb["suggested_remediation"],
+                    "confluence_url": rb.get("confluence_url"),
+                }
+        return {
+            "found": False,
+            "playbook_key": pkey,
+            "message": f"Playbook '{pkey}' not found. Available playbooks: {list(DIAGNOSTIC_RUNBOOKS.keys())}",
+            "available_playbooks": list(DIAGNOSTIC_RUNBOOKS.keys()),
+        }
+
+    elif name == "kb_search_operations_guide":
+        query = arguments["query"].lower().strip()
+        sec = arguments.get("section", "ALL").upper()
+        kb_docs = ["ZERO_DB_OPERATIONS_PLAYBOOK.md", "IDeaS_Triage_Knowledge_Base.md", "IDeaS_Error_Codes_And_Glossary.md"]
+        matches = []
+        for dname in kb_docs:
+            dpath = os.path.join(SCRIPT_DIR, "knowledge_docs", dname)
+            if not os.path.exists(dpath):
+                dpath = os.path.join(SCRIPT_DIR, dname)
+            if os.path.exists(dpath):
+                try:
+                    with open(dpath, "r", encoding="utf-8", errors="ignore") as fp:
+                        content = fp.read()
+                    sections = content.split("## ")
+                    for s in sections:
+                        if not s.strip():
+                            continue
+                        s_title = s.split("\n")[0].strip()
+                        if query in s.lower():
+                            matches.append({
+                                "source_document": dname,
+                                "section_title": s_title,
+                                "excerpt": s[:800] + ("..." if len(s) > 800 else ""),
+                            })
+                except Exception as ex:
+                    logger.warning("Error reading %s: %s", dname, ex)
+        return {
+            "query": arguments["query"],
+            "section_filter": sec,
+            "total_matches": len(matches),
+            "results": matches[:5],
+        }
+
+    elif name == "kb_get_transport_topology":
+        mech = arguments.get("mechanism", "ALL").upper().strip()
+        topologies = {
+            "NGI": {
+                "name": "NGI (Next Generation Integration / Streaming)",
+                "technology": "Kafka real-time event streaming & cloud ingestion microservices",
+                "common_partners": ["Oracle Opera Cloud (OHIP)", "Mews", "Stayntouch"],
+                "failure_modes": ["Kafka consumer group lag", "JSON/Avro deserialization errors", "Dead Letter Queue (DLQ) overflow", "OAuth2 token expiry"],
+                "diagnostic_tools": ["datadog_trace_pms_inbound_stream", "fds_probe_microservice_health", "fds_get_nucleus_integration_settings"],
+                "zero_db_resolution": "In G3 RMS UI -> System -> Sync Status -> Replay Streaming Messages from Timestamp, or request hotel IT verify OHIP webhook subscription status.",
+            },
+            "DIRECT_URL_HTNG": {
+                "name": "Direct URL / Webhooks / HTNG Outbound Delivery",
+                "technology": "Synchronous/asynchronous HTTPS POST/PUT payloads (HTNG 2008B/2014A XML / REST)",
+                "common_partners": ["Sabre SynXis CRS", "Hilton OnQ", "Amadeus iHotelier", "Opera OWS / OXI proxy"],
+                "failure_modes": ["HTTP 401/403 cert or basic auth expiry", "HTTP 404 endpoint path altered", "HTTP 500/504 partner listener timeout >30s", "HTNG XML schema rejection"],
+                "diagnostic_tools": ["cma_get_decision_delivery_details", "datadog_trace_decision_delivery_errors", "fds_get_integration_property_configs"],
+                "zero_db_resolution": "In G3 RMS UI -> Pricing -> Decision Delivery -> Delivery Status -> Force Redelivery. Update credentials in HAL Explorer. Notify hotel IT to bounce local HTNG listener.",
+            },
+            "CEDF_SFTP": {
+                "name": "File-Based CEDF / SFTP Batch Inbound & Outbound",
+                "technology": "Scheduled flat files (CSV, pipe-delimited, XML) over secure SFTP (cedf.ideasrms.com) ingested by Spring Batch BDE",
+                "common_partners": ["Legacy Opera V5 (OXI extracts)", "Custom enterprise data feeds", "Nightly PMS audit dumps"],
+                "failure_modes": ["SFTP connection timeout", "0-byte file locks", "Corrupt headers/delimiters", "File arrival after batch cutoff time"],
+                "diagnostic_tools": ["cma_get_datafeed_status", "cma_get_datafeed_import_freshness", "cedf_check_client_upload_status"],
+                "zero_db_resolution": "Do NOT manually insert reservation rows in SQL. Request hotel Night Auditor run manual delta extract from PMS (Opera: Miscellaneous -> File Export) to SFTP /inbound/, then trigger G3 RMS UI -> System Operations -> Ingest Queue.",
+            },
+            "RATCHET_SRP": {
+                "name": "Ratchet Strategic Rate Plan (SRP) Channel Distribution",
+                "technology": "Ratchet middleware synchronizing SRPs across channel managers, OTAs, and CRS partners",
+                "common_partners": ["DerbySoft", "SiteMinder", "D-EDGE", "Direct OTAs"],
+                "failure_modes": ["Unmapped Strategic Rate Plans", "Room class parity inversions", "Inactive rate plans"],
+                "diagnostic_tools": ["cma_get_ratchet_srp_mappings"],
+                "zero_db_resolution": "Link unmapped SRPs in G3 RMS UI -> Pricing & Restrictions -> Rate Management -> SRP Mapping. Publish rate plan changes to trigger Ratchet cache reload.",
+            },
+        }
+        if mech in topologies:
+            return {"mechanism": mech, "topology": topologies[mech]}
+        return {"mechanism": "ALL", "topologies": topologies}
+
+    elif name == "kb_get_zero_db_clickpaths":
+        cat = arguments["category"].upper().strip()
+        clickpaths = {
+            "ROOM_TYPES": {
+                "module": "Room Types & Physical Inventory",
+                "navigation_path": "G3 RMS UI -> Settings -> Property Setup -> Room Configuration -> Room Types",
+                "steps": [
+                    "1. Click on the 'Unmapped Room Types' tab.",
+                    "2. Select the unmapped PMS room code (e.g. DLXK).",
+                    "3. Assign to an existing Pseudo Room Class or define as a new Physical Room Type with physical capacity.",
+                    "4. Click 'Save & Apply'.",
+                    "5. Reprocess: Navigate to System -> Sync Status -> Resync Reservations.",
+                ],
+            },
+            "RATE_CODES_SRP": {
+                "module": "Rate Codes & Strategic Rate Plans (SRP)",
+                "navigation_path": "G3 RMS UI -> Pricing & Restrictions -> Rate Management -> Rate Codes / SRP Mapping",
+                "steps": [
+                    "1. Search for the unmapped PMS rate code.",
+                    "2. Link the rate code to the designated Strategic Rate Plan (SRP) group (e.g. Commercial, Promotional).",
+                    "3. Configure rate parity rules and ceiling/floor constraints.",
+                    "4. Click 'Publish Mappings' to invalidate cache across Ratchet and decision delivery queues.",
+                ],
+            },
+            "DECISION_DELIVERY": {
+                "module": "Decision Delivery Uploads",
+                "navigation_path": "G3 RMS UI -> Pricing -> Decision Delivery -> Delivery Status",
+                "steps": [
+                    "1. Filter by date window and failed delivery batch ID.",
+                    "2. Inspect the delivery error message (e.g. timeout or schema mismatch).",
+                    "3. Click 'Force Redelivery' (or 'Replay Batch') to re-queue the payload cleanly without database updates.",
+                ],
+            },
+            "BATCH_CHAINS": {
+                "module": "CMA Batch Orchestration & Deadlocks",
+                "navigation_path": "CMA Edge Gateway Portal -> Batch Orchestration -> Chains",
+                "steps": [
+                    "1. Filter for the tenant property chain (e.g. IDeaS_Batch_Hilton_LONLK).",
+                    "2. Inspect the failed or blocked step (e.g. BDE_IMPORT or OPTIMIZATION).",
+                    "3. Click 'Action: Resume / Restart Step'.",
+                    "4. Spring Batch runtime automatically clears orphaned transaction locks on Job_State and advances state.",
+                ],
+            },
+            "COMPETITIVE_RULES": {
+                "module": "Competitive Market Position Rules",
+                "navigation_path": "G3 RMS UI -> Pricing -> Competitive Intelligence -> Positioning Rules",
+                "steps": [
+                    "1. Locate the competitor rule conflicting with LRV hurdle floors or causing room class inversions.",
+                    "2. Check the box 'Exclude Competitor When Rates Are Closed' or relax the floor constraint.",
+                    "3. Click 'Save & Recalculate' to generate fresh decisions.",
+                ],
+            },
+            "PACMAN_PARAMETERS": {
+                "module": "System Configuration & PACMAN Parameters",
+                "navigation_path": "G3 RMS UI -> Admin -> System Configuration -> PACMAN Parameters",
+                "steps": [
+                    "1. Search for the parameter key (e.g. pacman.pricing.continuous.sensitivity).",
+                    "2. Enter the updated value.",
+                    "3. Enter the mandatory Salesforce Case # / Change Reason for SOX audit tracking.",
+                    "4. Click 'Apply' to trigger automatic worker node memory reload.",
+                ],
+            },
+            "RESERVATIONS_RESYNC": {
+                "module": "Reservation Ingestion & Datafeed Resync",
+                "navigation_path": "G3 RMS UI -> System Operations -> Data Feeds -> Ingest Queue",
+                "steps": [
+                    "1. Verify that the PMS delta file has landed in the CEDF SFTP /inbound/ directory.",
+                    "2. Select the pending file from the Ingest Queue.",
+                    "3. Click 'Process Now' to execute safe, transactional BDE ingestion into Optix.",
+                ],
+            },
+        }
+        if cat in clickpaths:
+            return {"category": cat, "clickpath": clickpaths[cat]}
+        return {"found": False, "requested": cat, "available_categories": list(clickpaths.keys())}
 
     else:
         raise ValueError(f"Unknown tool name: {name}")
