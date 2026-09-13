@@ -325,8 +325,39 @@ def get_dashboard_metrics() -> Dict[str, Any]:
         """)
         domain_counts = {r["domain"]: r["cnt"] for r in cur.fetchall()}
 
-        # Recent 50 audit logs
-        cur = conn.execute("SELECT * FROM audit_logs ORDER BY id DESC LIMIT 50")
+        # Top 10 most called tools
+        cur = conn.execute("""
+            SELECT tool_name, domain, COUNT(*) as call_count, ROUND(AVG(execution_time_ms), 1) as avg_ms,
+                   SUM(CASE WHEN status_code >= 400 THEN 1 ELSE 0 END) as errors
+            FROM audit_logs
+            WHERE tool_name IS NOT NULL AND tool_name != ''
+            GROUP BY tool_name, domain
+            ORDER BY call_count DESC
+            LIMIT 10
+        """)
+        top_tools = [dict(r) for r in cur.fetchall()]
+
+        # HTTP Status Code breakdown
+        cur = conn.execute("""
+            SELECT 
+                SUM(CASE WHEN status_code = 200 THEN 1 ELSE 0 END) as ok_200,
+                SUM(CASE WHEN status_code = 401 THEN 1 ELSE 0 END) as err_401,
+                SUM(CASE WHEN status_code = 403 THEN 1 ELSE 0 END) as err_403,
+                SUM(CASE WHEN status_code = 429 THEN 1 ELSE 0 END) as err_429,
+                SUM(CASE WHEN status_code >= 500 THEN 1 ELSE 0 END) as err_500
+            FROM audit_logs
+        """)
+        r_status = cur.fetchone()
+        status_breakdown = {
+            "ok_200": r_status["ok_200"] or 0,
+            "err_401": r_status["err_401"] or 0,
+            "err_403": r_status["err_403"] or 0,
+            "err_429": r_status["err_429"] or 0,
+            "err_500": r_status["err_500"] or 0,
+        } if r_status else {}
+
+        # Recent 100 audit logs
+        cur = conn.execute("SELECT * FROM audit_logs ORDER BY id DESC LIMIT 100")
         recent_logs = [dict(r) for r in cur.fetchall()]
 
         return {
@@ -338,6 +369,8 @@ def get_dashboard_metrics() -> Dict[str, Any]:
             "keys": keys,
             "domains": domains,
             "domain_counts": domain_counts,
+            "top_tools": top_tools,
+            "status_breakdown": status_breakdown,
             "recent_logs": recent_logs,
         }
     finally:

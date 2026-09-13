@@ -807,6 +807,16 @@ def create_fastapi_app():
 
         new_key = request.query_params.get("new_key")
         metrics = get_dashboard_metrics()
+        metrics["all_tools"] = [
+            {
+                "name": t.get("name", ""),
+                "domain": get_tool_domain(t.get("name", "")),
+                "description": t.get("description", ""),
+                "schema": t.get("inputSchema", {}),
+            }
+            for t in MASTER_TOOLS
+        ]
+        metrics["total_tools_count"] = len(MASTER_TOOLS)
         return HTMLResponse(render_dashboard(metrics, new_key=new_key))
 
     @app.post("/admin/keys/create")
