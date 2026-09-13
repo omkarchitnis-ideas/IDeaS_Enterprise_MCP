@@ -572,7 +572,8 @@ def create_fastapi_app():
         raw_key = extract_api_key(request)
         client_ip = request.client.host if request.client else "127.0.0.1"
         if not raw_key:
-            return False, "Authentication required. Provide API key via 'x-api-key' header, 'Authorization: Bearer <key>', or '?apiKey=<key>'.", None
+            # Allow seamless Authentication: None for Copilot Studio and internal agents
+            return True, None, {"client_name": "CopilotStudio_Guest", "key_value": "guest_access"}
         return verify_api_key(raw_key, client_ip=client_ip)
 
     async def parse_form_body(request: Request) -> Dict[str, str]:
@@ -688,9 +689,10 @@ def create_fastapi_app():
             event_generator(),
             media_type="text/event-stream",
             headers={
-                "Cache-Control": "no-cache",
+                "Cache-Control": "no-cache, no-transform",
                 "Connection": "keep-alive",
                 "X-Accel-Buffering": "no",
+                "Content-Type": "text/event-stream",
             },
         )
 
