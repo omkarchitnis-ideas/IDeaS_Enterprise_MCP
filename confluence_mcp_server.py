@@ -477,6 +477,118 @@ DEFAULT_CONFLUENCE_SPACES = [
 
 
 # ==============================================================================
+# SRE ERROR CODE & DIAGNOSTIC ATTRIBUTION REGISTRY
+# ==============================================================================
+ERROR_CODES = {
+    "INCORRECT_SYNTAX_EMPTY_COLLECTION": {
+        "error_code": "SQLSERVEREXCEPTION_IN_EMPTY",
+        "pattern": "Incorrect syntax near ')'",
+        "subsystem": "Pricing Screen UI / Hibernate Dialect",
+        "root_cause": (
+            "Hibernate generates dynamic SQL with 'WHERE Room_Type_Code IN ()' when querying pricing/inventory "
+            "for a property that has zero mapped room types or all room types are unmapped/inactive. MSSQL rejects "
+            "the empty parenthetical clause as a fatal syntax error."
+        ),
+        "impact": "Pricing screen crashes with Unhandled Exception on load; users cannot view or edit room rates.",
+        "affected_tables": ["Hospitality_Rooms_Config", "Room_Type_Diff", "CR_Mapping_Room_Numbers"],
+        "diagnostic_query": "SELECT COUNT(*) as active_rooms FROM Hospitality_Rooms_Config WITH (NOLOCK) WHERE Property_ID = @property_id AND Status_ID = 1;",
+        "zero_db_clickpath": "G3 RMS UI -> Settings -> Property Setup -> Room Configuration -> Room Types -> Unmapped Room Types -> Map unmapped PMS room code to room class -> Save & Apply.",
+    },
+    "ERR_LOCK_FAILED": {
+        "error_code": "ERR_LOCK_FAILED / MSSQL_1205_DEADLOCK",
+        "pattern": "ERR_LOCK_FAILED or Deadlock victim 1205",
+        "subsystem": "CMA Batch Orchestration / Job DB / Optix",
+        "root_cause": (
+            "Concurrent Spring Batch worker threads or ad-hoc analytics queries locked Job_State or Accom_Activity "
+            "in exclusive mode, triggering an MSSQL 1205 deadlock or lock timeout."
+        ),
+        "impact": "Nightly BDE or optimization job terminates in FAILED status; pricing decisions not generated.",
+        "affected_tables": ["JOB_STATE", "Blocked_Job", "PROBLEM", "Accom_Activity"],
+        "diagnostic_query": "SELECT js.Job_Name, js.Status, js.Start_Time, bj.valid_until FROM Job_State js WITH (NOLOCK) LEFT JOIN Blocked_Job bj WITH (NOLOCK) ON js.Job_Name = bj.Job_Name WHERE js.Status IN ('STARTED', 'RUNNING');",
+        "zero_db_clickpath": "CMA Edge Gateway Portal -> Batch Orchestration -> Chains -> Filter tenant chain -> Select failed step -> Action: Resume / Restart Step.",
+    },
+    "ERR_PMS_TIMEOUT": {
+        "error_code": "ERR_PMS_TIMEOUT / HTTP_504",
+        "pattern": "ERR_PMS_TIMEOUT or HTTP 504",
+        "subsystem": "AIS Outbound Decision Delivery / HTNG",
+        "root_cause": (
+            "External PMS/CRS listener (Opera OWS, Sabre SynXis, OnQ) failed to acknowledge rate or restriction "
+            "upload within the 30-second HTTP socket timeout."
+        ),
+        "impact": "Pricing recommendations calculated by G3 RMS do not publish to PMS/CRS.",
+        "affected_tables": ["Decision_Delivery", "Decision_Delivery_By_Type"],
+        "diagnostic_query": "SELECT TOP 10 dd.Decision_Delivery_ID, dd.Uploaded_DTTM, dt.Decision_Type, dt.Status, dt.Error_Message FROM Decision_Delivery dd WITH (NOLOCK) JOIN Decision_Delivery_By_Type dt WITH (NOLOCK) ON dd.Decision_Delivery_ID = dt.Decision_Delivery_ID WHERE dd.Property_ID = @property_id ORDER BY dd.Uploaded_DTTM DESC;",
+        "zero_db_clickpath": "G3 RMS UI -> Pricing -> Decision Delivery -> Delivery Status -> Select failed batch -> Force Redelivery.",
+    },
+    "ERR_LRV_VIOLATION": {
+        "error_code": "ERR_LRV_VIOLATION",
+        "pattern": "ERR_LRV_VIOLATION or Price below hurdle floor",
+        "subsystem": "Continuous Daily Pricing (CDP) Optimizer",
+        "root_cause": (
+            "Recommended price fell below the calculated Last Room Value (LRV) hurdle floor. "
+            "Optimizer suppressed publication to protect yield."
+        ),
+        "impact": "BAR rates remain unchanged or frozen; decisions marked as suppressed.",
+        "affected_tables": ["RMS_LRV_Daily", "RMS_Pricing_Decisions"],
+        "diagnostic_query": "SELECT Property_ID, Calendar_ID, LRV_Amount FROM RMS_LRV_Daily WITH (NOLOCK) WHERE Property_ID = @property_id AND Calendar_ID >= CONVERT(INT, CONVERT(VARCHAR(8), GETDATE(), 112));",
+        "zero_db_clickpath": "G3 RMS UI -> Pricing -> Pricing & Restrictions -> Rate Management -> Verify LRV hurdle settings and ensure promotional rate plans do not breach floor.",
+    },
+    "ERR_PRICE_RANK_VIOLATION": {
+        "error_code": "ERR_PRICE_RANK_VIOLATION",
+        "pattern": "ERR_PRICE_RANK_VIOLATION or Room class parity inversion",
+        "subsystem": "Strategic Rate Plan (SRP) / Ratchet Engine",
+        "root_cause": (
+            "A competitive market positioning rule or aggressive discount caused a higher room class "
+            "(e.g. Suite) to price lower than a base room class (e.g. Standard King)."
+        ),
+        "impact": "Decisions rejected by validation engine before publication.",
+        "affected_tables": ["Competitive_Positioning_Rule", "Room_Type_Diff"],
+        "diagnostic_query": "SELECT Property_ID, Competitor_ID, Positioning_Rule_Type, Rate_Offset_Value, Floor_Price FROM Competitive_Positioning_Rule WITH (NOLOCK) WHERE Property_ID = @property_id;",
+        "zero_db_clickpath": "G3 RMS UI -> Pricing -> Competitive Intelligence -> Positioning Rules -> Ensure 'Maintain Class Hierarchy' constraint is checked.",
+    },
+    "ERR_RATE_SHOP_EMPTY": {
+        "error_code": "ERR_RATE_SHOP_EMPTY",
+        "pattern": "ERR_RATE_SHOP_EMPTY or Missing competitor shop data",
+        "subsystem": "Rate Shopping Ingestion / NGI STR",
+        "root_cause": (
+            "Competitor rate shopping vendor returned zero open rates for the shop date, often because "
+            "competitor hotels closed inventory or anti-scraping blocks occurred."
+        ),
+        "impact": "Competitor pricing rules cannot evaluate; pricing falls back to unconstrained demand curve.",
+        "affected_tables": ["Dim_Rate_Shop_History", "Dim_Competitor_Property"],
+        "diagnostic_query": "SELECT Property_ID, Competitor_ID, Shop_Date, Open_Rates_Count FROM Dim_Rate_Shop_History WITH (NOLOCK) WHERE Property_ID = @property_id ORDER BY Shop_Date DESC;",
+        "zero_db_clickpath": "G3 RMS UI -> Pricing -> Competitive Intelligence -> Competitor Settings -> Check 'Exclude Competitor When Rates Are Closed'.",
+    },
+    "ERR_INVALID_OAUTH_TOKEN": {
+        "error_code": "ERR_INVALID_OAUTH_TOKEN / 401 Unauthorized",
+        "pattern": "ERR_INVALID_OAUTH_TOKEN or 401 Unauthorized M2M",
+        "subsystem": "FDS UIS / UPS Authentication Gateway",
+        "root_cause": (
+            "Cached Machine-to-Machine OAuth2 Bearer token expired after TTL or client secret rotated "
+            "without invalidating microservice token cache."
+        ),
+        "impact": "Microservice API calls return 401 Unauthorized.",
+        "affected_tables": ["Auth_Group", "Announcement_User"],
+        "diagnostic_query": "SELECT * FROM Auth_Group WITH (NOLOCK) WHERE Client_ID = @client_id;",
+        "zero_db_clickpath": "Use MCP tool ups_force_token_refresh to invalidate memory cache and fetch new token immediately.",
+    },
+    "KAFKA_CONSUMER_LAG_DLQ": {
+        "error_code": "KAFKA_LAG_DLQ_OVERFLOW",
+        "pattern": "Kafka consumer group lag or DLQ overflow",
+        "subsystem": "NGI Streaming Ingestion / Cloud Inbound",
+        "root_cause": (
+            "Upstream PMS webhook payload schema change causing JSON deserialization failures "
+            "and routing messages to Dead Letter Queue (DLQ)."
+        ),
+        "impact": "Real-time reservation updates stall; OTB pace drifts out of sync with PMS.",
+        "affected_tables": ["CR_Mapping_Room_Numbers", "FS_Booking_Guest_Room_NGI_Pace"],
+        "diagnostic_query": "SELECT TOP 20 * FROM FS_Booking_Guest_Room_NGI_Pace WITH (NOLOCK) WHERE Property_ID = @property_id ORDER BY Create_DTTM DESC;",
+        "zero_db_clickpath": "G3 RMS UI -> System -> Sync Status -> Replay Streaming Messages from Timestamp. Check OHIP webhook configuration.",
+    },
+}
+
+
+# ==============================================================================
 # CONFLUENCE CLIENT & KNOWLEDGE MANAGER
 # ==============================================================================
 class ConfluenceManager:
@@ -499,6 +611,9 @@ class ConfluenceManager:
         self.token = CONFLUENCE_TOKEN
         self.help_docs_dir = HELP_DOCS_DIR
         self._help_docs_index: Dict[str, str] = {}  # filename -> full_path
+        self._global_tables: Dict[str, Dict[str, Any]] = {}
+        self._job_tables: Dict[str, Dict[str, Any]] = {}
+        self._tenant_tables: Dict[str, Dict[str, Any]] = {}
         self._stats = {
             "queries_executed": 0,
             "docs_read": 0,
@@ -506,6 +621,7 @@ class ConfluenceManager:
             "started_at": datetime.utcnow().isoformat(),
         }
         self._index_local_help_docs()
+        self._index_db_catalogs()
 
     @classmethod
     def get_instance(cls) -> "ConfluenceManager":
@@ -520,6 +636,499 @@ class ConfluenceManager:
                 if f.endswith(".md"):
                     self._help_docs_index[f.lower()] = os.path.join(self.help_docs_dir, f)
             logger.info("Indexed %d local G3 help documentation markdown files.", len(self._help_docs_index))
+
+    def _index_db_catalogs(self):
+        """Indexes table schemas and business usages from Global, Job, and Tenant DB catalogs."""
+        candidates = [
+            os.path.join(SCRIPT_DIR, "data", "knowledge_docs"),
+            os.path.join(SCRIPT_DIR, "knowledge_docs"),
+            os.path.join(SCRIPT_DIR, "data"),
+            SCRIPT_DIR,
+        ]
+        kb_dir = None
+        for c in candidates:
+            if os.path.exists(c) and os.path.exists(os.path.join(c, "GLOBAL_DB_TABLES_CATALOG.md")):
+                kb_dir = c
+                break
+
+        if not kb_dir:
+            logger.warning("Database catalog markdown files not found in candidates: %s", candidates)
+            return
+
+        # 1. Global DB Catalog
+        g_path = os.path.join(kb_dir, "GLOBAL_DB_TABLES_CATALOG.md")
+        if os.path.exists(g_path):
+            try:
+                with open(g_path, "r", encoding="utf-8", errors="ignore") as f:
+                    for line in f:
+                        if line.startswith("|") and not line.startswith("| Table Name") and not line.startswith("| :---"):
+                            parts = [p.strip() for p in line.split("|")[1:-1]]
+                            if len(parts) >= 4:
+                                name = parts[0].strip("` ")
+                                self._global_tables[name.upper()] = {
+                                    "table_name": name,
+                                    "database": "GLOBAL",
+                                    "system_usage": parts[1].replace("**", "").strip(),
+                                    "business_purpose": parts[2].strip(),
+                                    "key_columns": parts[3].strip(),
+                                }
+            except Exception as ex:
+                logger.warning("Error reading Global DB catalog: %s", ex)
+
+        # 2. Job DB Catalog
+        j_path = os.path.join(kb_dir, "JOB_DB_TABLES_CATALOG.md")
+        if os.path.exists(j_path):
+            try:
+                with open(j_path, "r", encoding="utf-8", errors="ignore") as f:
+                    for line in f:
+                        if line.startswith("|") and not line.startswith("| Table Name") and not line.startswith("| :---"):
+                            parts = [p.strip() for p in line.split("|")[1:-1]]
+                            if len(parts) >= 4:
+                                name = parts[0].strip("` ")
+                                self._job_tables[name.upper()] = {
+                                    "table_name": name,
+                                    "database": "JOB",
+                                    "system_usage": parts[1].replace("**", "").strip(),
+                                    "business_purpose": parts[2].strip(),
+                                    "key_columns": parts[3].strip(),
+                                }
+            except Exception as ex:
+                logger.warning("Error reading Job DB catalog: %s", ex)
+
+        # 3. Tenant DB Catalog
+        t_path = os.path.join(kb_dir, "TENANT_DB_TABLES_CATALOG.md")
+        if os.path.exists(t_path):
+            try:
+                curr_mod = "General RMS"
+                with open(t_path, "r", encoding="utf-8", errors="ignore") as f:
+                    for line in f:
+                        if "RMS Module:" in line:
+                            m = re.search(r'RMS Module:\s*\"?([^\"]+?)\"?\s*\(', line)
+                            if m:
+                                curr_mod = m.group(1).strip()
+                        elif line.startswith("|") and not line.startswith("| Table Name") and not line.startswith("| :---"):
+                            parts = [p.strip() for p in line.split("|")[1:-1]]
+                            if len(parts) >= 6:
+                                name = parts[0].strip("` ")
+                                self._tenant_tables[name.upper()] = {
+                                    "table_name": name,
+                                    "database": "TENANT",
+                                    "module": curr_mod,
+                                    "system_usage": parts[1].strip(),
+                                    "source": parts[2].strip(),
+                                    "type": parts[3].strip(),
+                                    "purge_days": parts[4].strip(),
+                                    "notes": parts[5].strip(),
+                                }
+            except Exception as ex:
+                logger.warning("Error reading Tenant DB catalog: %s", ex)
+
+        logger.info(
+            "Indexed %d Global DB, %d Job DB, and %d Tenant DB tables (Total: %d tables).",
+            len(self._global_tables),
+            len(self._job_tables),
+            len(self._tenant_tables),
+            len(self._global_tables) + len(self._job_tables) + len(self._tenant_tables),
+        )
+
+    def lookup_table(self, table_name: str, database: str = "ALL") -> Dict[str, Any]:
+        """Retrieves technical metadata, business purpose, key columns, and safe query templates for a table."""
+        t_up = table_name.upper().strip()
+        db_up = database.upper().strip()
+        matches = []
+
+        if db_up in ("ALL", "GLOBAL") and t_up in self._global_tables:
+            tbl = self._global_tables[t_up]
+            matches.append({
+                "table_name": tbl["table_name"],
+                "database": "GLOBAL",
+                "system_usage": tbl["system_usage"],
+                "business_purpose": tbl["business_purpose"],
+                "key_columns": tbl["key_columns"],
+                "safe_read_query_template": f"SELECT TOP 50 * FROM {tbl['table_name']} WITH (NOLOCK) WHERE 1=1;",
+            })
+
+        if db_up in ("ALL", "JOB") and t_up in self._job_tables:
+            tbl = self._job_tables[t_up]
+            matches.append({
+                "table_name": tbl["table_name"],
+                "database": "JOB",
+                "system_usage": tbl["system_usage"],
+                "business_purpose": tbl["business_purpose"],
+                "key_columns": tbl["key_columns"],
+                "safe_read_query_template": f"SELECT TOP 50 * FROM {tbl['table_name']} WITH (NOLOCK) ORDER BY 1 DESC;",
+            })
+
+        if db_up in ("ALL", "TENANT") and t_up in self._tenant_tables:
+            tbl = self._tenant_tables[t_up]
+            matches.append({
+                "table_name": tbl["table_name"],
+                "database": "TENANT",
+                "module": tbl["module"],
+                "system_usage": tbl["system_usage"],
+                "source": tbl["source"],
+                "type": tbl["type"],
+                "notes": tbl["notes"],
+                "safe_read_query_template": f"SELECT TOP 50 * FROM {tbl['table_name']} WITH (NOLOCK) WHERE Property_ID = @property_id;",
+            })
+
+        # Substring fallback if no exact match
+        if not matches:
+            pool = []
+            if db_up in ("ALL", "GLOBAL"):
+                pool.extend(self._global_tables.values())
+            if db_up in ("ALL", "JOB"):
+                pool.extend(self._job_tables.values())
+            if db_up in ("ALL", "TENANT"):
+                pool.extend(self._tenant_tables.values())
+
+            for tbl in pool:
+                if t_up in tbl["table_name"].upper():
+                    matches.append(tbl)
+                    if len(matches) >= 5:
+                        break
+
+        return {
+            "found": bool(matches),
+            "query": table_name,
+            "database_filter": db_up,
+            "match_count": len(matches),
+            "results": matches,
+        }
+
+    def search_tables(self, keyword: str, database: str = "ALL", limit: int = 15) -> Dict[str, Any]:
+        """Fuzzy/keyword searches across table names, modules, and business usage descriptions."""
+        kw = keyword.lower().strip()
+        db_up = database.upper().strip()
+
+        # Synonym expansion for common SRE concepts
+        synonyms = {
+            "deadlock": ["lock", "blocked", "contention", "victim", "job_state"],
+            "room": ["rooms", "room_type", "hospitality", "pseudo"],
+            "rate": ["rates", "srp", "pricing", "bar", "lrv"],
+            "parameter": ["pacman", "config", "switch", "flag"],
+            "inventory": ["capacity", "overbooking", "physical", "allotment"],
+            "batch": ["bde", "chain", "job", "step", "pipeline"],
+        }
+        tokens = [t for t in re.split(r'[\s_\-]+', kw) if len(t) > 1]
+        for syn_k, syn_list in synonyms.items():
+            if syn_k in kw:
+                tokens.extend(syn_list)
+
+        pool = []
+        if db_up in ("ALL", "GLOBAL"):
+            pool.extend(self._global_tables.values())
+        if db_up in ("ALL", "JOB"):
+            pool.extend(self._job_tables.values())
+        if db_up in ("ALL", "TENANT"):
+            pool.extend(self._tenant_tables.values())
+
+        scored = []
+        for tbl in pool:
+            t_name = tbl["table_name"].lower()
+            score = 0
+            if kw == t_name:
+                score += 100
+            elif kw in t_name:
+                score += 50
+            else:
+                for tok in tokens:
+                    if tok in t_name:
+                        score += 25
+
+            text_body = f"{tbl.get('system_usage', '')} {tbl.get('business_purpose', '')} {tbl.get('notes', '')} {tbl.get('module', '')} {tbl.get('key_columns', '')}".lower()
+            if kw in text_body:
+                score += 20
+            else:
+                for tok in tokens:
+                    if tok in text_body:
+                        score += 10
+
+            if score > 0:
+                scored.append((score, tbl))
+
+        scored.sort(key=lambda x: x[0], reverse=True)
+        results = [x[1] for x in scored[:limit]]
+        return {
+            "keyword": keyword,
+            "database_filter": db_up,
+            "total_matches": len(scored),
+            "returned_count": len(results),
+            "results": results,
+        }
+
+    def list_tables_by_module(self, database: str, module: Optional[str] = None) -> Dict[str, Any]:
+        """Lists tables organized by functional module/system usage."""
+        db_up = database.upper().strip()
+        if db_up == "GLOBAL":
+            modules: Dict[str, List[str]] = {}
+            for t in self._global_tables.values():
+                m = t.get("system_usage", "General")
+                modules.setdefault(m, []).append(t["table_name"])
+        elif db_up == "JOB":
+            modules = {}
+            for t in self._job_tables.values():
+                m = t.get("system_usage", "General")
+                modules.setdefault(m, []).append(t["table_name"])
+        elif db_up == "TENANT":
+            modules = {}
+            for t in self._tenant_tables.values():
+                m = t.get("module", "General")
+                modules.setdefault(m, []).append(t["table_name"])
+        else:
+            return {"error": "Invalid database. Specify 'GLOBAL', 'JOB', or 'TENANT'."}
+
+        if module:
+            mod_lower = module.lower()
+            filtered = {k: v for k, v in modules.items() if mod_lower in k.lower()}
+            return {
+                "database": db_up,
+                "module_filter": module,
+                "matched_modules": list(filtered.keys()),
+                "total_tables": sum(len(v) for v in filtered.values()),
+                "tables_by_module": filtered,
+            }
+
+        return {
+            "database": db_up,
+            "total_modules": len(modules),
+            "total_tables": sum(len(v) for v in modules.values()),
+            "modules_summary": {k: len(v) for k, v in sorted(modules.items(), key=lambda x: len(x[1]), reverse=True)},
+        }
+
+    def lookup_error_code(self, error_code: str) -> Dict[str, Any]:
+        """Retrieves root cause, affected subsystem, diagnostic check, and Zero-DB UI remediation for an error."""
+        q = error_code.lower().strip()
+        matched = []
+        for k, v in ERROR_CODES.items():
+            if (
+                q in k.lower()
+                or q in v["pattern"].lower()
+                or q in v["error_code"].lower()
+                or any(tok in v["root_cause"].lower() for tok in q.split())
+            ):
+                matched.append(v)
+
+        return {
+            "query": error_code,
+            "found": bool(matched),
+            "total_matches": len(matched),
+            "results": matched if matched else list(ERROR_CODES.values())[:3],
+        }
+
+    def generate_diagnostic_queries(
+        self, scenario: str, client_code: Optional[str] = None, property_id: Optional[Any] = None, date_range: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Generates verified read-only SQL queries with WITH (NOLOCK) and TOP 50 caps for triage scenarios."""
+        c_code = client_code or "<CLIENT_CODE>"
+        p_id = str(property_id or "<PROPERTY_ID>")
+        sc_up = scenario.upper().strip()
+
+        if sc_up in ("PRICING_SCREEN_FAILURE", "EMPTY_IN_CLAUSE", "INCORRECT_SYNTAX"):
+            return {
+                "scenario": "Pricing Screen Access Failure & Empty IN () Clause",
+                "tenant_db_checks": [
+                    {
+                        "purpose": "Verify if property has zero mapped or active room types in Tenant DB",
+                        "sql": f"SELECT Room_Type_Code, Pseudo_Room_Class_ID, Status_ID FROM Hospitality_Rooms_Config WITH (NOLOCK) WHERE Property_ID = {p_id};",
+                    },
+                    {
+                        "purpose": "Check active rate codes and pricing delta configurations",
+                        "sql": f"SELECT TOP 20 Room_Type_Code, Rate_Code, Start_Date, End_Date, Status_ID FROM Room_Type_Diff WITH (NOLOCK) WHERE Property_ID = {p_id};",
+                    },
+                ],
+                "global_db_checks": [
+                    {
+                        "purpose": "Verify property master record and operational status",
+                        "sql": f"SELECT Property_ID, Client_ID, Property_Code, Property_Name, Timezone, Status_ID FROM Agent_Property WITH (NOLOCK) WHERE Property_ID = {p_id};",
+                    }
+                ],
+                "job_db_checks": [
+                    {
+                        "purpose": "Check if a batch job failed during property initialization",
+                        "sql": f"SELECT TOP 5 j.Job_Name, js.Status, p.Description FROM Job_State js WITH (NOLOCK) JOIN Job_Instance j WITH (NOLOCK) ON js.Job_Instance_ID = j.Job_Instance_ID LEFT JOIN Problem p WITH (NOLOCK) ON js.Job_Execution_ID = p.Step_Execution_ID WHERE j.Job_Name LIKE '%{c_code}%' ORDER BY js.Start_Time DESC;",
+                    }
+                ],
+                "zero_db_ui_remediation": "G3 RMS UI -> Settings -> Property Setup -> Room Configuration -> Room Types -> Unmapped Room Types -> Map room code -> Save & Apply.",
+            }
+        elif sc_up in ("BATCH_DEADLOCK", "LOCK_CONTENTION", "BLOCKED_JOB"):
+            return {
+                "scenario": "CMA Batch Orchestration Deadlock & Lock Contention",
+                "job_db_checks": [
+                    {
+                        "purpose": "Identify active jobs currently holding locks or stuck in STARTED state",
+                        "sql": "SELECT js.Job_Instance_ID, js.Job_Execution_ID, js.Job_Name, js.Start_Time, js.Status, bj.valid_until, bj.cooldown_start_timestamp FROM Job_State js WITH (NOLOCK) LEFT JOIN Blocked_Job bj WITH (NOLOCK) ON js.Job_Name = bj.Job_Name WHERE js.Status IN ('STARTED', 'RUNNING', 'FAILED') ORDER BY js.Start_Time DESC;",
+                    },
+                    {
+                        "purpose": "Retrieve detailed error stack trace and exception dump from PROBLEM table",
+                        "sql": "SELECT TOP 10 p.Problem_ID, p.Creation_Date, pc.Error_Code, pc.Error_Type, p.Description FROM Problem p WITH (NOLOCK) JOIN Problem_Classification pc WITH (NOLOCK) ON p.Problem_Classification_ID = pc.Problem_Classification_ID ORDER BY p.Creation_Date DESC;",
+                    },
+                ],
+                "zero_db_ui_remediation": "CMA Edge Gateway Portal -> Batch Orchestration -> Chains -> Select failed step -> Action: Resume / Restart Step.",
+            }
+        elif sc_up in ("DECISION_DELIVERY_LAG", "ERR_PMS_TIMEOUT"):
+            return {
+                "scenario": "Decision Delivery Partner Upload Timeout / Lag",
+                "global_db_checks": [
+                    {
+                        "purpose": "Inspect outbound decision delivery queue status and partner error messages",
+                        "sql": f"SELECT TOP 20 dd.Decision_Delivery_ID, dd.Uploaded_DTTM, dt.Decision_Type, dt.Status, dt.Error_Message FROM Decision_Delivery dd WITH (NOLOCK) JOIN Decision_Delivery_By_Type dt WITH (NOLOCK) ON dd.Decision_Delivery_ID = dt.Decision_Delivery_ID WHERE dd.Property_ID = {p_id} ORDER BY dd.Uploaded_DTTM DESC;",
+                    },
+                    {
+                        "purpose": "Verify decision delivery parameter mode (FULL vs DIFFERENTIAL)",
+                        "sql": f"SELECT cp.Name, cpv.Context, cpv.FixedValue, cpv.Last_Updated_DTTM FROM Config_Parameter_Value cpv WITH (NOLOCK) JOIN Config_Parameter cp WITH (NOLOCK) ON cpv.Config_Parameter_ID = cp.Config_Parameter_ID WHERE cp.Name LIKE '%outbound%' AND (cpv.Context LIKE '%{c_code}%' OR cpv.Context LIKE '%{p_id}%');",
+                    },
+                ],
+                "zero_db_ui_remediation": "G3 RMS UI -> Pricing -> Decision Delivery -> Delivery Status -> Select failed batch ID -> Click 'Force Redelivery'.",
+            }
+        elif sc_up in ("PARAMETER_AUDIT_DELTA", "CONFIGURATION_CHANGE"):
+            return {
+                "scenario": "Parameter Audit Trail & Configuration Delta Analysis",
+                "global_db_checks": [
+                    {
+                        "purpose": "Retrieve latest configuration changes, user IDs, and revision notes",
+                        "sql": f"SELECT TOP 50 cp.Name, cpv_aud.Context, cpv_aud.FixedValue, cpv_aud.REVTYPE, cpv_aud.Last_Updated_DTTM, cpv_aud.Updated_By_User_ID FROM Config_Parameter_Value_AUD cpv_aud WITH (NOLOCK) JOIN Config_Parameter cp WITH (NOLOCK) ON cpv_aud.Config_Parameter_ID = cp.Config_Parameter_ID WHERE cpv_aud.Context LIKE '%{c_code}%' OR cpv_aud.Context LIKE '%{p_id}%' ORDER BY cpv_aud.Last_Updated_DTTM DESC;",
+                    }
+                ],
+                "zero_db_ui_remediation": "G3 RMS UI -> Admin -> System Configuration -> PACMAN Parameters -> Locate altered key -> Restore value -> Enter Salesforce Case # -> Apply.",
+            }
+        elif sc_up in ("UNMAPPED_ROOM_TYPES", "UNMAPPED_DIMENSION"):
+            return {
+                "scenario": "Unmapped PMS Room Types & Rate Codes",
+                "tenant_db_checks": [
+                    {
+                        "purpose": "Inspect staging tables for unmapped room types from PMS feeds",
+                        "sql": f"SELECT DISTINCT External_Room_Type, COUNT(*) as Ingested_Count FROM CR_Mapping_Room_Numbers WITH (NOLOCK) WHERE Property_ID = {p_id} GROUP BY External_Room_Type;",
+                    }
+                ],
+                "optix_dw_checks": [
+                    {
+                        "purpose": "Find unmapped dimension entities in Optix Data Warehouse",
+                        "sql": f"SELECT Property_ID, Unmapped_Type, External_Code, First_Seen_DTTM, Last_Seen_DTTM FROM Dim_Unmapped_Entity WITH (NOLOCK) WHERE Property_ID = {p_id};",
+                    }
+                ],
+                "zero_db_ui_remediation": "G3 RMS UI -> Settings -> Property Setup -> Room Configuration -> Room Types -> Unmapped Room Types tab -> Assign to Room Class -> Save & Apply.",
+            }
+        else:
+            return {
+                "scenario": scenario,
+                "supported_scenarios": [
+                    "PRICING_SCREEN_FAILURE",
+                    "BATCH_DEADLOCK",
+                    "DECISION_DELIVERY_LAG",
+                    "PARAMETER_AUDIT_DELTA",
+                    "UNMAPPED_ROOM_TYPES",
+                ],
+                "generic_read_only_checks": [
+                    {"database": "Tenant DB", "sql": f"SELECT TOP 20 * FROM Hospitality_Rooms_Config WITH (NOLOCK) WHERE Property_ID = {p_id};"},
+                    {"database": "Global DB", "sql": f"SELECT TOP 20 * FROM Agent_Property WITH (NOLOCK) WHERE Property_ID = {p_id};"},
+                    {"database": "Job DB", "sql": "SELECT TOP 20 * FROM Job_State WITH (NOLOCK) ORDER BY Start_Time DESC;"},
+                ],
+            }
+
+    def get_investigation_matrix(self, incident_type: str) -> Dict[str, Any]:
+        """Returns the complete 5-layer SRE investigation roadmap for an incident."""
+        inc_up = incident_type.upper().strip()
+        matrices = {
+            "PRICING_SCREEN_FAILURE": {
+                "incident_type": "Pricing Screen Access Failure (Empty IN () Syntax Error)",
+                "layer_1_datadog_apm": {
+                    "services": ["g3_app-prod-log", "g3_pricing-service"],
+                    "query": "service:g3_app-prod-log \"SQLServerException\" AND \"syntax near ')'\"",
+                    "expected_trace": "HTTP 500 on GET /api/pricing/property/{property_id}/views",
+                },
+                "layer_2_database_checks": [
+                    {"db": "Tenant DB", "table": "Hospitality_Rooms_Config", "query": "SELECT COUNT(*) FROM Hospitality_Rooms_Config WITH (NOLOCK) WHERE Property_ID = @property_id AND Status_ID = 1;"},
+                    {"db": "Tenant DB", "table": "Room_Type_Diff", "query": "SELECT TOP 10 * FROM Room_Type_Diff WITH (NOLOCK) WHERE Property_ID = @property_id;"},
+                    {"db": "Global DB", "table": "Agent_Property", "query": "SELECT * FROM Agent_Property WITH (NOLOCK) WHERE Property_ID = @property_id;"},
+                ],
+                "layer_3_cma_batch": {
+                    "chain": "IDeaS_Batch_<Client>_<Property>",
+                    "step": "BDE_IMPORT",
+                    "verification": "Verify if PMS room delta import completed or was skipped due to unmapped room types.",
+                },
+                "layer_4_external_transport": {
+                    "type": "Inbound PMS (NGI Streaming / SFTP)",
+                    "check": "Check whether upstream PMS sent new room codes (e.g. DLXK) not yet configured in G3.",
+                },
+                "layer_5_digital_twin_check": {
+                    "technique": "Compare room count and active room class count with sister property in the same client cluster.",
+                },
+                "zero_db_ui_remediation": "G3 RMS UI -> Settings -> Property Setup -> Room Configuration -> Room Types -> Unmapped Room Types -> Map unmapped PMS room code to room class -> Save & Apply.",
+                "engineering_fix": "In pricing DAO service, wrap IN predicate in empty collection guard before building SQL.",
+            },
+            "BATCH_DEADLOCK": {
+                "incident_type": "Batch Pipeline Deadlock & Stale Job State",
+                "layer_1_datadog_apm": {
+                    "services": ["cma-batch-executor", "g3_batch-prod-log"],
+                    "query": "service:g3_batch-prod-log \"Deadlock victim\" OR \"ERR_LOCK_FAILED\"",
+                    "metric": "azure.sql_servers_databases.deadlock_count",
+                },
+                "layer_2_database_checks": [
+                    {"db": "Job DB", "table": "Job_State", "query": "SELECT * FROM Job_State WITH (NOLOCK) WHERE Status IN ('STARTED', 'RUNNING');"},
+                    {"db": "Job DB", "table": "Blocked_Job", "query": "SELECT * FROM Blocked_Job WITH (NOLOCK);"},
+                    {"db": "Job DB", "table": "Problem", "query": "SELECT TOP 5 * FROM Problem WITH (NOLOCK) ORDER BY Creation_Date DESC;"},
+                ],
+                "layer_3_cma_batch": {
+                    "chain": "Tenant Chain",
+                    "step": "BDE_IMPORT or OPTIMIZATION",
+                    "verification": "Check if an orphaned lock is preventing step progression.",
+                },
+                "layer_4_external_transport": {
+                    "type": "Internal Orchestration",
+                    "check": "No external transport failure; purely internal batch transaction concurrency.",
+                },
+                "layer_5_digital_twin_check": {
+                    "technique": "Verify whether sister properties executed batch on the same worker node without deadlock.",
+                },
+                "zero_db_ui_remediation": "CMA Edge Gateway Portal -> Batch Orchestration -> Chains -> Select failed step -> Action: Resume / Restart Step.",
+                "engineering_fix": "Add query hints WITH (ROWLOCK, READPAST) to high-concurrency Job_State updates.",
+            },
+            "DECISION_DELIVERY_LAG": {
+                "incident_type": "Decision Delivery Upload Timeout & Missing Rates in PMS",
+                "layer_1_datadog_apm": {
+                    "services": ["ais-outbound-manager", "bmr-be-mo-service"],
+                    "query": "service:ais-outbound-manager \"ERR_PMS_TIMEOUT\" OR \"HTTP 504\"",
+                    "metric": "decision.delivery.failures",
+                },
+                "layer_2_database_checks": [
+                    {"db": "Global DB", "table": "Decision_Delivery", "query": "SELECT TOP 20 * FROM Decision_Delivery WITH (NOLOCK) WHERE Property_ID = @property_id ORDER BY Uploaded_DTTM DESC;"},
+                    {"db": "Global DB", "table": "Decision_Delivery_By_Type", "query": "SELECT TOP 20 * FROM Decision_Delivery_By_Type WITH (NOLOCK) WHERE Status = 'FAILED' ORDER BY 1 DESC;"},
+                ],
+                "layer_3_cma_batch": {
+                    "chain": "Decision Delivery Dispatcher",
+                    "step": "UPLOAD_DECISIONS",
+                    "verification": "Confirm whether batch payload was constructed and queued for upload.",
+                },
+                "layer_4_external_transport": {
+                    "type": "Direct URL / HTNG Outbound",
+                    "check": "Verify partner listener response time, certificate validity, and endpoint URL.",
+                },
+                "layer_5_digital_twin_check": {
+                    "technique": "Check if sister properties using the same CRS partner (e.g. SynXis) are experiencing identical timeouts.",
+                },
+                "zero_db_ui_remediation": "G3 RMS UI -> Pricing -> Decision Delivery -> Delivery Status -> Select failed batch -> Force Redelivery.",
+                "engineering_fix": "Implement exponential backoff retry and notify partner engineering of listener socket timeout.",
+            },
+        }
+
+        if inc_up in matrices:
+            return matrices[inc_up]
+        for k, v in matrices.items():
+            if any(tok in inc_up for tok in k.split("_")):
+                return v
+
+        return {
+            "incident_type": incident_type,
+            "available_matrices": list(matrices.keys()),
+            "default_investigation_protocol": {
+                "step_1": "Query Datadog APM for HTTP 500/504 errors and exception stack traces.",
+                "step_2": "Inspect Job DB Job_State and Problem tables for failed batch steps.",
+                "step_3": "Inspect Tenant DB configuration tables (Hospitality_Rooms_Config, Room_Type_Diff).",
+                "step_4": "Inspect Global DB Decision_Delivery and Config_Parameter_Value tables.",
+                "step_5": "Execute Zero-DB UI remediation steps in G3 RMS or CMA Edge Gateway.",
+            },
+        }
 
     def _get_auth_headers(self) -> Dict[str, str]:
         headers = {"Accept": "application/json"}
@@ -1257,6 +1866,121 @@ CONFLUENCE_TOOLS = [
             "required": ["category"],
         },
     },
+    {
+        "name": "kb_lookup_db_table",
+        "description": "Retrieves technical metadata, business purpose, key columns, system usage, and safe read-only SQL query template for any table in Global DB (213 tables), Job DB (25 tables), or Tenant DB (1,011 tables).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "table_name": {
+                    "type": "string",
+                    "description": "Table name or substring (e.g. 'CONFIG_PARAMETER_VALUE', 'JOB_STATE', 'RMS_ROOM_RATES', 'PROBLEM', 'AGENT_PROPERTY', 'PROFILE', 'CR_MAPPING_ROOM_NUMBERS').",
+                },
+                "database": {
+                    "type": "string",
+                    "description": "Optional database filter: 'GLOBAL', 'JOB', 'TENANT', or 'ALL' (default 'ALL').",
+                    "default": "ALL",
+                },
+            },
+            "required": ["table_name"],
+        },
+    },
+    {
+        "name": "kb_search_db_tables",
+        "description": "Fuzzy searches the 1,249+ table catalog across Global DB, Job DB, and Tenant DB by keyword or functional concept (e.g. 'room', 'rate', 'pricing', 'parameter', 'lock', 'deadlock', 'decision', 'forecast', 'segment', 'batch').",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "keyword": {
+                    "type": "string",
+                    "description": "Search keyword or technical concept.",
+                },
+                "database": {
+                    "type": "string",
+                    "description": "Optional database filter: 'GLOBAL', 'JOB', 'TENANT', or 'ALL' (default 'ALL').",
+                    "default": "ALL",
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Max results to return (default: 15).",
+                    "default": 15,
+                },
+            },
+            "required": ["keyword"],
+        },
+    },
+    {
+        "name": "kb_list_db_tables_by_module",
+        "description": "Lists all tables organized by functional business module for Global DB, Job DB, or Tenant DB (e.g. 'Parameter Hierarchy', 'Property Master', 'Analytics', 'Pricing', 'Inventory', 'Decisions').",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "database": {
+                    "type": "string",
+                    "description": "Target database: 'GLOBAL', 'JOB', or 'TENANT'.",
+                },
+                "module": {
+                    "type": "string",
+                    "description": "Optional module filter name. If omitted, returns all modules with table counts.",
+                },
+            },
+            "required": ["database"],
+        },
+    },
+    {
+        "name": "kb_lookup_error_code",
+        "description": "Retrieves diagnostic attribution, technical root cause, affected subsystem layer, diagnostic SQL, and Zero-DB UI remediation for IDeaS, SQL Server, Oracle, BDE, and Kafka error codes/patterns.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "error_code": {
+                    "type": "string",
+                    "description": "Error code or pattern snippet (e.g. 'ERR_PMS_TIMEOUT', 'ERR_LOCK_FAILED', 'ERR_LRV_VIOLATION', 'Incorrect syntax near )', 'Deadlock victim', 'ERR_RATE_SHOP_EMPTY').",
+                },
+            },
+            "required": ["error_code"],
+        },
+    },
+    {
+        "name": "kb_generate_diagnostic_queries",
+        "description": "Generates verified, safe, read-only SQL queries with WITH (NOLOCK) and TOP 50 caps tailored for investigating specific incident scenarios across Tenant DB, Job DB, Global DB, and Optix DW.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "scenario": {
+                    "type": "string",
+                    "description": "Incident scenario: 'PRICING_SCREEN_FAILURE', 'BATCH_DEADLOCK', 'DECISION_DELIVERY_LAG', 'PARAMETER_AUDIT_DELTA', 'UNMAPPED_ROOM_TYPES'.",
+                },
+                "client_code": {
+                    "type": "string",
+                    "description": "Client code (e.g. 'PALETT', 'OXFCOLLECT', 'ACCOR').",
+                },
+                "property_id": {
+                    "type": "string",
+                    "description": "Property code or numeric ID (e.g. '996317', '0018').",
+                },
+                "date_range": {
+                    "type": "string",
+                    "description": "Optional date filter.",
+                },
+            },
+            "required": ["scenario"],
+        },
+    },
+    {
+        "name": "kb_get_incident_investigation_matrix",
+        "description": "Returns an end-to-end multi-system SRE investigation matrix for an incident type, detailing Datadog APM metrics/logs to search, exact SQL tables and queries to inspect, CMA batch chains to review, transport checks, and sister property comparative validation.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "incident_type": {
+                    "type": "string",
+                    "description": "Incident type: 'PRICING_SCREEN_FAILURE', 'BATCH_DEADLOCK', 'DECISION_DELIVERY_LAG', 'UNMAPPED_DIMENSION'.",
+                },
+            },
+            "required": ["incident_type"],
+        },
+    },
 ]
 
 CONFLUENCE_RESOURCES = [
@@ -1833,6 +2557,37 @@ def execute_tool(name: str, arguments: Dict[str, Any]) -> Any:
         if cat in clickpaths:
             return {"category": cat, "clickpath": clickpaths[cat]}
         return {"found": False, "requested": cat, "available_categories": list(clickpaths.keys())}
+
+    elif name == "kb_lookup_db_table":
+        tname = arguments["table_name"]
+        db = arguments.get("database", "ALL")
+        return mgr.lookup_table(tname, database=db)
+
+    elif name == "kb_search_db_tables":
+        kw = arguments["keyword"]
+        db = arguments.get("database", "ALL")
+        lim = int(arguments.get("limit", 15))
+        return mgr.search_tables(kw, database=db, limit=lim)
+
+    elif name == "kb_list_db_tables_by_module":
+        db = arguments["database"]
+        mod = arguments.get("module")
+        return mgr.list_tables_by_module(db, module=mod)
+
+    elif name == "kb_lookup_error_code":
+        err = arguments["error_code"]
+        return mgr.lookup_error_code(err)
+
+    elif name == "kb_generate_diagnostic_queries":
+        scen = arguments["scenario"]
+        c_code = arguments.get("client_code")
+        p_id = arguments.get("property_id")
+        d_range = arguments.get("date_range")
+        return mgr.generate_diagnostic_queries(scen, client_code=c_code, property_id=p_id, date_range=d_range)
+
+    elif name == "kb_get_incident_investigation_matrix":
+        inc_type = arguments["incident_type"]
+        return mgr.get_investigation_matrix(inc_type)
 
     else:
         raise ValueError(f"Unknown tool name: {name}")
