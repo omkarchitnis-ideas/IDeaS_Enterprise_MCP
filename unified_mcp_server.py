@@ -545,11 +545,12 @@ def create_fastapi_app():
         return request.cookies.get(ADMIN_SESSION_COOKIE) == ADMIN_SESSION_SECRET
 
     def extract_api_key(request: Request) -> Optional[str]:
-        # 1. Header: x-api-key
-        key = request.headers.get("x-api-key")
-        if key:
-            return key.strip()
-        # 2. Header: Authorization: Bearer <key> or ApiKey <key>
+        # 1. Headers: x-api-key, api-key, apikey, x-mcp-api-key
+        for h in ("x-api-key", "api-key", "apikey", "x-mcp-api-key"):
+            key = request.headers.get(h)
+            if key:
+                return key.strip()
+        # 2. Header: Authorization: Bearer <key> or ApiKey <key> or raw <key>
         auth = request.headers.get("authorization")
         if auth:
             parts = auth.split()
@@ -557,8 +558,12 @@ def create_fastapi_app():
                 return parts[1].strip()
             elif len(parts) == 1:
                 return parts[0].strip()
-        # 3. Query params: apiKey or api_key
-        key = request.query_params.get("apiKey") or request.query_params.get("api_key")
+        # 3. Query params: apiKey or api_key or key
+        key = (
+            request.query_params.get("apiKey")
+            or request.query_params.get("api_key")
+            or request.query_params.get("key")
+        )
         if key:
             return key.strip()
         return None
