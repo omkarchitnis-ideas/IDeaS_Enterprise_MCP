@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "SAS IDeaS - UPS & FDS Platform (M365 Copilot Action)",
     "description": "Dedicated Microsoft 365 Copilot Action Connector for UPS & FDS Platform.",
@@ -1154,6 +1154,264 @@
                 "type": "object",
                 "title": "Payload",
                 "description": "Arguments for ups_validate_m2m_credentials",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/fds_get_integration_property_configs": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Fds Get Integration Property Configs",
+        "description": "Queries Spring Data REST HAL integrationPropertyConfigs (PMS and decision delivery integration settings, deferred delivery, vendorId, priority, extended attributes) filtered by propertyCode, clientCode, or vendorId.",
+        "operationId": "fds_get_integration_property_configs",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for fds_get_integration_property_configs",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/fds_get_vendor_configs": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Fds Get Vendor Configs",
+        "description": "Queries Spring Data REST HAL vendorConfigs (vendor connection profiles, integrationType e.g. OXI_PMS / HTNG, credentials, validation channels, and priority).",
+        "operationId": "fds_get_vendor_configs",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for fds_get_vendor_configs",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/fds_get_integration_setting_changelogs": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Fds Get Integration Setting Changelogs",
+        "description": "Queries Spring Data REST HAL integrationSettingChangelogs to inspect historical audit changes to integration settings and configs.",
+        "operationId": "fds_get_integration_setting_changelogs",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for fds_get_integration_setting_changelogs",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/fds_get_mongo_operation_audits": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Fds Get Mongo Operation Audits",
+        "description": "Queries Spring Data REST HAL mongoOperationAudits for MongoDB operation traces, timestamps, and entity updates across integration settings.",
+        "operationId": "fds_get_mongo_operation_audits",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for fds_get_mongo_operation_audits",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/fds_get_nucleus_integration_settings": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Fds Get Nucleus Integration Settings",
+        "description": "Queries Spring Data REST HAL base integration settings (baseIntegrationConfigs / nucleusIntegrationSettings).",
+        "operationId": "fds_get_nucleus_integration_settings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for fds_get_nucleus_integration_settings",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/fds_probe_microservice_health": {
+      "post": {
+        "tags": [
+          "UPS & FDS Platform"
+        ],
+        "summary": "Fds Probe Microservice Health",
+        "description": "Actively probes the live health and connectivity of core IDeaS microservices (UPS, UIS, Integration Setting HAL, CEDF) using M2M OAuth2 tokens, returning latency and status.",
+        "operationId": "fds_probe_microservice_health",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for fds_probe_microservice_health",
                 "default": {}
               }
             }

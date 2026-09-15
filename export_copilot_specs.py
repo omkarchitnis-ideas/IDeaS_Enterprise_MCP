@@ -21,13 +21,15 @@ for domain in domains:
         r = requests.get(url, timeout=10)
         if r.status_code == 200:
             spec = r.json()
+            # Force OpenAPI 3.0.1 for Power Platform & Copilot Studio compatibility
+            spec["openapi"] = "3.0.1"
             # Set server URL in the spec to host machine IP
             spec["servers"] = [{"url": "http://172.27.210.162:8550", "description": "SAS IDeaS Master Enterprise Gateway"}]
             file_path = os.path.join(out_dir, fname)
             with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(spec, f, indent=2)
             path_count = len(spec.get("paths", {}))
-            print(f"Exported {fname} ({path_count} paths)")
+            print(f"Exported {fname} ({path_count} paths) [OpenAPI 3.0.1]")
         else:
             print(f"Failed {fname}: HTTP {r.status_code}")
     except Exception as e:

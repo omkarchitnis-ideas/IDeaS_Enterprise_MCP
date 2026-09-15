@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "SAS IDeaS Enterprise Unified MCP Platform",
     "description": "Master MCP Gateway hosting 168 Canonical Tools across SFDC, CMA, Optix, Confluence, Datadog, and UPS/FDS",
@@ -518,6 +518,49 @@
         }
       }
     },
+    "/api/v1/tools/ideas_reconcile_revenue_pace": {
+      "post": {
+        "tags": [
+          "Autonomous Super-Tools"
+        ],
+        "summary": "Ideas Reconcile Revenue Pace",
+        "description": "Automated 10-tab revenue and pace audit comparing Accom_Activity against PACE_Accom_Activity across STLY 364-day day-of-week shifts. Flags discrepancies exceeding tolerance (default 5%) with root-cause insights and remediation SOPs.",
+        "operationId": "ideas_reconcile_revenue_pace",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for ideas_reconcile_revenue_pace",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/tools/sfdc_get_case": {
       "post": {
         "tags": [
@@ -749,6 +792,49 @@
                 "type": "object",
                 "title": "Payload",
                 "description": "Arguments for sfdc_get_case_history",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sfdc_get_activity_history": {
+      "post": {
+        "tags": [
+          "Salesforce Core"
+        ],
+        "summary": "Sfdc Get Activity History",
+        "description": "Retrieve the unified Activity History for a Salesforce case (all completed tasks and past calendar events dynamically merged).",
+        "operationId": "sfdc_get_activity_history",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for sfdc_get_activity_history",
                 "default": {}
               }
             }
@@ -1556,7 +1642,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Execute Query",
-        "description": "Execute arbitrary SQL query on any G3 chain or tenant database.\n\nArgs:\n    chain: Target database chain name (e.g. 'global_PROD_1', 'job_PROD_1', 'ratchet_PROD_1', or 'Hilton-ATLFY').\n    query: SQL query to execute. SQL comments are automatically stripped.\n    timeout: Query timeout in seconds (default 35.0).",
+        "description": "Execute arbitrary SQL query on any G3 chain or tenant database.\n    \n    Args:\n        chain: Target database chain name (e.g. 'global_PROD_1', 'job_PROD_1', 'ratchet_PROD_1', or 'Hilton-ATLFY').\n        query: SQL query to execute. SQL comments are automatically stripped.\n        timeout: Query timeout in seconds (default 35.0).",
         "operationId": "cma_execute_query",
         "requestBody": {
           "content": {
@@ -1599,7 +1685,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Execute Batch",
-        "description": "Execute multiple SQL queries across multiple database chains concurrently in a single batch.\n\nArgs:\n    chains: List of database chain names (e.g. ['global_PROD_1', 'global_PROD_2']).\n    queries: List of SQL queries to execute on each chain.\n    timeout: Batch execution timeout in seconds (default 60.0).",
+        "description": "Execute multiple SQL queries across multiple database chains concurrently in a single batch.\n    \n    Args:\n        chains: List of database chain names (e.g. ['global_PROD_1', 'global_PROD_2']).\n        queries: List of SQL queries to execute on each chain.\n        timeout: Batch execution timeout in seconds (default 60.0).",
         "operationId": "cma_execute_batch",
         "requestBody": {
           "content": {
@@ -1642,7 +1728,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Search Chains",
-        "description": "Search across 19,496+ cached database chains by keyword, hotel code, or client identifier.\n\nArgs:\n    keyword: Search term (e.g. 'Hilton', 'ATLFY', 'global_PROD', '0018').\n    chain_type: Filter by chain type: 'all', 'global', 'job', 'ratchet', or 'tenant'.\n    limit: Max results to return (default 50).",
+        "description": "Search across 19,496+ cached database chains by keyword, hotel code, or client identifier.\n    \n    Args:\n        keyword: Search term (e.g. 'Hilton', 'ATLFY', 'global_PROD', '0018').\n        chain_type: Filter by chain type: 'all', 'global', 'job', 'ratchet', or 'tenant'.\n        limit: Max results to return (default 50).",
         "operationId": "cma_search_chains",
         "requestBody": {
           "content": {
@@ -1685,7 +1771,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma List All Chains",
-        "description": "Paginate and list database chains from the catalog.\n\nArgs:\n    chain_type: Filter by category: 'all', 'global', 'job', 'ratchet', or 'tenant'.\n    limit: Number of items per page (default 100).\n    offset: Offset for pagination (default 0).",
+        "description": "Paginate and list database chains from the catalog.\n    \n    Args:\n        chain_type: Filter by category: 'all', 'global', 'job', 'ratchet', or 'tenant'.\n        limit: Number of items per page (default 100).\n        offset: Offset for pagination (default 0).",
         "operationId": "cma_list_all_chains",
         "requestBody": {
           "content": {
@@ -1728,7 +1814,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Chain Details",
-        "description": "Get metadata for a specific database chain, with optional live ping connectivity verification.\n\nArgs:\n    chain_name: Exact database chain name (e.g. 'global_PROD_1', 'Hilton-ATLFY').\n    test_connection: If True, executes 'SELECT 1' on the chain to verify live connectivity.",
+        "description": "Get metadata for a specific database chain, with optional live ping connectivity verification.\n    \n    Args:\n        chain_name: Exact database chain name (e.g. 'global_PROD_1', 'Hilton-ATLFY').\n        test_connection: If True, executes 'SELECT 1' on the chain to verify live connectivity.",
         "operationId": "cma_get_chain_details",
         "requestBody": {
           "content": {
@@ -1771,7 +1857,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Resolve Tenant Environment",
-        "description": "Automatically identify which G3 production cluster (PROD_1..6) hosts a client or hotel.\n\nArgs:\n    client_code: Client code (e.g. 'Hilton', 'BSTN', 'IHG').\n    property_code: Property short code (e.g. 'ATLFY', 'H1', '0018').",
+        "description": "Automatically identify which G3 production cluster (PROD_1..6) hosts a client or hotel.\n    \n    Args:\n        client_code: Client code (e.g. 'Hilton', 'BSTN', 'IHG').\n        property_code: Property short code (e.g. 'ATLFY', 'H1', '0018').",
         "operationId": "cma_resolve_tenant_environment",
         "requestBody": {
           "content": {
@@ -1814,7 +1900,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Client Portfolio",
-        "description": "Retrieve all properties owned or operated by a client group across G3 Global databases.\n\nArgs:\n    client_code: Client code (e.g. 'BSTN', 'Hilton', 'IHG').\n    global_chain: G3 Global database chain (default 'global_PROD_1').",
+        "description": "Retrieve all properties owned or operated by a client group across G3 Global databases.\n    \n    Args:\n        client_code: Client code (e.g. 'BSTN', 'Hilton', 'IHG').\n        global_chain: G3 Global database chain (default 'global_PROD_1').",
         "operationId": "cma_get_client_portfolio",
         "requestBody": {
           "content": {
@@ -1857,7 +1943,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma List Tables",
-        "description": "List tables and views on any database chain (Global, Job, Ratchet, or Tenant) matching a wildcard pattern.\n\nArgs:\n    chain: Database chain name (e.g. 'global_PROD_1', 'job_PROD_1', 'Hilton-ATLFY').\n    pattern: Wildcard search pattern (e.g. '*PACE*', '*USER*', '*PARAM*', '*JOB*'). Defaults to '*'.",
+        "description": "List tables and views on any database chain (Global, Job, Ratchet, or Tenant) matching a wildcard pattern.\n    \n    Args:\n        chain: Database chain name (e.g. 'global_PROD_1', 'job_PROD_1', 'Hilton-ATLFY').\n        pattern: Wildcard search pattern (e.g. '*PACE*', '*USER*', '*PARAM*', '*JOB*'). Defaults to '*'.",
         "operationId": "cma_list_tables",
         "requestBody": {
           "content": {
@@ -1900,7 +1986,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Describe Table",
-        "description": "Reflect table schema: column names, data types, nullability, character lengths, and default values.\n\nArgs:\n    chain: Target database chain name (e.g. 'global_PROD_1', 'Hilton-ATLFY').\n    table_name: Table name to describe (e.g. 'Property', 'Accom_Activity', 'JOB_INSTANCE').",
+        "description": "Reflect table schema: column names, data types, nullability, character lengths, and default values.\n    \n    Args:\n        chain: Target database chain name (e.g. 'global_PROD_1', 'Hilton-ATLFY').\n        table_name: Table name to describe (e.g. 'Property', 'Accom_Activity', 'JOB_INSTANCE').",
         "operationId": "cma_describe_table",
         "requestBody": {
           "content": {
@@ -1943,7 +2029,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Property",
-        "description": "Retrieve full Property configuration, Client linkage, and stage mode audit history.\n\nArgs:\n    property_id: Numeric Property_ID (e.g. '5').\n    property_code: Property short code (e.g. 'H1', 'LONME', 'ATLFY').\n    client_code: Optional client code to narrow lookup.\n    global_chain: G3 Global database chain (default 'global_PROD_1').\n    include_audit_history: If True, fetches recent stage transitions from Property_AUD (default True).",
+        "description": "Retrieve full Property configuration, Client linkage, and stage mode audit history.\n    \n    Args:\n        property_id: Numeric Property_ID (e.g. '5').\n        property_code: Property short code (e.g. 'H1', 'LONME', 'ATLFY').\n        client_code: Optional client code to narrow lookup.\n        global_chain: G3 Global database chain (default 'global_PROD_1').\n        include_audit_history: If True, fetches recent stage transitions from Property_AUD (default True).",
         "operationId": "cma_get_property",
         "requestBody": {
           "content": {
@@ -1986,7 +2072,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Property Parameters",
-        "description": "Resolve cascading configuration parameters across pacman -> pacman.CLIENT -> pacman.CLIENT.PROP.\n\nArgs:\n    client_code: Client code (e.g. 'Hilton', 'BSTN').\n    property_code: Property short code (e.g. 'ATLFY', '0018').\n    parameter_names: List of specific parameter names to inspect. If omitted, retrieves all parameters.\n    global_chain: G3 Global database chain (default 'global_PROD_1').",
+        "description": "Resolve cascading configuration parameters across pacman -> pacman.CLIENT -> pacman.CLIENT.PROP.\n    \n    Args:\n        client_code: Client code (e.g. 'Hilton', 'BSTN').\n        property_code: Property short code (e.g. 'ATLFY', '0018').\n        parameter_names: List of specific parameter names to inspect. If omitted, retrieves all parameters.\n        global_chain: G3 Global database chain (default 'global_PROD_1').",
         "operationId": "cma_get_property_parameters",
         "requestBody": {
           "content": {
@@ -2029,7 +2115,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Datafeed Config",
-        "description": "Retrieve PMS/RMS interface configurations, datafeed endpoints, and FTP settings.\n\nArgs:\n    property_id: Numeric Property_ID.\n    client_code: Client code (e.g. 'BSTN', 'Hilton').\n    global_chain: G3 Global database chain (default 'global_PROD_1').",
+        "description": "Retrieve PMS/RMS interface configurations, datafeed endpoints, and FTP settings.\n    \n    Args:\n        property_id: Numeric Property_ID.\n        client_code: Client code (e.g. 'BSTN', 'Hilton').\n        global_chain: G3 Global database chain (default 'global_PROD_1').",
         "operationId": "cma_get_datafeed_config",
         "requestBody": {
           "content": {
@@ -2072,7 +2158,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Job Execution",
-        "description": "Inspect Spring Batch execution logs, statuses, and runtimes in G3 Job databases.\n\nArgs:\n    job_name: Name of batch job (e.g. 'continuousPricingJob', 'strFileIngestionJob', 'etlJob').\n    job_chain: G3 Job database chain (default 'job_PROD_1').\n    param_key: Filter parameter name (e.g. 'propertyId', 'sendingSystemPropertyId', 'clientCode').\n    param_value: Value for the param_key filter.\n    after_datetime: ISO datetime string to filter runs after (e.g. '2026-01-01 00:00:00').\n    limit: Max executions to retrieve (default 10).",
+        "description": "Inspect Spring Batch execution logs, statuses, and runtimes in G3 Job databases.\n    \n    Args:\n        job_name: Name of batch job (e.g. 'continuousPricingJob', 'strFileIngestionJob', 'etlJob').\n        job_chain: G3 Job database chain (default 'job_PROD_1').\n        param_key: Filter parameter name (e.g. 'propertyId', 'sendingSystemPropertyId', 'clientCode').\n        param_value: Value for the param_key filter.\n        after_datetime: ISO datetime string to filter runs after (e.g. '2026-01-01 00:00:00').\n        limit: Max executions to retrieve (default 10).",
         "operationId": "cma_get_job_execution",
         "requestBody": {
           "content": {
@@ -2115,7 +2201,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Failed Jobs",
-        "description": "Retrieve failed batch executions with step-level error traces and exit codes.\n\nArgs:\n    job_chain: G3 Job database chain (default 'job_PROD_1').\n    hours_back: Hours to look back for failures (default 24).\n    limit: Max failed executions to return (default 20).",
+        "description": "Retrieve failed batch executions with step-level error traces and exit codes.\n    \n    Args:\n        job_chain: G3 Job database chain (default 'job_PROD_1').\n        hours_back: Hours to look back for failures (default 24).\n        limit: Max failed executions to return (default 20).",
         "operationId": "cma_get_failed_jobs",
         "requestBody": {
           "content": {
@@ -2158,7 +2244,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Blocked Jobs",
-        "description": "Check for stuck, blocked, or throttled batch jobs in the job cluster.\n\nArgs:\n    job_chain: G3 Job database chain (default 'job_PROD_1').",
+        "description": "Check for stuck, blocked, or throttled batch jobs in the job cluster.\n    \n    Args:\n        job_chain: G3 Job database chain (default 'job_PROD_1').",
         "operationId": "cma_get_blocked_jobs",
         "requestBody": {
           "content": {
@@ -2201,7 +2287,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Job Daily Stats",
-        "description": "Retrieve aggregated daily job throughput, success rates, and average durations.\n\nArgs:\n    job_chain: G3 Job database chain (default 'job_PROD_1').\n    days_back: Days of historical stats to retrieve (default 7).",
+        "description": "Retrieve aggregated daily job throughput, success rates, and average durations.\n    \n    Args:\n        job_chain: G3 Job database chain (default 'job_PROD_1').\n        days_back: Days of historical stats to retrieve (default 7).",
         "operationId": "cma_get_job_daily_stats",
         "requestBody": {
           "content": {
@@ -2244,7 +2330,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Tenant Table Data",
-        "description": "Safely query tenant database tables (e.g. OCCUPANCY, TRANSACTIONS, RESERVATIONS, RATE_CODES).\n\nArgs:\n    chain: Tenant database chain name (e.g. 'Hilton-ATLFY').\n    table_name: Target table name.\n    where_clause: Optional WHERE clause without 'WHERE' (e.g. \"OCCUPANCY_DATE >= '2026-01-01'\").\n    columns: Specific columns to project. Defaults to '*' if omitted.\n    order_by: Optional ORDER BY clause without 'ORDER BY'.\n    limit: Max rows to return (capped at 5000, default 100).",
+        "description": "Safely query tenant database tables (e.g. OCCUPANCY, TRANSACTIONS, RESERVATIONS, RATE_CODES).\n    \n    Args:\n        chain: Tenant database chain name (e.g. 'Hilton-ATLFY').\n        table_name: Target table name.\n        where_clause: Optional WHERE clause without 'WHERE' (e.g. \"OCCUPANCY_DATE >= '2026-01-01'\").\n        columns: Specific columns to project. Defaults to '*' if omitted.\n        order_by: Optional ORDER BY clause without 'ORDER BY'.\n        limit: Max rows to return (capped at 5000, default 100).",
         "operationId": "cma_get_tenant_table_data",
         "requestBody": {
           "content": {
@@ -2287,7 +2373,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Tenant Revenue Summary",
-        "description": "Aggregate actual rooms sold, room revenue, and ADR from tenant Accom_Activity for reconciliation.\n\nArgs:\n    tenant_chain: Tenant database chain (e.g. 'Hilton-ATLFY').\n    start_date: Start date YYYY-MM-DD.\n    end_date: End date YYYY-MM-DD.",
+        "description": "Aggregate actual rooms sold, room revenue, and ADR from tenant Accom_Activity for reconciliation.\n    \n    Args:\n        tenant_chain: Tenant database chain (e.g. 'Hilton-ATLFY').\n        start_date: Start date YYYY-MM-DD.\n        end_date: End date YYYY-MM-DD.",
         "operationId": "cma_get_tenant_revenue_summary",
         "requestBody": {
           "content": {
@@ -2330,7 +2416,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Tenant Pace Data",
-        "description": "Retrieve the latest pacing snapshot (STLY rooms sold and revenue) from tenant PACE_Accom_Activity.\n\nArgs:\n    tenant_chain: Tenant database chain (e.g. 'Hilton-ATLFY').",
+        "description": "Retrieve the latest pacing snapshot (STLY rooms sold and revenue) from tenant PACE_Accom_Activity.\n    \n    Args:\n        tenant_chain: Tenant database chain (e.g. 'Hilton-ATLFY').",
         "operationId": "cma_get_tenant_pace_data",
         "requestBody": {
           "content": {
@@ -2373,7 +2459,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Ratchet Srp Mappings",
-        "description": "Query Standard Rate Plan (SRP) mappings, channel groups, and SRP attributes in the G3 Ratchet database.\n\nArgs:\n    client_code: Client short code (e.g. 'HILTON').\n    property_code: Property short code (e.g. 'LONLK').\n    srp_name: Optional SRP name filter (e.g. 'BAR', 'PGFCM1').\n    group_name: Optional SRP group filter (e.g. 'AGENT', 'GRP').\n    ratchet_chain: Ratchet chain name (default 'ratchet_PROD_1').\n    limit: Maximum records to return (default 50, max 200).",
+        "description": "Query Standard Rate Plan (SRP) mappings, channel groups, and SRP attributes in the G3 Ratchet database.\n    \n    Args:\n        client_code: Client short code (e.g. 'HILTON').\n        property_code: Property short code (e.g. 'LONLK').\n        srp_name: Optional SRP name filter (e.g. 'BAR', 'PGFCM1').\n        group_name: Optional SRP group filter (e.g. 'AGENT', 'GRP').\n        ratchet_chain: Ratchet chain name (default 'ratchet_PROD_1').\n        limit: Maximum records to return (default 50, max 200).",
         "operationId": "cma_get_ratchet_srp_mappings",
         "requestBody": {
           "content": {
@@ -2416,7 +2502,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Sfdc Case Audit History",
-        "description": "Search CMA portal audit logs for every query executed against a specific Salesforce Case Number.\n\nArgs:\n    case_number: 8-digit Salesforce Case Number (e.g. '03019231').\n    start_date: Start date YYYY-MM-DD (defaults to 1 year ago).\n    end_date: End date YYYY-MM-DD (defaults to tomorrow).",
+        "description": "Search CMA portal audit logs for every query executed against a specific Salesforce Case Number.\n    \n    Args:\n        case_number: 8-digit Salesforce Case Number (e.g. '03019231').\n        start_date: Start date YYYY-MM-DD (defaults to 1 year ago).\n        end_date: End date YYYY-MM-DD (defaults to tomorrow).",
         "operationId": "cma_get_sfdc_case_audit_history",
         "requestBody": {
           "content": {
@@ -2459,7 +2545,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Audit Query Text",
-        "description": "Retrieve the exact SQL query text, parameter hints, and execution metadata for a given CMA audit_id.\n\nArgs:\n    audit_id: CMA numeric audit transaction ID (e.g. '881559367').",
+        "description": "Retrieve the exact SQL query text, parameter hints, and execution metadata for a given CMA audit_id.\n    \n    Args:\n        audit_id: CMA numeric audit transaction ID (e.g. '881559367').",
         "operationId": "cma_get_audit_query_text",
         "requestBody": {
           "content": {
@@ -2502,7 +2588,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Search Saved Queries",
-        "description": "Search the 2,000+ curated engineering SQL queries saved in CMA by SFDC Case, keyword, or tag.\n\nArgs:\n    keyword: Search term in query name or description (e.g. '03019231', 'MGM', 'DTA', 'Wash Override').\n    tag: Operational tag filter (e.g. 'L2 Support', 'IM', 'Overbooking', 'FPLOS', 'Pace Alert', 'Casper').\n    query_type: SQL operation type: 'Select', 'Insert', 'Update'.\n    limit: Max results to return (default 30).",
+        "description": "Search the 2,000+ curated engineering SQL queries saved in CMA by SFDC Case, keyword, or tag.\n    \n    Args:\n        keyword: Search term in query name or description (e.g. '03019231', 'MGM', 'DTA', 'Wash Override').\n        tag: Operational tag filter (e.g. 'L2 Support', 'IM', 'Overbooking', 'FPLOS', 'Pace Alert', 'Casper').\n        query_type: SQL operation type: 'Select', 'Insert', 'Update'.\n        limit: Max results to return (default 30).",
         "operationId": "cma_search_saved_queries",
         "requestBody": {
           "content": {
@@ -2545,7 +2631,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Saved Query Details",
-        "description": "Retrieve full parameterized SQL code, assigned roles, and parameters for a saved query from CMA library.\n\nArgs:\n    query_id: Query ID in CMA viewSql library (e.g. '2467', '2596').",
+        "description": "Retrieve full parameterized SQL code, assigned roles, and parameters for a saved query from CMA library.\n    \n    Args:\n        query_id: Query ID in CMA viewSql library (e.g. '2467', '2596').",
         "operationId": "cma_get_saved_query_details",
         "requestBody": {
           "content": {
@@ -2588,7 +2674,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Team Task Feed",
-        "description": "Retrieve live feed of queries and background tasks currently being executed across the team in CMA.\n\nArgs:\n    limit: Max tasks to return (default 20).",
+        "description": "Retrieve live feed of queries and background tasks currently being executed across the team in CMA.\n    \n    Args:\n        limit: Max tasks to return (default 20).",
         "operationId": "cma_get_team_task_feed",
         "requestBody": {
           "content": {
@@ -2631,7 +2717,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Task Status By Job Id",
-        "description": "Search and inspect real-time progress of a CMA background batch task by its Job ID.\n\nArgs:\n    job_id: Numeric Job ID (e.g. '348244').",
+        "description": "Search and inspect real-time progress of a CMA background batch task by its Job ID.\n    \n    Args:\n        job_id: Numeric Job ID (e.g. '348244').",
         "operationId": "cma_get_task_status_by_job_id",
         "requestBody": {
           "content": {
@@ -2846,7 +2932,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Trigger Sso Refresh",
-        "description": "Trigger the Chrome/Edge Virtual Desktop SSO auto-login to renew an expired JSESSIONID.\n\nArgs:\n    force: If True, triggers re-login even if cooldown period is active.",
+        "description": "Trigger the Chrome/Edge Virtual Desktop SSO auto-login to renew an expired JSESSIONID.\n    \n    Args:\n        force: If True, triggers re-login even if cooldown period is active.",
         "operationId": "cma_trigger_sso_refresh",
         "requestBody": {
           "content": {
@@ -2932,7 +3018,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Audit Logs",
-        "description": "Retrieve recent query audit logs and performance metrics from the gateway database.\n\nArgs:\n    limit: Max rows to return (default 50).\n    status_code: Optional status code filter (e.g. 200, 500, 503).\n    client_name: Optional client name filter.",
+        "description": "Retrieve recent query audit logs and performance metrics from the gateway database.\n    \n    Args:\n        limit: Max rows to return (default 50).\n        status_code: Optional status code filter (e.g. 200, 500, 503).\n        client_name: Optional client name filter.",
         "operationId": "cma_get_audit_logs",
         "requestBody": {
           "content": {
@@ -3018,7 +3104,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Decision Delivery Details",
-        "description": "Inspect granular outbound decision delivery upload records, upload types, and status from the tenant database.\n\nArgs:\n    tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK', 'Hilton-ATLFY').\n    decision_name: Optional filter: 'fplos', 'DailyBAR', 'roomtypeoverbooking', 'hoteloverbooking', 'inventoryLimit'.\n    limit: Max records to return (default 25, max 100).",
+        "description": "Inspect granular outbound decision delivery upload records, upload types, and status from the tenant database.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK', 'Hilton-ATLFY').\n        decision_name: Optional filter: 'fplos', 'DailyBAR', 'roomtypeoverbooking', 'hoteloverbooking', 'inventoryLimit'.\n        limit: Max records to return (default 25, max 100).",
         "operationId": "cma_get_decision_delivery_details",
         "requestBody": {
           "content": {
@@ -3061,7 +3147,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Verify Differential Activity",
-        "description": "Verify whether decision changes actually occurred versus zero differential activity across recent runs.\n\nArgs:\n    tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').\n    days_back: Lookback window in days (default 7).",
+        "description": "Verify whether decision changes actually occurred versus zero differential activity across recent runs.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').\n        days_back: Lookback window in days (default 7).",
         "operationId": "cma_verify_differential_activity",
         "requestBody": {
           "content": {
@@ -3104,7 +3190,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Check Unmapped Room Types",
-        "description": "Check for vendor room types in PMS mapping tables that may be unmapped or inactive in G3 RMS.\n\nArgs:\n    tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
+        "description": "Check for vendor room types in PMS mapping tables that may be unmapped or inactive in G3 RMS.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
         "operationId": "cma_check_unmapped_room_types",
         "requestBody": {
           "content": {
@@ -3147,7 +3233,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Check Unmapped Rate Codes",
-        "description": "Check for vendor rate codes and market segment mappings configured for the property.\n\nArgs:\n    tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
+        "description": "Check for vendor rate codes and market segment mappings configured for the property.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
         "operationId": "cma_check_unmapped_rate_codes",
         "requestBody": {
           "content": {
@@ -3190,7 +3276,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Check Unmapped Market Segments",
-        "description": "Check market segment product mappings and missing extract configurations in the tenant database.\n\nArgs:\n    tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
+        "description": "Check market segment product mappings and missing extract configurations in the tenant database.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
         "operationId": "cma_check_unmapped_market_segments",
         "requestBody": {
           "content": {
@@ -3233,7 +3319,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Datafeed Status",
-        "description": "Query datafeed endpoint status and FTP configuration in the global database.\n\nArgs:\n    global_chain: Target global database chain (default 'global_PROD_1').\n    client_code: Optional client organization short code (e.g. 'Hilton', 'CHOICE').",
+        "description": "Query datafeed endpoint status and FTP configuration in the global database.\n    \n    Args:\n        global_chain: Target global database chain (default 'global_PROD_1').\n        client_code: Optional client organization short code (e.g. 'Hilton', 'CHOICE').",
         "operationId": "cma_get_datafeed_status",
         "requestBody": {
           "content": {
@@ -3276,7 +3362,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Datafeed Import Freshness",
-        "description": "Check the latest occupancy and BDE dates in Accom_Activity and PACE tables to diagnose datafeed ingestion lag.\n\nArgs:\n    tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
+        "description": "Check the latest occupancy and BDE dates in Accom_Activity and PACE tables to diagnose datafeed ingestion lag.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
         "operationId": "cma_get_datafeed_import_freshness",
         "requestBody": {
           "content": {
@@ -3319,7 +3405,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Parameter Audit History",
-        "description": "Inspect historical changes to a PACMAN parameter in Envers Config_Parameter_Value_AUD (who modified it, old/new values, and timestamps).\n\nArgs:\n    parameter_name: Exact or prefix parameter name (e.g. 'pacman.feature.isContinuousPricingEnabled', 'pacman.forecasting').\n    global_chain: Target global database chain (default 'global_PROD_1').\n    limit: Max audit events to return (default 25, max 100).",
+        "description": "Inspect historical changes to a PACMAN parameter in Envers Config_Parameter_Value_AUD (who modified it, old/new values, and timestamps).\n    \n    Args:\n        parameter_name: Exact or prefix parameter name (e.g. 'pacman.feature.isContinuousPricingEnabled', 'pacman.forecasting').\n        global_chain: Target global database chain (default 'global_PROD_1').\n        limit: Max audit events to return (default 25, max 100).",
         "operationId": "cma_get_parameter_audit_history",
         "requestBody": {
           "content": {
@@ -3362,7 +3448,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get G3 User Details",
-        "description": "Retrieve internal G3 User ID (Users.User_ID), status, client, and Cognito identity from the global database.\n\nArgs:\n    username_or_email: Username, Screen_Name, or email address (e.g. 'Omkar Chitnis', 'omkar.chitnis@ideas.com').\n    global_chain: Target global database chain (default 'global_PROD_1').",
+        "description": "Retrieve internal G3 User ID (Users.User_ID), status, client, and Cognito identity from the global database.\n    \n    Args:\n        username_or_email: Username, Screen_Name, or email address (e.g. 'Omkar Chitnis', 'omkar.chitnis@ideas.com').\n        global_chain: Target global database chain (default 'global_PROD_1').",
         "operationId": "cma_get_g3_user_details",
         "requestBody": {
           "content": {

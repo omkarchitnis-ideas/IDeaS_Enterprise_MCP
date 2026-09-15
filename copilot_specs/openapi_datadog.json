@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "SAS IDeaS - Datadog Observability (M365 Copilot Action)",
     "description": "Dedicated Microsoft 365 Copilot Action Connector for Datadog Observability.",
@@ -896,6 +896,92 @@
                 "type": "object",
                 "title": "Payload",
                 "description": "Arguments for datadog_get_system_stats",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/datadog_trace_pms_inbound_stream": {
+      "post": {
+        "tags": [
+          "Datadog Observability"
+        ],
+        "summary": "Datadog Trace Pms Inbound Stream",
+        "description": "Deep log tracer across PMS inbound microservices (pmsinbound-internal, htng, ais) filtered by propertyCode, reservationId, or error status.",
+        "operationId": "datadog_trace_pms_inbound_stream",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for datadog_trace_pms_inbound_stream",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/datadog_trace_decision_delivery_errors": {
+      "post": {
+        "tags": [
+          "Datadog Observability"
+        ],
+        "summary": "Datadog Trace Decision Delivery Errors",
+        "description": "Searches Datadog error logs across outbound decision delivery pipelines (decision-delivery-internal, bmr-be-mo-service, ais-outbound-manager) for connection timeouts, schema rejections, and dropouts.",
+        "operationId": "datadog_trace_decision_delivery_errors",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for datadog_trace_decision_delivery_errors",
                 "default": {}
               }
             }

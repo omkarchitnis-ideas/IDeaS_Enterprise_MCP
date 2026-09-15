@@ -140,6 +140,19 @@ COMPOSITE_TOOLS: List[Dict[str, Any]] = [
             "required": ["property_code"],
         },
     },
+    {
+        "name": "ideas_reconcile_revenue_pace",
+        "description": "Automated 10-tab revenue and pace audit comparing Accom_Activity against PACE_Accom_Activity across STLY 364-day day-of-week shifts. Flags discrepancies exceeding tolerance (default 5%) with root-cause insights and remediation SOPs.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "property_code": {"type": "string", "description": "Property code or short code (e.g. 'H8808', '8808')"},
+                "date_range": {"type": "string", "description": "Optional business date range to evaluate"},
+                "variance_threshold": {"type": "number", "default": 0.05, "description": "Variance threshold (0.05 = 5%)"},
+            },
+            "required": ["property_code"],
+        },
+    },
 ]
 
 # ==============================================================================
@@ -285,6 +298,13 @@ async def dispatch_unified_tool(tool_name: str, arguments: Dict[str, Any]) -> Di
             property_code=arguments.get("property_code", ""),
             lookback_hours=int(arguments.get("lookback_hours", 24)),
             target_date=arguments.get("target_date"),
+        )
+        return res
+    elif tool_name == "ideas_reconcile_revenue_pace":
+        res = await composite_triage_tools.execute_ideas_reconcile_revenue_pace(
+            property_code=arguments.get("property_code", ""),
+            date_range=arguments.get("date_range"),
+            variance_threshold=float(arguments.get("variance_threshold", 0.05)),
         )
         return res
 

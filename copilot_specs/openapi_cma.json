@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "SAS IDeaS - CMA Edge Gateway (M365 Copilot Action)",
     "description": "Dedicated Microsoft 365 Copilot Action Connector for CMA Edge Gateway.",
@@ -886,7 +886,7 @@
           "CMA Edge Gateway"
         ],
         "summary": "Cma Get Ratchet Srp Mappings",
-        "description": "Query Standard Rate Plan (SRP) mappings and channel restrictions in G3 Ratchet database.\n    \n    Args:\n        client_code: Client short code.\n        property_code: Property short code.\n        ratchet_chain: Ratchet chain (default 'ratchet_PROD_1').",
+        "description": "Query Standard Rate Plan (SRP) mappings, channel groups, and SRP attributes in the G3 Ratchet database.\n    \n    Args:\n        client_code: Client short code (e.g. 'HILTON').\n        property_code: Property short code (e.g. 'LONLK').\n        srp_name: Optional SRP name filter (e.g. 'BAR', 'PGFCM1').\n        group_name: Optional SRP group filter (e.g. 'AGENT', 'GRP').\n        ratchet_chain: Ratchet chain name (default 'ratchet_PROD_1').\n        limit: Maximum records to return (default 50, max 200).",
         "operationId": "cma_get_ratchet_srp_mappings",
         "requestBody": {
           "content": {
@@ -1498,6 +1498,393 @@
                 "type": "object",
                 "title": "Payload",
                 "description": "Arguments for cma_get_system_stats",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_get_decision_delivery_details": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Get Decision Delivery Details",
+        "description": "Inspect granular outbound decision delivery upload records, upload types, and status from the tenant database.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK', 'Hilton-ATLFY').\n        decision_name: Optional filter: 'fplos', 'DailyBAR', 'roomtypeoverbooking', 'hoteloverbooking', 'inventoryLimit'.\n        limit: Max records to return (default 25, max 100).",
+        "operationId": "cma_get_decision_delivery_details",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_get_decision_delivery_details",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_verify_differential_activity": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Verify Differential Activity",
+        "description": "Verify whether decision changes actually occurred versus zero differential activity across recent runs.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').\n        days_back: Lookback window in days (default 7).",
+        "operationId": "cma_verify_differential_activity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_verify_differential_activity",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_check_unmapped_room_types": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Check Unmapped Room Types",
+        "description": "Check for vendor room types in PMS mapping tables that may be unmapped or inactive in G3 RMS.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
+        "operationId": "cma_check_unmapped_room_types",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_check_unmapped_room_types",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_check_unmapped_rate_codes": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Check Unmapped Rate Codes",
+        "description": "Check for vendor rate codes and market segment mappings configured for the property.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
+        "operationId": "cma_check_unmapped_rate_codes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_check_unmapped_rate_codes",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_check_unmapped_market_segments": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Check Unmapped Market Segments",
+        "description": "Check market segment product mappings and missing extract configurations in the tenant database.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
+        "operationId": "cma_check_unmapped_market_segments",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_check_unmapped_market_segments",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_get_datafeed_status": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Get Datafeed Status",
+        "description": "Query datafeed endpoint status and FTP configuration in the global database.\n    \n    Args:\n        global_chain: Target global database chain (default 'global_PROD_1').\n        client_code: Optional client organization short code (e.g. 'Hilton', 'CHOICE').",
+        "operationId": "cma_get_datafeed_status",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_get_datafeed_status",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_get_datafeed_import_freshness": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Get Datafeed Import Freshness",
+        "description": "Check the latest occupancy and BDE dates in Accom_Activity and PACE tables to diagnose datafeed ingestion lag.\n    \n    Args:\n        tenant_chain: Target tenant database chain (e.g. 'Hilton-LONLK').",
+        "operationId": "cma_get_datafeed_import_freshness",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_get_datafeed_import_freshness",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_get_parameter_audit_history": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Get Parameter Audit History",
+        "description": "Inspect historical changes to a PACMAN parameter in Envers Config_Parameter_Value_AUD (who modified it, old/new values, and timestamps).\n    \n    Args:\n        parameter_name: Exact or prefix parameter name (e.g. 'pacman.feature.isContinuousPricingEnabled', 'pacman.forecasting').\n        global_chain: Target global database chain (default 'global_PROD_1').\n        limit: Max audit events to return (default 25, max 100).",
+        "operationId": "cma_get_parameter_audit_history",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_get_parameter_audit_history",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/cma_get_g3_user_details": {
+      "post": {
+        "tags": [
+          "CMA Edge Gateway"
+        ],
+        "summary": "Cma Get G3 User Details",
+        "description": "Retrieve internal G3 User ID (Users.User_ID), status, client, and Cognito identity from the global database.\n    \n    Args:\n        username_or_email: Username, Screen_Name, or email address (e.g. 'Omkar Chitnis', 'omkar.chitnis@ideas.com').\n        global_chain: Target global database chain (default 'global_PROD_1').",
+        "operationId": "cma_get_g3_user_details",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload",
+                "description": "Arguments for cma_get_g3_user_details",
                 "default": {}
               }
             }

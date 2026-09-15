@@ -224,6 +224,19 @@ SFDC_TOOLS = [
         },
     },
     {
+        "name": "sfdc_get_activity_history",
+        "description": "Retrieve the unified Activity History for a Salesforce case (all completed tasks and past calendar events dynamically merged).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "case_id": {"type": "string", "description": "18-character Salesforce Case ID ('500...')"},
+                "case_number": {"type": "string", "description": "8-digit Case Number (e.g. '03379138')"},
+                "limit": {"type": "integer", "default": 50, "description": "Maximum activity records to return (default 50, max 200)"},
+            },
+            "required": [],
+        },
+    },
+    {
         "name": "sfdc_get_task",
         "description": "Retrieve full task details and parent case context by task ID or task number from PostgreSQL clone in <10ms.",
         "inputSchema": {
@@ -611,15 +624,45 @@ def dispatch_sfdc_tool(tool_name: str, arguments: Dict[str, Any]) -> Dict[str, A
             "elapsed_ms": round((time.monotonic() - t0) * 1000, 2),
         }
 
+    # 6b. sfdc_get_activity_history
+    elif tool_name == "sfdc_get_activity_history":
+        case_id = arguments.get("case_id", "").strip()
+        case_num = arguments.get("case_number", "").strip()
+        limit = min(int(arguments.get("limit", 50)), 200)
+
+        if not case_id and not case_num:
+            return {"error": "Either case_id or case_number must be provided"}
+
+        target_case_id = case_id
+        if not target_case_id and case_num:
+            padded = case_num.zfill(8)
+            c_rows = query_pg("SELECT case_id FROM cases WHERE case_number = %s LIMIT 1", [padded])
+            if not c_rows and padded != case_num:
+                c_rows = query_pg("SELECT case_id FROM cases WHERE case_number = %s LIMIT 1", [case_num])
+            if c_rows:
+                target_case_id = c_rows[0]["case_id"]
+
+        if not target_case_id:
+            return {"count": 0, "activities": [], "message": f"Case not found for: {case_num or case_id}"}
+
+        sql = "SELECT * FROM activity_history WHERE case_id = %s ORDER BY created_date DESC LIMIT %s"
+        rows = query_pg(sql, [target_case_id, limit])
+        return {
+            "case_id": target_case_id,
+            "count": len(rows),
+            "activities": rows,
+            "elapsed_ms": round((time.monotonic() - t0) * 1000, 2),
+        }
+
     # 7. sfdc_get_task
     elif tool_name == "sfdc_get_task":
         task_num = arguments.get("task_number", "").strip()
         task_id = arguments.get("task_id", "").strip()
 
         if task_num:
-            rows = query_pg("SELECT * FROM tasks WHERE task_number = %s LIMIT 1", [task_num])
+            rows = query_pg("SELECT * FROM vw_tasks_enriched WHERE task_number = %s LIMIT 1", [task_num])
         elif task_id:
-            rows = query_pg("SELECT * FROM tasks WHERE task_id = %s LIMIT 1", [task_id])
+            rows = query_pg("SELECT * FROM vw_tasks_enriched WHERE task_id = %s LIMIT 1", [task_id])
         else:
             return {"error": "Either task_number or task_id must be provided"}
 
@@ -656,7 +699,7 @@ def dispatch_sfdc_tool(tool_name: str, arguments: Dict[str, Any]) -> Dict[str, A
             params.extend([f"%{kw.strip()}%", f"%{kw.strip()}%"])
 
         where = f"WHERE {' AND '.join(conds)}" if conds else ""
-        sql = f"SELECT * FROM tasks {where} ORDER BY last_modified_date DESC LIMIT {limit} OFFSET {offset}"
+        sql = f"SELECT * FROM vw_tasks_enriched {where} ORDER BY last_modified_date DESC LIMIT {limit} OFFSET {offset}"
         rows = query_pg(sql, params)
         return {
             "count": len(rows),

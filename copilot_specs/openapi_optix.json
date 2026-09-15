@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "SAS IDeaS - Optix SQL Cluster (M365 Copilot Action)",
     "description": "Dedicated Microsoft 365 Copilot Action Connector for Optix SQL Cluster.",

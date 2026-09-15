@@ -1,0 +1,122 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "SAS IDeaS - Autonomous Super-Tools (M365 Copilot Action)",
+    "description": "Dedicated Microsoft 365 Copilot Action Connector for Autonomous Super-Tools.",
+    "version": "2.0.0"
+  },
+  "host": "172.27.210.162:8550",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Comprehensive multi-domain health telemetry probe.",
+        "operationId": "health_check_health_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/api/v1/tools/call": {
+      "post": {
+        "summary": "Call Tool Universal",
+        "description": "Universal endpoint to invoke any of the 168 canonical tools dynamically.",
+        "operationId": "call_tool_universal_api_v1_tools_call_post",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ideas_triage_case_e2e": {
+      "post": {
+        "summary": "Ideas Triage Case E2E",
+        "description": "Autonomous end-to-end investigation for a Salesforce Case across all 5 enterprise domains (Salesforce Case + UPS Property Config + CMA Spring Batch Chains + Datadog Error Logs + Confluence Runbooks). Produces root-cause hypotheses, failing components, and recommended remediation steps in 1 turn.",
+        "operationId": "ideas_triage_case_e2e",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ideas_diagnose_rate_upload": {
+      "post": {
+        "summary": "Ideas Diagnose Rate Upload",
+        "description": "Autonomously diagnoses why pricing/rate uploads failed to publish to PMS or external partners. Inspects CMA decision delivery records (BAR, AgileRates, LRV), CEDF client upload enablement, and Datadog outbound APM timeout logs in 1 turn.",
+        "operationId": "ideas_diagnose_rate_upload",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    },
+    "/api/v1/tools/ideas_reconcile_revenue_pace": {
+      "post": {
+        "summary": "Ideas Reconcile Revenue Pace",
+        "description": "Automated 10-tab revenue and pace audit comparing Accom_Activity against PACE_Accom_Activity across STLY 364-day day-of-week shifts. Flags discrepancies exceeding tolerance (default 5%) with root-cause insights and remediation SOPs.",
+        "operationId": "ideas_reconcile_revenue_pace",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          }
+        }
+      }
+    }
+  }
+}
